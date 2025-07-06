@@ -23,7 +23,7 @@
 import PQCExtensionsHandler
 import PhotoQt
 
-PQTemplatePopout2 {
+PQTemplateExtensionPopout {
 
     id: histogram_popout
 

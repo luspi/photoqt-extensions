@@ -7,7 +7,12 @@ class PQExtensionsAPI {
 public:
     virtual ~PQExtensionsAPI() = default;
 
-    virtual int requiredAPIVersion() = 0;
+    virtual QString description() = 0;
+    virtual QString author() = 0;
+    virtual QString contact() = 0;
+    virtual int targetAPIVersion() = 0;
+    virtual QSize minimumRequiredWindowSize() = 0;
+    virtual bool isModal() = 0;
 
     // initial setup stuff
     virtual QList<QStringList> shortcutsActions() = 0;
@@ -19,8 +24,8 @@ public:
     /////////////////////////////////////////
 
     // reaction methods to do stuff
-    virtual QVariantList doOnFileLoad(QString &filepath, QImage &img) = 0;
-    virtual QVariantList doOnFileUnLoad(QString &filepath) = 0;
+    virtual QVariant doOnFileLoad(QString filepath, QImage &img) = 0;
+    virtual QVariant doOnFileUnLoad(QString filepath) = 0;
 
 
 };

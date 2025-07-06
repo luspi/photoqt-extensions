@@ -34,7 +34,13 @@ class PQEHistogramMethods : public QObject, public PQExtensionsAPI {
     Q_INTERFACES(PQExtensionsAPI)
 
 public:
-    int requiredAPIVersion() override;
+    int targetAPIVersion() override;
+    QString description() override;
+    QString author() override;
+    QString contact() override;
+    QSize minimumRequiredWindowSize();
+    bool isModal();
+
     QList<QStringList> shortcutsActions() override;
     QList<QStringList> settings() override;
     QMap<QString, QList<QStringList> > migrateSettings() override;
@@ -43,8 +49,8 @@ public:
 
     /****************************************************/
 
-    QVariantList doOnFileLoad(QString &filepath, QImage &img) override;
-    QVariantList doOnFileUnLoad(QString &filepath) override;
+    QVariant doOnFileLoad(QString filepath, QImage &img) override;
+    QVariant doOnFileUnLoad(QString filepath) override;
 
 private:
     QMap<QString,QVariantList> histogramCache;

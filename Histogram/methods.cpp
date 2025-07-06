@@ -2,8 +2,28 @@
 #include <QColor>
 #include <QFileInfo>
 
-int PQEHistogramMethods::requiredAPIVersion() {
+QString PQEHistogramMethods::description() {
+    return "This extension provides a histogram for any viewed image.";
+}
+
+QString PQEHistogramMethods::author() {
+    return "Lukas Spies";
+}
+
+QString PQEHistogramMethods::contact() {
+    return "Lukas@photoqt.org";
+}
+
+int PQEHistogramMethods::targetAPIVersion() {
     return 1;
+}
+
+QSize PQEHistogramMethods::minimumRequiredWindowSize() {
+    return QSize(0,0);
+}
+
+bool PQEHistogramMethods::isModal() {
+    return false;
 }
 
 QList<QStringList> PQEHistogramMethods::shortcutsActions() {
@@ -44,12 +64,12 @@ QList<QStringList> PQEHistogramMethods::doAtStartup() {
 
 /****************************************************/
 
-QVariantList PQEHistogramMethods::doOnFileLoad(QString &filepath, QImage &img) {
+QVariant PQEHistogramMethods::doOnFileLoad(QString filepath, QImage &img) {
 
     QFileInfo info(filepath);
     QString key = QString("%1%2").arg(filepath).arg(info.lastModified().toMSecsSinceEpoch());
     if(histogramCache.contains(key)) {
-        return {filepath, histogramCache[key]};
+        return QVariant::fromValue<QVariantList>({filepath, histogramCache[key]});
     }
 
     QVariantList ret;
@@ -125,10 +145,11 @@ QVariantList PQEHistogramMethods::doOnFileLoad(QString &filepath, QImage &img) {
 
     histogramCache.insert(key, ret);
 
-    return {filepath, ret};
+    QVariantList repl = {filepath, ret};
+    return repl;
 
 }
 
-QVariantList PQEHistogramMethods::doOnFileUnLoad(QString &filepath) {
-    return {};
+QVariant PQEHistogramMethods::doOnFileUnLoad(QString filepath) {
+    return QVariant();
 }

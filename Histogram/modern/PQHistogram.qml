@@ -25,13 +25,10 @@ import QtQuick
 import QtQuick.Controls
 import QtCharts
 
-import PQCFileFolderModel
-import PQCScriptsImages
 import PQCExtensionsHandler
-
 import PhotoQt
 
-PQTemplateFloating2 {
+PQTemplateExtension {
 
     id: histogram_top
 
@@ -161,7 +158,7 @@ PQTemplateFloating2 {
                 radius: histogram_top.radius
                 anchors.fill: parent
                 color: PQCLook.transColor // qmllint disable unqualified
-                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0 // qmllint disable unqualified
+                opacity: PQCExtensionsHandler.numFiles===0 ? 1 : 0 // qmllint disable unqualified
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 PQText {
@@ -178,17 +175,6 @@ PQTemplateFloating2 {
         menu.item.popup() // qmllint disable missing-property
     }
 
-    Timer {
-        id: updateHistogram
-        interval: 500
-        repeat: false
-        property string srcTriggered
-        onTriggered: {
-            if(PQCFileFolderModel.currentFile === srcTriggered) // qmllint disable unqualified
-                PQCScriptsImages.loadHistogramData(PQCFileFolderModel.currentFile, PQCFileFolderModel.currentIndex)
-        }
-    }
-
     ButtonGroup { id: grp }
 
     Loader {
@@ -199,17 +185,6 @@ PQTemplateFloating2 {
         sourceComponent:
         PQMenu {
             id: themenu
-            PQMenuItem {
-                checkable: true
-                text: qsTranslate("histogram", "show histogram")
-                checked: PQCSettings.extensions.Histogram
-                onCheckedChanged: {
-                    PQCSettings.extensions.Histogram = checked
-                    if(!checked)
-                        themenu.dismiss()
-                }
-            }
-            PQMenuSeparator {}
             PQMenuItem {
                 checkable: true
                 checkableLikeRadioButton: true
@@ -231,7 +206,7 @@ PQTemplateFloating2 {
                 checked: PQCSettings.extensions.HistogramVersion==="grey" // qmllint disable unqualified
                 onCheckedChanged: {
                     if(checked)
-                    PQCSettings.extensions.HistogramVersion = "grey"
+                        PQCSettings.extensions.HistogramVersion = "grey"
                 }
             }
 
@@ -241,76 +216,43 @@ PQTemplateFloating2 {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                 text: qsTranslate("histogram", "Hide histogram")
                 onTriggered: {
-                    PQCSettings.extensions.Histogram = false
+                    histogram_top.hide()
                 }
             }
 
-            onAboutToHide:
-                recordAsClosed.restart()
-            onAboutToShow:
-                PQCNotify.addToWhichContextMenusOpen("histogram") // qmllint disable unqualified
-
-            Timer {
-                id: recordAsClosed
-                interval: 200
-                onTriggered: {
-                    if(!themenu.visible)
-                        PQCNotify.removeFromWhichContextMenusOpen("histogram") // qmllint disable unqualified
-                }
-            }
         }
 
     }
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCExtensionsHandler
 
-        function onCurrentImageFinishedLoading(src : string) {
-            updateHistogram.srcTriggered = src
-            updateHistogram.restart()
+        function onCurrentFileChanged() {
             failed.opacity = 0
             nofileloaded.opacity = 0
             busy.opacity = 1
         }
 
-    }
+        function onReplyForOnFileLoad(id, val) {
 
-    Connections {
-
-        target: PQCScriptsImages // qmllint disable unqualified
-
-        function onHistogramDataLoadedFailed(index : int) {
-            if(index === PQCFileFolderModel.currentIndex) { // qmllint disable unqualified
-                histogramred.clear()
-                histogramgreen.clear()
-                histogramblue.clear()
-                histogramgrey.clear()
-                busy.opacity = 0
-                nofileloaded.opacity = 0
-                failed.opacity = 1
-
-            }
-        }
-
-        function onHistogramDataLoaded(data : var, index : int) {
-
-            if(index !== PQCFileFolderModel.currentIndex) // qmllint disable unqualified
+            if(id !== histogram_top.extensionId || val === undefined || val[0] !== PQCExtensionsHandler.currentFile) {
                 return
+            }
 
             nofileloaded.opacity = 0
 
-            if(data.length === 0) {
+            if(val[1].length === 0) {
                 failed.opacity = 1
                 return
             }
 
             failed.opacity = 0
 
-            var red = data[0]
-            var green = data[1]
-            var blue = data[2]
-            var grey = data[3]
+            var red = val[1][0]
+            var green = val[1][1]
+            var blue = val[1][2]
+            var grey = val[1][3]
 
             // RED COLOR
 
@@ -342,15 +284,13 @@ PQTemplateFloating2 {
 
     }
 
-    function onShowing() {
+    onShowing: {
 
-        if(PQCFileFolderModel.countMainView === 0) {
+        if(PQCExtensionsHandler.numFiles === 0) {
             nofileloaded.opacity = 1
             busy.opacity = 0
             failed.opacity = 0
         } else {
-            updateHistogram.srcTriggered = PQCFileFolderModel.currentFile
-            updateHistogram.restart()
             failed.opacity = 0
             nofileloaded.opacity = 0
             busy.opacity = 1
