@@ -41,11 +41,10 @@ public:
     QSize minimumRequiredWindowSize();
     bool isModal();
 
-    QList<QStringList> shortcutsActions() override;
     QList<QStringList> settings() override;
+    QList<QStringList> shortcuts() override;
     QMap<QString, QList<QStringList> > migrateSettings() override;
     QMap<QString, QList<QStringList> > migrateShortcuts() override;
-    QList<QStringList> doAtStartup() override;
 
     /****************************************************/
 

@@ -26,40 +26,26 @@ bool PQEHistogramMethods::isModal() {
     return false;
 }
 
-QList<QStringList> PQEHistogramMethods::shortcutsActions() {
+QList<QStringList> PQEHistogramMethods::shortcuts() {
     return {
         {"__histogram",
-            //: Description of shortcut action
-            tr("settingsmanager", "Show/Hide Histogram"),
-            "H",
-            "show", "histogram"}
+         //: Description of shortcut action
+         tr("settingsmanager", "Show/Hide Histogram"),
+         "H", "show"}
     };
 }
 
 QList<QStringList> PQEHistogramMethods::settings() {
     return {
-        {"HistogramVersion",  "extensions", "string", "color"}
+        {"Version", "string", "color"}
     };
 }
 
 QMap<QString, QList<QStringList> > PQEHistogramMethods::migrateSettings() {
-    return {
-        {"4.9", {{"Visible",         "histogram", "Histogram",         "extensions"},
-        {"Position",        "histogram", "HistogramPosition", "extensions"},
-        {"Size",            "histogram", "HistogramSize",     "extensions"},
-        {"Version",         "histogram", "HistogramVersion",  "extensions"},
-        {"",                "histogram", "",                  ""},
-        {"PopoutHistogram", "interface", "HistogramPopout",   "extensions"}}}
-    };
+    return {};
 }
 QMap<QString, QList<QStringList> > PQEHistogramMethods::migrateShortcuts() {
     return {};
-}
-
-QList<QStringList> PQEHistogramMethods::doAtStartup() {
-    return {
-        {"Histogram", "setup", "histogram"}
-    };
 }
 
 /****************************************************/

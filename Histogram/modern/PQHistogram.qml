@@ -25,6 +25,7 @@ import QtQuick
 import QtQuick.Controls
 import QtCharts
 
+import ExtensionSettings
 import PQCExtensionsHandler
 import PhotoQt
 
@@ -34,6 +35,13 @@ PQTemplateExtension {
 
     extensionId: "Histogram"
     setTooltip: getIsPoppedOut ? "" : qsTr("Click-and-drag to move.")
+
+    ExtensionSettings {
+        id: settings
+        Component.onCompleted: {
+            extensionId = histogram_top.extensionId
+        }
+    }
 
     content: [
 
@@ -78,7 +86,7 @@ PQTemplateExtension {
                 color: "#88ff0000"
                 borderWidth: 1
                 borderColor: "#ff0000"
-                visible: PQCSettings.extensions.HistogramVersion==="color" // qmllint disable unqualified
+                visible: settings.Version==="color"
                 upperSeries: LineSeries {
                     id: histogramred
                 }
@@ -91,7 +99,7 @@ PQTemplateExtension {
                 color: "#8800ff00"
                 borderWidth: 1
                 borderColor: "#00ff00"
-                visible: PQCSettings.extensions.HistogramVersion==="color" // qmllint disable unqualified
+                visible: settings.Version==="color"
                 upperSeries: LineSeries {
                     id: histogramgreen
                 }
@@ -104,7 +112,7 @@ PQTemplateExtension {
                 color: "#880000ff"
                 borderWidth: 1
                 borderColor: "#0000ff"
-                visible: PQCSettings.extensions.HistogramVersion==="color" // qmllint disable unqualified
+                visible: settings.Version==="color"
                 upperSeries: LineSeries {
                     id: histogramblue
                 }
@@ -117,7 +125,7 @@ PQTemplateExtension {
                 color: "#88cccccc"
                 borderWidth: 1
                 borderColor: "#cccccc"
-                visible: PQCSettings.extensions.HistogramVersion==="grey" // qmllint disable unqualified
+                visible: settings.Version==="grey"
                 upperSeries: LineSeries {
                     id: histogramgrey
                 }
@@ -129,7 +137,7 @@ PQTemplateExtension {
                 id: busy
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor // qmllint disable unqualified
+                color: PQCLook.transColor
                 opacity: 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
@@ -143,7 +151,7 @@ PQTemplateExtension {
                 id: failed
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor // qmllint disable unqualified
+                color: PQCLook.transColor
                 opacity: 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
@@ -157,8 +165,8 @@ PQTemplateExtension {
                 id: nofileloaded
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor // qmllint disable unqualified
-                opacity: PQCExtensionsHandler.numFiles===0 ? 1 : 0 // qmllint disable unqualified
+                color: PQCLook.transColor
+                opacity: PQCExtensionsHandler.numFiles===0 ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 PQText {
@@ -191,10 +199,10 @@ PQTemplateExtension {
                 //: used in context menu for histogram
                 text: qsTranslate("histogram", "RGB colors")
                 ButtonGroup.group: grp
-                checked: PQCSettings.extensions.HistogramVersion==="color"
+                checked: settings.Version==="color"
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.extensions.HistogramVersion = "color"
+                        settings.Version = "color"
                 }
             }
             PQMenuItem {
@@ -203,17 +211,17 @@ PQTemplateExtension {
                 //: used in context menu for histogram
                 text: qsTranslate("histogram", "gray scale")
                 ButtonGroup.group: grp
-                checked: PQCSettings.extensions.HistogramVersion==="grey" // qmllint disable unqualified
+                checked: settings.Version==="grey"
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.extensions.HistogramVersion = "grey"
+                        settings.Version = "grey"
                 }
             }
 
             PQMenuSeparator {}
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                 text: qsTranslate("histogram", "Hide histogram")
                 onTriggered: {
                     histogram_top.hide()
