@@ -50,7 +50,7 @@ QMap<QString, QList<QStringList> > PQEHistogramMethods::migrateShortcuts() {
 
 /****************************************************/
 
-QVariant PQEHistogramMethods::doOnFileLoad(QString filepath, QImage &img) {
+QVariant PQEHistogramMethods::actionWithImage1(QString filepath, QImage &img) {
 
     QFileInfo info(filepath);
     QString key = QString("%1%2").arg(filepath).arg(info.lastModified().toMSecsSinceEpoch());
@@ -136,6 +136,14 @@ QVariant PQEHistogramMethods::doOnFileLoad(QString filepath, QImage &img) {
 
 }
 
-QVariant PQEHistogramMethods::doOnFileUnLoad(QString filepath) {
+QVariant PQEHistogramMethods::actionWithImage2(QString fileapth, QImage &img) {
+    return QVariant();
+}
+
+QVariant PQEHistogramMethods::action1(QString filepath) {
+    return QVariant();
+}
+
+QVariant PQEHistogramMethods::action2(QString filepath) {
     return QVariant();
 }

@@ -48,8 +48,11 @@ public:
 
     /****************************************************/
 
-    QVariant doOnFileLoad(QString filepath, QImage &img) override;
-    QVariant doOnFileUnLoad(QString filepath) override;
+    QVariant action1(QString filepath);
+    QVariant action2(QString filepath);
+
+    QVariant actionWithImage1(QString filepath, QImage &img);
+    QVariant actionWithImage2(QString filepath, QImage &img);
 
 private:
     QMap<QString,QVariantList> histogramCache;

@@ -242,7 +242,11 @@ PQTemplateExtension {
             busy.opacity = 1
         }
 
-        function onReplyForOnFileLoad(id, val) {
+        function onCurrentImageDisplayed() {
+            PQCExtensionsHandler.requestCallActionWithImage1(histogram_top.extensionId)
+        }
+
+        function onReplyForActionWithImage1(id, val) {
 
             if(id !== histogram_top.extensionId || val === undefined || val[0] !== PQCExtensionsHandler.currentFile) {
                 return
@@ -303,6 +307,8 @@ PQTemplateExtension {
             nofileloaded.opacity = 0
             busy.opacity = 1
         }
+
+        PQCExtensionsHandler.requestCallActionWithImage1(histogram_top.extensionId)
 
     }
 
