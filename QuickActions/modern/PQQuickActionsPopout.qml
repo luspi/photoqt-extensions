@@ -20,10 +20,18 @@
  **                                                                      **
  **************************************************************************/
 
+import PQCExtensionsHandler
 import PhotoQt
 
-PQTemplateExtension {
+PQTemplateExtensionPopout {
 
-    extensionId: "Histogram"
+    id: quickactions_popout
+
+    extensionId: "QuickActions"
+
+    //: Window title
+    title: qsTranslate("quickactions", "Quick Actions") + " | PhotoQt"
+
+    setCanBeResized: false
 
 }

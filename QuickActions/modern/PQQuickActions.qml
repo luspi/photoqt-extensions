@@ -1,5 +1,5 @@
 /**************************************************************************
- **                                                                      **
+ * *                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -23,7 +23,5 @@
 import PhotoQt
 
 PQTemplateExtension {
-
-    extensionId: "Histogram"
-
+    extensionId: "QuickActions"
 }

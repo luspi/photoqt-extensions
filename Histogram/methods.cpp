@@ -2,6 +2,11 @@
 #include <QColor>
 #include <QFileInfo>
 
+
+QString PQEHistogramMethods::name() {
+    return "Histogram";
+}
+
 QString PQEHistogramMethods::description() {
     return "This extension provides a histogram for any viewed image.";
 }
