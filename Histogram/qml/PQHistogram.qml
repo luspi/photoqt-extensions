@@ -1,5 +1,5 @@
 /**************************************************************************
- **                                                                      **
+ * *                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -19,22 +19,17 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
 import QtCharts
 
-import ExtensionSettings
 import PQCExtensionsHandler
 import PhotoQt
 
-PQTemplateExtensionFloating {
+PQTemplateExtension {
 
     id: histogram_top
-
-    extensionId: "Histogram"
-    setTooltip: settings["Popout"] ? "" : qsTr("Click-and-drag to move.")
 
     content: [
 
@@ -79,7 +74,7 @@ PQTemplateExtensionFloating {
                 color: "#88ff0000"
                 borderWidth: 1
                 borderColor: "#ff0000"
-                visible: settings.Version==="color"
+                visible: settings["Version"]==="color"
                 upperSeries: LineSeries {
                     id: histogramred
                 }
@@ -92,7 +87,7 @@ PQTemplateExtensionFloating {
                 color: "#8800ff00"
                 borderWidth: 1
                 borderColor: "#00ff00"
-                visible: settings.Version==="color"
+                visible: settings["Version"]==="color"
                 upperSeries: LineSeries {
                     id: histogramgreen
                 }
@@ -105,7 +100,7 @@ PQTemplateExtensionFloating {
                 color: "#880000ff"
                 borderWidth: 1
                 borderColor: "#0000ff"
-                visible: settings.Version==="color"
+                visible: settings["Version"]==="color"
                 upperSeries: LineSeries {
                     id: histogramblue
                 }
@@ -118,7 +113,7 @@ PQTemplateExtensionFloating {
                 color: "#88cccccc"
                 borderWidth: 1
                 borderColor: "#cccccc"
-                visible: settings.Version==="grey"
+                visible: settings["Version"]==="grey"
                 upperSeries: LineSeries {
                     id: histogramgrey
                 }
@@ -173,6 +168,7 @@ PQTemplateExtensionFloating {
     ]
 
     onRightClicked: (mouse) => {
+        console.warn(">>> RIGHT CLICK")
         menu.item.popup() // qmllint disable missing-property
     }
 
@@ -192,10 +188,10 @@ PQTemplateExtensionFloating {
                 //: used in context menu for histogram
                 text: qsTranslate("histogram", "RGB colors")
                 ButtonGroup.group: grp
-                checked: settings.Version==="color"
+                checked: settings["Version"]==="color"
                 onCheckedChanged: {
                     if(checked)
-                        settings.Version = "color"
+                        settings["Version"] = "color"
                 }
             }
             PQMenuItem {
@@ -204,10 +200,10 @@ PQTemplateExtensionFloating {
                 //: used in context menu for histogram
                 text: qsTranslate("histogram", "gray scale")
                 ButtonGroup.group: grp
-                checked: settings.Version==="grey"
+                checked: settings["Version"]==="grey"
                 onCheckedChanged: {
                     if(checked)
-                        settings.Version = "grey"
+                        settings["Version"] = "grey"
                 }
             }
 

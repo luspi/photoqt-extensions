@@ -19,17 +19,50 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#pragma once
 
-import PQCExtensionsHandler
-import PhotoQt
+#include <QObject>
+#include <QString>
+#include <QVariantList>
+#include <QImage>
+#include "pqc_extensions_api.h"
 
-PQTemplateExtensionPopout {
+class PQEHistogramMethods : public QObject, public PQExtensionsAPI {
 
-    id: histogram_popout
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID PhotoQt_IID)
+    Q_INTERFACES(PQExtensionsAPI)
 
-    extensionId: "Histogram"
+public:
+    int version() override;
+    QString name() override;
+    QString description() override;
+    QString author() override;
+    QString contact() override;
+    int targetAPIVersion() override;
 
-    //: Window title
-    title: qsTranslate("histogram", "Histogram") + " | PhotoQt"
+    QSize minimumRequiredWindowSize() override;
+    bool isModal() override;
+    PQExtensionsAPI::DefaultPosition positionAt() override;
+    bool rememberPosition() override;
+    bool passThroughMouseWheel() override;
+    bool passThroughMouseClicks() override;
 
-}
+
+    QList<QStringList> settings() override;
+    QList<QStringList> shortcuts() override;
+    QMap<QString, QList<QStringList> > migrateSettings() override;
+    QMap<QString, QList<QStringList> > migrateShortcuts() override;
+
+    /****************************************************/
+
+    QVariant action1(QString filepath);
+    QVariant action2(QString filepath);
+
+    QVariant actionWithImage1(QString filepath, QImage &img);
+    QVariant actionWithImage2(QString filepath, QImage &img);
+
+private:
+    QMap<QString,QVariantList> histogramCache;
+
+};
