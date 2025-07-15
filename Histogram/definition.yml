@@ -8,13 +8,19 @@ metainfo:
 
 setup:
     defaultShortcut: "H"
+
+    defaultSize: [300,200]
+    positionAt: "TopLeft"
+    distanceFromEdge: 100
+
     minimumRequiredWindowSize: [0,0]
     isModal: false
     allowIntegrated: true
     allowPopout: true
-    positionAt: "TopLeft"
     rememberGeometry: true
     letMeHandleMouseEvents: false
+
     settings:
         - ["Version", "string", "color"]
+
     haveCPPActions: true

@@ -8,14 +8,20 @@ metainfo:
 
 setup:
     defaultShortcut: "Ctrl+Shift+A"
+
+    defaultSize: [0,0]
+    positionAt: "Top"
+    distanceFromEdge: 20
+
     minimumRequiredWindowSize: [0,0]
     isModal: false
     allowIntegrated: true
     allowPopout: true
-    positionAt: "Top"
     rememberGeometry: false
     fixSizeToContent: true
     letMeHandleMouseEvents: true
+
     settings:
         - ["Items", "list", "rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close"]
+
     haveCPPActions: false
