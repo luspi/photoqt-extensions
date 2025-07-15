@@ -14,7 +14,6 @@ setup:
     distanceFromEdge: 20
 
     minimumRequiredWindowSize: [0,0]
-    isModal: false
     allowIntegrated: true
     allowPopout: true
     rememberGeometry: false
