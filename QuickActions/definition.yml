@@ -1,0 +1,21 @@
+metainfo:
+    version: 1
+    name: "QuickActions"
+    description: "This extension provides various actions that can be accessed with a single click."
+    author: "Lukas Spies"
+    contact: "Lukas@photoqt.org"
+    targetAPI: 1
+
+setup:
+    defaultShortcut: "Ctrl+Shift+A"
+    minimumRequiredWindowSize: [0,0]
+    isModal: false
+    allowIntegrated: true
+    allowPopout: true
+    positionAt: "Top"
+    rememberGeometry: false
+    fixSizeToContent: true
+    letMeHandleMouseEvents: true
+    settings:
+        - ["Items", "list", "rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close"]
+    haveCPPActions: false

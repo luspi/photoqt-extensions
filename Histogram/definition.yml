@@ -10,10 +10,11 @@ setup:
     defaultShortcut: "H"
     minimumRequiredWindowSize: [0,0]
     isModal: false
+    allowIntegrated: true
+    allowPopout: true
     positionAt: "TopLeft"
     rememberGeometry: true
-    passThroughMouseClicks: false
-    passThroughMouseWheel: false
+    letMeHandleMouseEvents: false
     settings:
         - ["Version", "string", "color"]
     haveCPPActions: true

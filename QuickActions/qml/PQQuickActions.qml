@@ -1,5 +1,5 @@
 /**************************************************************************
- **                                                                      **
+ * *                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -19,24 +19,20 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
+import QtCharts
+
 import PQCExtensionsHandler
 import PhotoQt
 
-PQTemplateExtensionFloating {
+PQTemplateExtension {
 
     id: quickactions_top
 
-    extensionId: "QuickActions"
+    property list<string> buttons: settings["Items"]
 
-    setAllowResizing: false
-    setHandleForegroundMouseEvent: false
-    // setAnchorInTopMiddle: true
-
-    property bool movedManually: false
     property int mouseOverIndex: -1
     property bool mouseOver: false
     Timer {
@@ -49,22 +45,8 @@ PQTemplateExtensionFloating {
         }
     }
 
-    onGetDragActiveChanged: {
-        if(getDragActive) movedManually = true
-    }
-
-    // ExtensionSettings {
-    //     id: settings
-    //     extensionId: quickactions_top.extensionId
-    //     onValueChanged: (key, value) => {
-    //         console.warn(">>>", key, value)
-    //         if(key === "Items") {
-    //             quickactions_top.buttons = value
-    //         }
-    //     }
-    // }
-
-    property list<string> buttons: settings.status===settings.Ready ? settings["Items"] : []
+    opacity: (mouseOver || mouseBG.containsMouse || settings["ExtPopout"]) ? 1 : 0.1
+    Behavior on opacity { NumberAnimation { duration: 200 } }
 
     // 4 values: tooltip, icon name, shortcut action, enabled with no file loaded
     property var mappings: {
@@ -85,17 +67,17 @@ PQTemplateExtensionFloating {
         "export" :      [qsTranslate("quickactions", "Export to different format"),      "convert",        "__export",      false],
         "wallpaper" :   [qsTranslate("quickactions", "Set as wallpaper"),                "wallpaper",      "__wallpaper",   false],
         "qr" :          [(PQCConstants.barcodeDisplayed ?
-                              qsTranslate("quickactions", "Hide QR/barcodes") :
-                              qsTranslate("quickactions", "Detect QR/barcodes")),   "qrcode",         "__detectBarCodes", false],
+        qsTranslate("quickactions", "Hide QR/barcodes") :
+        qsTranslate("quickactions", "Detect QR/barcodes")),   "qrcode",         "__detectBarCodes", false],
         "close" :       [qsTranslate("quickactions", "Close window"),               "quit",           "__close",          true],
         "quit" :        [qsTranslate("quickactions", "Quit"),                       "quit",           "__quit",           true],
     }
 
     property list<string> mapkeys: ["|", "rename", "copy", "move", "delete", "rotateleft",
-                                     "rotateright", "mirrorhor", "mirrorver", "crop", "scale",
-                                     "tagfaces", "clipboard", "export", "wallpaper", "qr", "close", "quit"]
+    "rotateright", "mirrorhor", "mirrorver", "crop", "scale",
+    "tagfaces", "clipboard", "export", "wallpaper", "qr", "close", "quit"]
 
-    property int sze: settings["Popout"] ? 50 : 40
+    property int sze: settings["ExtPopout"] ? 50 : 40
 
     content: [
 
@@ -108,6 +90,18 @@ PQTemplateExtensionFloating {
             y: 2
             width: (orientation=="horizontal" ? contentrow.width : contentcol.width)+4
             height: (orientation=="horizontal" ? contentrow.height : contentcol.height)+4
+
+            MouseArea {
+                id: mouseBG
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                hoverEnabled: true
+                drag.target: settings["ExtPopout"] ? undefined : element_top
+                onClicked: (mouse) => {
+                    if(mouse.button == Qt.RightButton)
+                        menu.item.popup()
+                }
+            }
 
             Column {
 
@@ -128,8 +122,8 @@ PQTemplateExtensionFloating {
                         property string cat: quickactions_top.buttons[modelData]
 
                         property list<var> props: (delegver.cat in quickactions_top.mappings ?
-                                                       quickactions_top.mappings[delegver.cat] :
-                                                       ["?", "?", "?", "?"])
+                        quickactions_top.mappings[delegver.cat] :
+                        ["?", "?", "?", "?"])
 
                         width: childrenRect.width
 
@@ -206,12 +200,12 @@ PQTemplateExtensionFloating {
                             height: sepver.visible ? 0 : sze
                             visible: !sepver.visible && !unknownver.visible
                             enabled: visible && (delegver.props[3] || PQCExtensionsHandler.numFiles>0)
-                            tooltip: settings["Popout"] ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
-                            dragTarget: settings["Popout"] ? undefined : quickactions_top
-                            source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
+                            tooltip: settings["ExtPopout"] ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
+                            dragTarget: settings["ExtPopout"] ? undefined : element_top
+                            source: visible ? ("image://svg/" + quickactions_top.getExtensionBaseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
 
                             onDragActiveChanged: {
-                                if(dragActive) quickactions_top.movedManually = true
+//                                if(dragActive) quickactions_top.movedManually = true
                             }
 
                             onClicked: {
@@ -219,7 +213,7 @@ PQTemplateExtensionFloating {
                             }
 
                             onRightClicked: {
-                                if(!settings["Popout"])
+                                if(!settings["ExtPopout"])
                                     menu.item.popup()
                             }
 
@@ -278,8 +272,8 @@ PQTemplateExtensionFloating {
                         property string cat: quickactions_top.buttons[modelData]
 
                         property list<var> props: (deleghor.cat in quickactions_top.mappings ?
-                                                       quickactions_top.mappings[deleghor.cat] :
-                                                       ["?", "?", "?", "?"])
+                        quickactions_top.mappings[deleghor.cat] :
+                        ["?", "?", "?", "?"])
 
                         height: childrenRect.height
 
@@ -356,12 +350,12 @@ PQTemplateExtensionFloating {
                             height: sephor.visible ? 0 : sze
                             visible: !sephor.visible && !unknownhor.visible
                             enabled: visible && (deleghor.props[3] || PQCExtensionsHandler.numFiles>0)
-                            tooltip: settings["Popout"] ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
-                            dragTarget: settings["Popout"] ? undefined : quickactions_top
-                            source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
+                            tooltip: settings["ExtPopout"] ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
+                            dragTarget: settings["ExtPopout"] ? undefined : element_top
+                            source: visible ? ("image://svg/" + quickactions_top.getExtensionBaseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
 
                             onDragActiveChanged: {
-                                if(dragActive) quickactions_top.movedManually = true
+//                                if(dragActive) quickactions_top.movedManually = true
                             }
 
                             onClicked: {
@@ -369,7 +363,7 @@ PQTemplateExtensionFloating {
                             }
 
                             onRightClicked: {
-                                if(!settings["Popout"])
+                                if(!settings["ExtPopout"])
                                     menu.item.popup()
                             }
 
@@ -413,6 +407,8 @@ PQTemplateExtensionFloating {
 
     ]
 
+    ButtonGroup { id: grp }
+
     Loader {
 
         id: menu
@@ -426,7 +422,7 @@ PQTemplateExtensionFloating {
                 text: qsTranslate("MainMenu", "Reset position to default")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 onTriggered: {
-                    quickactions_top.requestRepositioning()
+                    PQCExtensionsHandler.requestResetGeometry(quickactions_top.extensionId)
                 }
             }
 
@@ -452,11 +448,6 @@ PQTemplateExtensionFloating {
 
         }
 
-    }
-
-    onRightClicked: (mouse) => {
-        if(!settings["Popout"])
-            menu.item.popup() // qmllint disable missing-property
     }
 
 }
