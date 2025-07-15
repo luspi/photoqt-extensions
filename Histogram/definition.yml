@@ -1,0 +1,19 @@
+metainfo:
+    version: 1
+    name: "Histogram"
+    description: "This extension provides a histogram for any viewed image."
+    author: "Lukas Spies"
+    contact: "Lukas@photoqt.org"
+    targetAPI: 1
+
+setup:
+    defaultShortcut: "H"
+    minimumRequiredWindowSize: [0,0]
+    isModal: false
+    positionAt: "TopLeft"
+    rememberGeometry: true
+    passThroughMouseClicks: false
+    passThroughMouseWheel: false
+    settings:
+        - ["Version", "string", "color"]
+    haveCPPActions: true

@@ -23,83 +23,7 @@
 #include <QColor>
 #include <QFileInfo>
 
-int PQEHistogramMethods::version() {
-    return 1;
-}
-
-QString PQEHistogramMethods::name() {
-    return "Histogram";
-}
-
-QString PQEHistogramMethods::description() {
-    return "This extension provides a histogram for any viewed image.";
-}
-
-QString PQEHistogramMethods::author() {
-    return "Lukas Spies";
-}
-
-QString PQEHistogramMethods::contact() {
-    return "Lukas@photoqt.org";
-}
-
-int PQEHistogramMethods::targetAPIVersion() {
-    return 1;
-}
-
-/******************/
-
-QSize PQEHistogramMethods::minimumRequiredWindowSize() {
-    return QSize(0,0);
-}
-
-bool PQEHistogramMethods::isModal() {
-    return false;
-}
-
-PQExtensionsAPI::DefaultPosition PQEHistogramMethods::positionAt() {
-    return PQExtensionsAPI::TopLeft;
-}
-
-bool PQEHistogramMethods::rememberPosition() {
-    return true;
-}
-
-bool PQEHistogramMethods::passThroughMouseClicks() {
-    return false;
-}
-
-bool PQEHistogramMethods::passThroughMouseWheel() {
-    return false;
-}
-
-/******************/
-
-QList<QStringList> PQEHistogramMethods::shortcuts() {
-    return {
-        {"__histogram",
-         //: Description of shortcut action
-         tr("settingsmanager", "Show/Hide Histogram"),
-         "H", "show"}
-    };
-}
-
-QList<QStringList> PQEHistogramMethods::settings() {
-    return {
-        {"Version", "string", "color"}
-    };
-}
-
-QMap<QString, QList<QStringList> > PQEHistogramMethods::migrateSettings() {
-    return {};
-}
-QMap<QString, QList<QStringList> > PQEHistogramMethods::migrateShortcuts() {
-    return {};
-}
-
-/****************************************************/
-
-QVariant PQEHistogramMethods::actionWithImage1(QString filepath, QImage &img) {
+QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant additional) {
 
     QFileInfo info(filepath);
     QString key = QString("%1%2").arg(filepath).arg(info.lastModified().toMSecsSinceEpoch());
@@ -185,14 +109,14 @@ QVariant PQEHistogramMethods::actionWithImage1(QString filepath, QImage &img) {
 
 }
 
-QVariant PQEHistogramMethods::actionWithImage2(QString fileapth, QImage &img) {
+QVariant Methods::actionWithImage2(QString fileapth, QImage &img, QVariant additional) {
     return QVariant();
 }
 
-QVariant PQEHistogramMethods::action1(QString filepath) {
+QVariant Methods::action1(QString filepath, QVariant additional) {
     return QVariant();
 }
 
-QVariant PQEHistogramMethods::action2(QString filepath) {
+QVariant Methods::action2(QString filepath, QVariant additional) {
     return QVariant();
 }

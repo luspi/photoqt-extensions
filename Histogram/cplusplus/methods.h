@@ -23,44 +23,23 @@
 
 #include <QObject>
 #include <QString>
+#include <QVariant>
 #include <QVariantList>
 #include <QImage>
-#include "pqc_extensions_api.h"
+#include "pqc_extensionactions.h"
 
-class PQEHistogramMethods : public QObject, public PQExtensionsAPI {
+class Methods : public QObject, public PQCExtensionActions {
 
     Q_OBJECT
     Q_PLUGIN_METADATA(IID PhotoQt_IID)
-    Q_INTERFACES(PQExtensionsAPI)
+    Q_INTERFACES(PQCExtensionActions)
 
 public:
-    int version() override;
-    QString name() override;
-    QString description() override;
-    QString author() override;
-    QString contact() override;
-    int targetAPIVersion() override;
+    QVariant action1(QString filepath, QVariant additional = QVariant()) override;
+    QVariant action2(QString filepath, QVariant additional = QVariant()) override;
 
-    QSize minimumRequiredWindowSize() override;
-    bool isModal() override;
-    PQExtensionsAPI::DefaultPosition positionAt() override;
-    bool rememberPosition() override;
-    bool passThroughMouseWheel() override;
-    bool passThroughMouseClicks() override;
-
-
-    QList<QStringList> settings() override;
-    QList<QStringList> shortcuts() override;
-    QMap<QString, QList<QStringList> > migrateSettings() override;
-    QMap<QString, QList<QStringList> > migrateShortcuts() override;
-
-    /****************************************************/
-
-    QVariant action1(QString filepath);
-    QVariant action2(QString filepath);
-
-    QVariant actionWithImage1(QString filepath, QImage &img);
-    QVariant actionWithImage2(QString filepath, QImage &img);
+    QVariant actionWithImage1(QString filepath, QImage &img, QVariant additional = QVariant()) override;
+    QVariant actionWithImage2(QString filepath, QImage &img, QVariant additional = QVariant()) override;
 
 private:
     QMap<QString,QVariantList> histogramCache;
