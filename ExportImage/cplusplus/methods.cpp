@@ -22,90 +22,118 @@
 #include "methods.h"
 #include <QColor>
 #include <QFileInfo>
+#include <QDir>
+#include <QImageWriter>
+
+#if defined(PQEIMAGEMAGICK) || defined(PQEGRAPHICSMAGICK)
+#include <Magick++/CoderInfo.h>
+#include <Magick++/Exception.h>
+#include <Magick++/Image.h>
+#endif
 
 QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant additional) {
 
-    QFileInfo info(filepath);
-    QString key = QString("%1%2").arg(filepath).arg(info.lastModified().toMSecsSinceEpoch());
-    if(histogramCache.contains(key)) {
-        return QVariant::fromValue<QVariantList>({filepath, histogramCache[key]});
-    }
+    // get info about new file format and source file
+    QString targetFilename = additional.toList()[0].toString();
+    QVariantMap databaseinfo = additional.toList()[1].toMap();
 
-    QVariantList ret;
+    // we convert the image to this tmeporary file and then copy it to the right location
+    // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
+    QString tmpImageFolder = QDir::tempPath() + "/photoqt/";
+    QDir dir(tmpImageFolder);
+    dir.mkpath(tmpImageFolder);
 
-    if(filepath == "" || !info.exists()) {
-        return {""};
-    }
+    QString tmpImagePath = tmpImageFolder + "/temporaryfileforexport" + "." + databaseinfo.value("endings").toString().split(",")[0];
+    if(QFile::exists(tmpImagePath))
+        QFile::remove(tmpImagePath);
 
-    // first we need to retrieve the current image
-    if(img.size().isNull() || img.size().isEmpty()) {
-        return {""};
-    }
+    // qt might support it
+    if(databaseinfo.value("qt").toInt() == 1) {
 
-    if(img.format() != QImage::Format_RGB32)
-        img.convertTo(QImage::Format_RGB32);
+        QImageWriter writer;
 
-    // we first count using integers for faster adding up
-    QList<int> red(256);
-    QList<int> green(256);
-    QList<int> blue(256);
+        // if the QImageWriter supports the format then we're good to go
+        if(writer.supportedImageFormats().contains(databaseinfo.value("qt_formatname").toString())) {
 
-    // Loop over all rows of the image
-    for(int i = 0; i < img.height(); ++i) {
+            // ... and then we write it into the new format
+            writer.setFileName(tmpImagePath);
+            writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
 
-        // Get the pixel data of row i of the image
-        QRgb *rowData = (QRgb*)img.scanLine(i);
-
-        // Loop over all columns
-        for(int j = 0; j < img.width(); ++j) {
-
-            // Get pixel data of pixel at column j in row i
-            QRgb pixelData = rowData[j];
-
-            // store color data
-            ++red[qRed(pixelData)];
-            ++green[qGreen(pixelData)];
-            ++blue[qBlue(pixelData)];
+            // if the actual writing succeeds we're done now
+            if(!writer.write(img))
+                qWarning() << "ERROR:" << writer.errorString();
+            else {
+                // copy result to target destination
+                QFile::copy(tmpImagePath, targetFilename);
+                QFile::remove(tmpImagePath);
+                return true;
+            }
 
         }
 
     }
 
-    // we compute the grey values once we red all rgb pixels
-    // this is much faster than calculate the grey values for each pixel
-    QList<int> grey(256);
-    for(int i = 0; i < 256; ++i)
-        grey[i] = red[i]*0.34375 + green[i]*0.5 + blue[i]*0.15625;
+    // imagemagick/graphicsmagick might support it
+#if defined(PQEIMAGEMAGICK) || defined(PQEGRAPHICSMAGICK)
+#ifdef PQEIMAGEMAGICK
+    if(databaseinfo.value("imagemagick").toInt() == 1) {
+#else
+    if(databaseinfo.value("graphicsmagick").toInt() == 1) {
+#endif
 
-    // find the max values for normalization
-    double max_red = *std::max_element(red.begin(), red.end());
-    double max_green = *std::max_element(green.begin(), green.end());
-    double max_blue = *std::max_element(blue.begin(), blue.end());
-    double max_grey = *std::max_element(grey.begin(), grey.end());
-    double max_rgb = qMax(max_red, qMax(max_green, max_blue));
+        // first check whether ImageMagick/GraphicsMagick supports writing this filetype
+        bool canproceed = false;
+        try {
+            QString magick = databaseinfo.value("im_gm_magick").toString();
+            Magick::CoderInfo magickCoderInfo(magick.toStdString());
+            if(magickCoderInfo.isWritable())
+                canproceed = true;
+        } catch(...) {
+            // do nothing here
+        }
 
-    // the return lists, normalized
-    QList<float> ret_red(256);
-    QList<float> ret_green(256);
-    QList<float> ret_blue(256);
-    QList<float> ret_gray(256);
+        // yes, it's supported
+        if(canproceed) {
 
-    // normalize values
-    std::transform(red.begin(), red.end(), ret_red.begin(), [=](float val) { return val/max_rgb; });
-    std::transform(green.begin(), green.end(), ret_green.begin(), [=](float val) { return val/max_rgb; });
-    std::transform(blue.begin(), blue.end(), ret_blue.begin(), [=](float val) { return val/max_rgb; });
-    std::transform(grey.begin(), grey.end(), ret_gray.begin(), [=](float val) { return val/max_grey; });
+            try {
 
-    // store values
-    ret << QVariant::fromValue(ret_red);
-    ret << QVariant::fromValue(ret_green);
-    ret << QVariant::fromValue(ret_blue);
-    ret << QVariant::fromValue(ret_gray);
+                // first we write the QImage to a temporary file
+                // then we load it into magick and write it to the target file
 
-    histogramCache.insert(key, ret);
+                // find unique temporary path
+                QString tmppath = QDir::tempPath() + "/photoqt/converttmp.ppm";
+                if(QFile::exists(tmppath))
+                    QFile::remove(tmppath);
 
-    QVariantList repl = {filepath, ret};
-    return repl;
+                img.save(tmppath);
+
+                // load image and write to target file
+                Magick::Image image;
+                image.magick("PPM");
+                image.read(tmppath.toStdString());
+
+                image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
+                image.write(tmpImagePath.toStdString());
+
+                // remove temporary file
+                QFile::remove(tmppath);
+
+                // copy result to target destination
+                QFile::copy(tmpImagePath, targetFilename);
+                QFile::remove(tmpImagePath);
+
+                // success!
+                return true;
+
+            } catch(Magick::Exception &) { }
+
+        }
+
+    }
+
+    #endif
+
+    return false;
 
 }
 
