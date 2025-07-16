@@ -1,4 +1,4 @@
-metainfo:
+about:
     version: 1
     name: "Histogram"
     description: "This extension provides a histogram for any viewed image."
@@ -7,19 +7,24 @@ metainfo:
     targetAPI: 1
 
 setup:
+    integrated:
+        allow: true
+        minimumRequiredWindowSize: [0,0]
+        defaultPosition: "TopLeft"
+        defaultDistanceFromEdge: 100
+        defaultSize: [300,200]
+        fixSizeToContent: false
+    popout:
+        allow: true
+        defaultSize: [300,200]
+        fixSizeToContent: false
+    modal:
+        make: false
+        requireLoadedFile: false
     defaultShortcut: "H"
-
     defaultSize: [300,200]
-    positionAt: "TopLeft"
-    distanceFromEdge: 100
-
-    minimumRequiredWindowSize: [0,0]
-    allowIntegrated: true
-    allowPopout: true
     rememberGeometry: true
     letMeHandleMouseEvents: false
-
+    haveCPPActions: true
     settings:
         - ["Version", "string", "color"]
-
-    haveCPPActions: true

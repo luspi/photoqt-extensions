@@ -1,4 +1,4 @@
-metainfo:
+about:
     version: 1
     name: "QuickActions"
     description: "This extension provides various actions that can be accessed with a single click."
@@ -7,20 +7,23 @@ metainfo:
     targetAPI: 1
 
 setup:
+    integrated:
+        allow: true
+        minimumRequiredWindowSize: [0,0]
+        defaultPosition: "Top"
+        defaultDistanceFromEdge: 20
+        defaultSize: [0,0]
+        fixSizeToContent: true
+    popout:
+        allow: true
+        defaultSize: [0,0]
+        fixSizeToContent: true
+    modal:
+        make: false
+        requireLoadedFile: false
     defaultShortcut: "Ctrl+Shift+A"
-
-    defaultSize: [0,0]
-    positionAt: "Top"
-    distanceFromEdge: 20
-
-    minimumRequiredWindowSize: [0,0]
-    allowIntegrated: true
-    allowPopout: true
     rememberGeometry: false
-    fixSizeToContent: true
     letMeHandleMouseEvents: true
-
+    haveCPPActions: false
     settings:
         - ["Items", "list", "rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close"]
-
-    haveCPPActions: false

@@ -1,4 +1,4 @@
-metainfo:
+about:
     version: 1
     name: "Export Image"
     description: "This extension allows exporting an image to another format."
@@ -7,18 +7,24 @@ metainfo:
     targetAPI: 1
 
 setup:
+    integrated:
+        allow: true
+        minimumRequiredWindowSize: [600,400]
+        defaultPosition: ""
+        defaultDistanceFromEdge: 100
+        defaultSize: [0,0]
+        fixSizeToContent: false
+    popout:
+        allow: true
+        defaultSize: [800,600]
+        fixSizeToContent: false
+    modal:
+        make: true
+        requireLoadedFile: true
     defaultShortcut: "Ctrl+S"
-
-    defaultSize: [800,600]
-    minimumRequiredWindowSize: [600,400]
-    fullscreenModal: true
-
-    allowIntegrated: true
-    allowPopout: true
+    rememberGeometry: true
     letMeHandleMouseEvents: true
-
+    haveCPPActions: true
     settings:
         - ["Favorites", "list", "11485:://::46215:://::28282:://::44462"]
         - ["LastUsed", "string", ""]
-
-    haveCPPActions: true
