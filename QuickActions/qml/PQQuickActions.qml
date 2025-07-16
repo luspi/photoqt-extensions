@@ -150,7 +150,8 @@ PQTemplateExtension {
                             visible: delegver.props[0]==="|"
                             width: sze
                             height: 4
-                            color: PQCLook.baseColorHighlight
+                            color: PQCLook.transInverseColor
+                            opacity: 0.2
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -202,11 +203,7 @@ PQTemplateExtension {
                             enabled: visible && (delegver.props[3] || PQCExtensionsHandler.numFiles>0)
                             tooltip: settings["ExtPopout"] ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: settings["ExtPopout"] ? undefined : element_top
-                            source: visible ? ("image://svg/" + quickactions_top.getExtensionBaseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
-
-                            onDragActiveChanged: {
-//                                if(dragActive) quickactions_top.movedManually = true
-                            }
+                            source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
 
                             onClicked: {
                                 PQCExtensionsHandler.requestExecutionOfInternalShortcut(delegver.props[2])
@@ -300,7 +297,8 @@ PQTemplateExtension {
                             visible: deleghor.props[0]==="|"
                             width: 4
                             height: sze
-                            color: PQCLook.baseColorHighlight
+                            color: PQCLook.transInverseColor
+                            opacity: 0.2
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -352,11 +350,7 @@ PQTemplateExtension {
                             enabled: visible && (deleghor.props[3] || PQCExtensionsHandler.numFiles>0)
                             tooltip: settings["ExtPopout"] ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: settings["ExtPopout"] ? undefined : element_top
-                            source: visible ? ("image://svg/" + quickactions_top.getExtensionBaseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
-
-                            onDragActiveChanged: {
-//                                if(dragActive) quickactions_top.movedManually = true
-                            }
+                            source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
 
                             onClicked: {
                                 PQCExtensionsHandler.requestExecutionOfInternalShortcut(deleghor.props[2])
