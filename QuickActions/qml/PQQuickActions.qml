@@ -200,13 +200,13 @@ PQTemplateExtension {
                             width: sepver.visible ? 0 : sze
                             height: sepver.visible ? 0 : sze
                             visible: !sepver.visible && !unknownver.visible
-                            enabled: visible && (delegver.props[3] || PQCExtensionsHandler.numFiles>0)
+                            enabled: visible && (delegver.props[3] || PQCFileFolderModel.countMainView>0)
                             tooltip: settings["ExtPopout"] ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: settings["ExtPopout"] ? undefined : element_top
                             source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
 
                             onClicked: {
-                                PQCExtensionsHandler.requestExecutionOfInternalShortcut(delegver.props[2])
+                                PQCScriptsShortcuts.executeInternalCommand(delegver.props[2])
                             }
 
                             onRightClicked: {
@@ -347,13 +347,13 @@ PQTemplateExtension {
                             width: sephor.visible ? 0 : sze
                             height: sephor.visible ? 0 : sze
                             visible: !sephor.visible && !unknownhor.visible
-                            enabled: visible && (deleghor.props[3] || PQCExtensionsHandler.numFiles>0)
+                            enabled: visible && (deleghor.props[3] || PQCFileFolderModel.countMainView>0)
                             tooltip: settings["ExtPopout"] ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: settings["ExtPopout"] ? undefined : element_top
                             source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
 
                             onClicked: {
-                                PQCExtensionsHandler.requestExecutionOfInternalShortcut(deleghor.props[2])
+                                PQCScriptsShortcuts.executeInternalCommand(deleghor.props[2])
                             }
 
                             onRightClicked: {

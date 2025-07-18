@@ -154,7 +154,7 @@ PQTemplateExtension {
                 radius: histogram_top.radius
                 anchors.fill: parent
                 color: PQCLook.transColor
-                opacity: PQCExtensionsHandler.numFiles===0 ? 1 : 0
+                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 PQText {
@@ -168,7 +168,6 @@ PQTemplateExtension {
     ]
 
     onRightClicked: (mouse) => {
-        console.warn(">>> RIGHT CLICK")
         menu.item.popup() // qmllint disable missing-property
     }
 
@@ -223,7 +222,17 @@ PQTemplateExtension {
 
     Connections {
 
-        target: PQCExtensionsHandler
+        target: PQCConstants
+
+        function onCurrentImageSourceChanged() {
+            PQCExtensionsHandler.requestCallActionWithImage1(histogram_top.extensionId)
+        }
+
+    }
+
+    Connections {
+
+        target: PQCFileFolderModel
 
         function onCurrentFileChanged() {
             failed.opacity = 0
@@ -231,13 +240,15 @@ PQTemplateExtension {
             busy.opacity = 1
         }
 
-        function onCurrentImageDisplayed() {
-            PQCExtensionsHandler.requestCallActionWithImage1(histogram_top.extensionId)
-        }
+    }
+
+    Connections {
+
+        target: PQCExtensionsHandler
 
         function onReplyForActionWithImage1(id, val) {
 
-            if(id !== histogram_top.extensionId || val === undefined || val[0] !== PQCExtensionsHandler.currentFile) {
+            if(id !== histogram_top.extensionId || val === undefined || val[0] !== PQCFileFolderModel.currentFile) {
                 return
             }
 
@@ -287,7 +298,7 @@ PQTemplateExtension {
 
     onShowing: {
 
-        if(PQCExtensionsHandler.numFiles === 0) {
+        if(PQCFileFolderModel.countMainView === 0) {
             nofileloaded.opacity = 1
             busy.opacity = 0
             failed.opacity = 0
@@ -295,9 +306,8 @@ PQTemplateExtension {
             failed.opacity = 0
             nofileloaded.opacity = 0
             busy.opacity = 1
+            PQCExtensionsHandler.requestCallActionWithImage1(histogram_top.extensionId)
         }
-
-        PQCExtensionsHandler.requestCallActionWithImage1(histogram_top.extensionId)
 
     }
 

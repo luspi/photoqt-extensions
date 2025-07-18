@@ -25,6 +25,7 @@ import QtQuick.Controls
 import QtCharts
 
 import PQCExtensionsHandler
+import PQCImageFormats
 import PhotoQt
 
 PQTemplateExtension {
@@ -35,13 +36,13 @@ PQTemplateExtension {
 
     function modalButton2Action() {
         settings["LastUsed"] = targetFormat
-        var newfile = PQCExtensionsHandler.requestSelectFileFromDialog("Export", PQCExtensionsHandler.currentFile, parseInt(targetFormat), true)
+        var newfile = PQCScriptsFilesPaths.selectFileFromDialog("Export", PQCFileFolderModel.currentFile, parseInt(targetFormat), true)
         if(newfile !== "") {
             errormessage.visible = false
             exportbusy.showBusy()
             PQCExtensionsHandler.requestCallActionWithImage1(extensionId,
                                                             [newfile,
-                                                             PQCExtensionsHandler.requestImageFormatInfoForId(parseInt(targetFormat))])
+                                                             PQCImageFormats.getFormatsInfo(parseInt(targetFormat))])
         }
     }
 
@@ -193,14 +194,14 @@ PQTemplateExtension {
                                         y: 5
                                         spacing: 10
                                         PQText {
-                                            text: "*." + PQCExtensionsHandler.requestImageFormatEndingsForId(favdeleg.myid).join(", *.")
+                                            text: "*." + PQCImageFormats.getFormatEndings(favdeleg.myid).join(", *.")
                                             color: PQCLook.textColor
                                             Behavior on color { ColorAnimation { duration: 200 } }
                                         }
                                         PQTextS {
                                             y: (parent.height-height)/2
                                             font.italic: true
-                                            text: "(" + PQCExtensionsHandler.requestImageFormatNameForId(favdeleg.myid) + ")"
+                                            text: "(" + PQCImageFormats.getFormatName(favdeleg.myid) + ")"
                                             color: PQCLook.textColor
                                             Behavior on color { ColorAnimation { duration: 200 } }
                                         }
@@ -286,7 +287,7 @@ PQTemplateExtension {
 
                         ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
 
-                        property list<var> thedata: PQCExtensionsHandler.requestImageFormatAllWritableFormats()
+                        property list<var> thedata: PQCImageFormats.getWriteableFormats()
                         model: thedata.length
 
                         clip: true
@@ -421,7 +422,7 @@ PQTemplateExtension {
                 PQText {
                     id: targettxt2
                     x: (parent.width-width)/2
-                    text: (export_top.targetFormat==="" ? "---" : PQCExtensionsHandler.requestImageFormatNameForId(export_top.targetFormat))
+                    text: (export_top.targetFormat==="" ? "---" : PQCImageFormats.getFormatName(export_top.targetFormat))
                     font.weight: PQCLook.fontWeightBold
                 }
 
