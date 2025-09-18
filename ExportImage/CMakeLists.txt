@@ -57,5 +57,7 @@ else()
 endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/)
-install(DIRECTORY qml/ DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/qml/)
 install(FILES definition.yml DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/)
+
+include(../helper.cmake)
+INSTALLQML()

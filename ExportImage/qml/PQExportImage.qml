@@ -26,6 +26,7 @@ import QtCharts
 
 import PQCExtensionsHandler
 import PQCImageFormats
+import PhotoQt.CPlusPlus
 import PhotoQt
 
 PQTemplateExtension {
@@ -33,6 +34,9 @@ PQTemplateExtension {
     id: export_top
 
     modalButton2Text: "Export"
+
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     function modalButton2Action() {
         settings["LastUsed"] = targetFormat
@@ -132,7 +136,7 @@ PQTemplateExtension {
                         PQText {
                             width: favcol.width
                             height: 30
-                            color: PQCLook.textColorDisabled
+                            color: pqtPalette.text
                             font.weight: PQCLook.fontWeightBold
                             font.italic: true
                             verticalAlignment: Qt.AlignVCenter
@@ -185,8 +189,7 @@ PQTemplateExtension {
                                     property bool hovered: favcol.currentHover===modelData
                                     property bool isActive: export_top.targetFormat===favdeleg.myid
 
-                                    color: isActive ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: isActive ? PQCLook.baseBorder : (hovered ? pqtPalette.alternateBase : pqtPalette.button)
 
                                     Row {
                                         id: favsrow
@@ -195,15 +198,11 @@ PQTemplateExtension {
                                         spacing: 10
                                         PQText {
                                             text: "*." + PQCImageFormats.getFormatEndings(favdeleg.myid).join(", *.")
-                                            color: PQCLook.textColor
-                                            Behavior on color { ColorAnimation { duration: 200 } }
                                         }
                                         PQTextS {
                                             y: (parent.height-height)/2
                                             font.italic: true
                                             text: "(" + PQCImageFormats.getFormatName(favdeleg.myid) + ")"
-                                            color: PQCLook.textColor
-                                            Behavior on color { ColorAnimation { duration: 200 } }
                                         }
                                     }
                                     Image {
@@ -214,7 +213,6 @@ PQTemplateExtension {
                                         height: 20
                                         property bool hovered: false
                                         opacity: hovered ? 1 : 0.5
-                                        Behavior on opacity { NumberAnimation { duration: 200 } }
                                         source: "image://svg/:/" + PQCLook.iconShade + "/star.svg"
                                         sourceSize: Qt.size(width, height)
                                     }
@@ -272,9 +270,9 @@ PQTemplateExtension {
                     width: Math.min(600, export_top.width-100)
                     height: Math.min(400, flickable.height-targettxt1.height-targettxt2.height-favs_item.height-120)
 
-                    color: PQCLook.baseColor
+                    color: pqtPalette.base
                     border.width: 1
-                    border.color: PQCLook.baseColorHighlight
+                    border.color: PQCLook.baseBorder
 
                     ListView {
 
@@ -327,7 +325,7 @@ PQTemplateExtension {
 
                             width: formatsview.width
                             height: visible ? (formatsname.height+10) : 0
-                            color: isActive ? PQCLook.baseColorActive : (isHover ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
+                            color: isActive ? PQCLook.baseBorder : (isHover ? pqtPalette.alternateBase : pqtPalette.button)
                             border.width: 1
                             border.color: "black"
                             radius: 5
@@ -339,15 +337,11 @@ PQTemplateExtension {
                                 spacing: 10
                                 PQText {
                                     text: "*." + deleg.curEndings.join(", *.")
-                                    color: PQCLook.textColor
-                                    Behavior on color { ColorAnimation { duration: 200 } }
                                 }
                                 PQTextS {
                                     y: (parent.height-height)/2
                                     font.italic: true
                                     text: "(" + deleg.curData[3] + ")"
-                                    color: PQCLook.textColor
-                                    Behavior on color { ColorAnimation { duration: 200 } }
                                 }
                             }
 
@@ -358,7 +352,6 @@ PQTemplateExtension {
                                 height: formatsname.height
                                 width: height
                                 opacity: favmousearea.containsMouse ? 1 : 0.5
-                                Behavior on opacity { NumberAnimation { duration: 200 } }
                                 sourceSize: Qt.size(width, height)
                                 source: deleg.isFav ? ("image://svg/:/" + PQCLook.iconShade + "/star.svg") : ("image://svg/:/" + PQCLook.iconShade + "/star_empty.svg")
                             }
