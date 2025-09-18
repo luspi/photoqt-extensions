@@ -1,0 +1,30 @@
+about:
+    version: 1
+    name: "Scale Image"
+    description: "This extension allows scaling an image to a different resolution."
+    author: "Lukas Spies"
+    contact: "Lukas@photoqt.org"
+    targetAPI: 1
+
+setup:
+    integrated:
+        allow: true
+        byDefault: false
+        minimumRequiredWindowSize: [600,400]
+        defaultPosition: ""
+        defaultDistanceFromEdge: 0
+        defaultSize: [0,0]
+        fixSizeToContent: false
+    popout:
+        allow: true
+        byDefault: true
+        defaultSize: [800,600]
+        fixSizeToContent: false
+    modal:
+        make: true
+        requireLoadedFile: true
+    defaultShortcut: "Ctrl+X"
+    rememberGeometry: true
+    letMeHandleMouseEvents: true
+    haveCPPActions: true
+    settings: []
