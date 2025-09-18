@@ -15,15 +15,14 @@ qt_add_library(${PROJECT_NAME} SHARED
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui)
 
-
+# Install the definitions and the library
 install(FILES definition.yml DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/)
 install(TARGETS ${PROJECT_NAME} DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/)
 
+# we need a modern and integrated variant of the qml file,
+# create them here in .generated subdirectory
 file(GLOB qmlfiles "qml/*qml")
 foreach(QMLFILE ${qmlfiles})
-
-    # we need the absolute path as otherwise the EXISTS check below fails
-    # SET(QMLFILE "${CMAKE_SOURCE_DIR}/${QMLFILE}")
 
     # a change to any of these files triggers cmake rerun
     set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${QMLFILE}")
