@@ -25,11 +25,14 @@ import QtQuick.Controls
 import QtCharts
 
 import PQCExtensionsHandler
+import PhotoQt.CPlusPlus
 import PhotoQt
 
 PQTemplateExtension {
 
     id: histogram_top
+
+    SystemPalette { id: pqtPalette }
 
     content: [
 
@@ -125,7 +128,7 @@ PQTemplateExtension {
                 id: busy
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor
+                color: pqtPalette.base
                 opacity: 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
@@ -139,7 +142,7 @@ PQTemplateExtension {
                 id: failed
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor
+                color: pqtPalette.base
                 opacity: 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
@@ -153,7 +156,7 @@ PQTemplateExtension {
                 id: nofileloaded
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor
+                color: pqtPalette.base
                 opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
