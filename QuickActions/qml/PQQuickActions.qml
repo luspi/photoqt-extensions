@@ -25,11 +25,14 @@ import QtQuick.Controls
 import QtCharts
 
 import PQCExtensionsHandler
+import PhotoQt.CPlusPlus
 import PhotoQt
 
 PQTemplateExtension {
 
     id: quickactions_top
+
+    SystemPalette { id: pqtPalette }
 
     property list<string> buttons: settings["Items"]
 
@@ -150,7 +153,7 @@ PQTemplateExtension {
                             visible: delegver.props[0]==="|"
                             width: sze
                             height: 4
-                            color: PQCLook.transInverseColor
+                            color: pqtPalette.text
                             opacity: 0.2
                             MouseArea {
                                 anchors.fill: parent
@@ -214,8 +217,8 @@ PQTemplateExtension {
                                     menu.item.popup()
                             }
 
-                            onMouseOverChanged: {
-                                if(mouseOver) {
+                            onHoveredChanged: {
+                                if(hovered) {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = delegver.modelData
                                     quickactions_top.mouseOver = true
@@ -297,7 +300,7 @@ PQTemplateExtension {
                             visible: deleghor.props[0]==="|"
                             width: 4
                             height: sze
-                            color: PQCLook.transInverseColor
+                            color: pqtPalette.text
                             opacity: 0.2
                             MouseArea {
                                 anchors.fill: parent
@@ -361,8 +364,8 @@ PQTemplateExtension {
                                     menu.item.popup()
                             }
 
-                            onMouseOverChanged: {
-                                if(mouseOver) {
+                            onHoveredChanged: {
+                                if(hovered) {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = deleghor.modelData
                                     quickactions_top.mouseOver = true
