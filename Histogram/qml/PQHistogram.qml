@@ -33,6 +33,7 @@ PQTemplateExtension {
     id: histogram_top
 
     SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     content: [
 
@@ -51,21 +52,21 @@ PQTemplateExtension {
 
             backgroundColor: "transparent"
 
-            ValuesAxis {
+            ValueAxis {
                 id: noaxisX
                 labelsVisible: false
                 gridVisible: true
-                gridLineColor: "#33ffffff"
-                color: "#66ffffff"
+                gridLineColor: pqtPaletteDisabled.text
+                color: pqtPaletteDisabled.text
                 min: 0
                 max: 255
             }
-            ValuesAxis {
+            ValueAxis {
                 id: noaxisY
                 labelsVisible: false
                 gridVisible: true
-                gridLineColor: "#33ffffff"
-                color: "#66ffffff"
+                gridLineColor: pqtPaletteDisabled.text
+                color: pqtPaletteDisabled.text
                 min: 0
                 max: 1.01
             }
@@ -74,7 +75,7 @@ PQTemplateExtension {
                 id: histogramred_cont
                 axisX: noaxisX
                 axisY: noaxisY
-                color: "#88ff0000"
+                color: "#bbff0000"
                 borderWidth: 1
                 borderColor: "#ff0000"
                 visible: settings["Version"]==="color"
@@ -87,7 +88,7 @@ PQTemplateExtension {
                 id: histogramgreen_cont
                 axisX: noaxisX
                 axisY: noaxisY
-                color: "#8800ff00"
+                color: "#bb00ff00"
                 borderWidth: 1
                 borderColor: "#00ff00"
                 visible: settings["Version"]==="color"
@@ -100,7 +101,7 @@ PQTemplateExtension {
                 id: histogramblue_cont
                 axisX: noaxisX
                 axisY: noaxisY
-                color: "#880000ff"
+                color: "#bb0000ff"
                 borderWidth: 1
                 borderColor: "#0000ff"
                 visible: settings["Version"]==="color"
@@ -113,9 +114,10 @@ PQTemplateExtension {
                 id: histogramgrey_cont
                 axisX: noaxisX
                 axisY: noaxisY
-                color: "#88cccccc"
+                color: pqtPaletteDisabled.text
+                opacity: 0.8
                 borderWidth: 1
-                borderColor: "#cccccc"
+                borderColor: pqtPalette.text
                 visible: settings["Version"]==="grey"
                 upperSeries: LineSeries {
                     id: histogramgrey
