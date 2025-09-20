@@ -136,6 +136,7 @@ PQTemplateExtension {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                drag.target: settings["ExtPopout"] ? undefined : element_top
                                 onEntered: {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = -1*delegver.modelData
@@ -158,6 +159,7 @@ PQTemplateExtension {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                drag.target: settings["ExtPopout"] ? undefined : element_top
                                 onEntered: {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = delegver.modelData
@@ -184,6 +186,7 @@ PQTemplateExtension {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                drag.target: settings["ExtPopout"] ? undefined : element_top
                                 onEntered: {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = delegver.modelData
@@ -235,6 +238,7 @@ PQTemplateExtension {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                drag.target: settings["ExtPopout"] ? undefined : element_top
                                 onEntered: {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = -1*delegver.modelData
@@ -283,6 +287,7 @@ PQTemplateExtension {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                drag.target: settings["ExtPopout"] ? undefined : element_top
                                 onEntered: {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = -1*deleghor.modelData
@@ -305,6 +310,7 @@ PQTemplateExtension {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                drag.target: settings["ExtPopout"] ? undefined : element_top
                                 onEntered: {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = deleghor.modelData
@@ -331,6 +337,7 @@ PQTemplateExtension {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                drag.target: settings["ExtPopout"] ? undefined : element_top
                                 onEntered: {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = -1*deleghor.modelData
@@ -382,6 +389,7 @@ PQTemplateExtension {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
+                                drag.target: settings["ExtPopout"] ? undefined : element_top
                                 onEntered: {
                                     resetMouseOver.stop()
                                     quickactions_top.mouseOverIndex = deleghor.modelData
