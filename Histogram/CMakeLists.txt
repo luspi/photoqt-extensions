@@ -20,4 +20,4 @@ install(FILES definition.yml DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/
 install(TARGETS ${PROJECT_NAME} DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/)
 
 include(../helper.cmake)
-INSTALLQML()
+PQINSTALL()

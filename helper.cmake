@@ -1,4 +1,10 @@
-function(INSTALLQML)
+function(PQINSTALL)
+
+    #########################################################################
+    file(COPY_FILE definition.yml ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/definition.yml)
+
+    #########################################################################
+    # HERE WE PROCESS AND COPY THE QML FILES TO THE CURRENT WORKING TREE
 
     file(GLOB qmlfiles "qml/*qml")
     foreach(QMLFILE ${qmlfiles})
@@ -7,11 +13,11 @@ function(INSTALLQML)
         set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${QMLFILE}")
 
         # get relative dir without qml/ prefix
-        file(RELATIVE_PATH GENERICPATH "${CMAKE_SOURCE_DIR}/qml" "${QMLFILE}")
+        file(RELATIVE_PATH GENERICPATH "${CMAKE_CURRENT_SOURCE_DIR}/qml" "${QMLFILE}")
 
         # the two target filenames
-        set(FILENAME_MODERN "${CMAKE_SOURCE_DIR}/qml/.generated/modern/${GENERICPATH}")
-        set(FILENAME_INTEGRATED "${CMAKE_SOURCE_DIR}/qml/.generated/integrated/${GENERICPATH}")
+        set(FILENAME_MODERN "${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/qml/modern/${GENERICPATH}")
+        set(FILENAME_INTEGRATED "${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/qml/integrated/${GENERICPATH}")
 
         # if the source file has been updated
         if("${QMLFILE}" IS_NEWER_THAN "${FILENAME_MODERN}" OR "${QMLFILE}" IS_NEWER_THAN "${FILENAME_INTEGRATED}")
