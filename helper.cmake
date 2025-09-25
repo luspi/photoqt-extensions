@@ -49,8 +49,13 @@ function(PQINSTALL)
 
         endif()
 
-        install(FILES qml/.generated/modern/${GENERICPATH} DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/qml/modern/)
-        install(FILES qml/.generated/integrated/${GENERICPATH} DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/qml/integrated/)
+        if(BUILD_EXTENSIONS_AS_PART_OF_PHOTOQT)
+            install(FILES "${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/qml/modern/${GENERICPATH}" DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/qml/modern/)
+            install(FILES "${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/qml/integrated/${GENERICPATH}" DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/qml/integrated/)
+        else()
+            install(FILES qml/.generated/modern/${GENERICPATH} DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/qml/modern/)
+            install(FILES qml/.generated/integrated/${GENERICPATH} DESTINATION lib/PhotoQt/extensions/${PROJECT_NAME}/qml/integrated/)
+        endif()
 
     endforeach()
 
