@@ -25,7 +25,6 @@ import QtQuick.Controls
 import QtCharts
 
 import PQCExtensionsHandler
-import PQCImageFormats
 import PhotoQt.CPlusPlus
 import PhotoQt
 
