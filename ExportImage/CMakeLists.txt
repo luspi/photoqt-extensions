@@ -16,7 +16,7 @@ endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui)
 
-if(WITH_IMAGEMAGICK)
+if(WITH_IMAGEMAGICK AND NOT ImageMagick::Magick++)
     find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 endif()
 
