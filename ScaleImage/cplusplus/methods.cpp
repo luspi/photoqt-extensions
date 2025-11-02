@@ -20,10 +20,6 @@
  **                                                                      **
  **************************************************************************/
 #include "methods.h"
-#include <QColor>
-#include <QFileInfo>
-#include <QDir>
-#include <QImageWriter>
 
 #if defined(PQEIMAGEMAGICK) || defined(PQEGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>
@@ -32,108 +28,183 @@
 #endif
 
 QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant additional) {
-/*
-    // get info about new file format and source file
-    QString targetFilename = additional.toList()[0].toString();
-    QVariantMap databaseinfo = additional.toList()[1].toMap();
 
-    // we convert the image to this tmeporary file and then copy it to the right location
-    // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-    QString tmpImageFolder = QDir::tempPath() + "/photoqt/";
-    QDir dir(tmpImageFolder);
-    dir.mkpath(tmpImageFolder);
+    const QString targetFilename = additional.toList()[0].toString();
+    const QSize targetSize(additional.toList()[1].toInt(), additional.toList()[2].toInt());
+    const int targetQuality = additional.toList()[3].toInt();
+    const int writeStatus = additional.toList()[4].toInt();
+    const QVariantMap databaseinfo = additional.toList()[5].toMap();
 
-    QString tmpImagePath = tmpImageFolder + "/temporaryfileforexport" + "." + databaseinfo.value("endings").toString().split(",")[0];
-    if(QFile::exists(tmpImagePath))
-        QFile::remove(tmpImagePath);
+    img = img.scaled(targetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    // qt might support it
-    if(databaseinfo.value("qt").toInt() == 1) {
+#ifdef PQMEXIV2
 
-        QImageWriter writer;
+    // This will store all the exif data
+    Exiv2::ExifData exifData;
+    Exiv2::IptcData iptcData;
+    Exiv2::XmpData xmpData;
+    bool gotExifData = false;
 
-        // if the QImageWriter supports the format then we're good to go
-        if(writer.supportedImageFormats().contains(databaseinfo.value("qt_formatname").toString())) {
+  #if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image_read;
+  #else
+    Exiv2::Image::AutoPtr image_read;
+  #endif
 
-            // ... and then we write it into the new format
-            writer.setFileName(tmpImagePath);
-            writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
+    try {
 
-            // if the actual writing succeeds we're done now
-            if(!writer.write(img))
-                qWarning() << "ERROR:" << writer.errorString();
-            else {
-                // copy result to target destination
-                QFile::copy(tmpImagePath, targetFilename);
-                QFile::remove(tmpImagePath);
-                return true;
+        // Open image for exif reading
+  #if EXIV2_TEST_VERSION(0, 28, 0)
+        image_read = Exiv2::ImageFactory::open(filepath.toStdString());
+  #else
+        image_read = Exiv2::ImageFactory::open(filepath.toStdString());
+  #endif
+
+        if(image_read.get() != 0) {
+            // YAY, WE FOUND SOME!!!!!
+            gotExifData = true;
+            image_read->readMetadata();
+        }
+
+    }
+
+    catch (Exiv2::Error& e) {
+        qDebug() << "ERROR reading exif data (caught exception):" << e.what();
+    }
+
+    if(gotExifData) {
+
+        // read exif
+        exifData = image_read->exifData();
+        iptcData = image_read->iptcData();
+        xmpData = image_read->xmpData();
+
+        // Update dimensions
+        exifData["Exif.Photo.PixelXDimension"] = int32_t(targetSize.width());
+        exifData["Exif.Photo.PixelYDimension"] = int32_t(targetSize.height());
+
+    }
+
+#endif
+
+    // We need to do the actual scaling in between reading the exif data above and writing it below,
+    // since we might be scaling the image in place and thus would overwrite old exif data
+    bool success = false;
+
+    if(writeStatus == 1 || writeStatus == 2) {
+
+        // we don't stop if this fails as we might be able to try again with Magick
+        if(img.save(targetFilename, databaseinfo.value("qt_formatname").toString().toStdString().c_str(), targetQuality))
+            success = true;
+        else
+            qWarning() << "Scaling image with Qt failed";
+
+    }
+
+    if(!success && (writeStatus == 1 || writeStatus == 3)) {
+
+        // imagemagick/graphicsmagick might support it
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+    #ifdef PQMIMAGEMAGICK
+        if(databaseinfo.value("imagemagick").toInt() == 1) {
+    #else
+        if(databaseinfo.value("graphicsmagick").toInt() == 1) {
+    #endif
+
+            // first check whether ImageMagick/GraphicsMagick supports writing this filetype
+            bool canproceed = false;
+            try {
+                QString magick = databaseinfo.value("im_gm_magick").toString();
+                Magick::CoderInfo magickCoderInfo(magick.toStdString());
+                if(magickCoderInfo.isWritable())
+                    canproceed = true;
+            } catch(...) {
+                // do nothing here
+            }
+
+            // yes, it's supported
+            if(canproceed) {
+
+                // we scale the image to this tmeporary file and then copy it to the right location
+                // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
+                QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforscale" + "." + databaseinfo.value("endings").toString().split(",")[0];
+                if(QFile::exists(tmpImagePath))
+                    QFile::remove(tmpImagePath);
+
+                try {
+
+                    // first we write the QImage to a temporary file
+                    // then we load it into magick and write it to the target file
+
+                    // find unique temporary path
+                    QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
+                    if(QFile::exists(tmppath))
+                        QFile::remove(tmppath);
+
+                    img.save(tmppath);
+
+                    // load image and write to target file
+                    Magick::Image image;
+                    image.magick("PPM");
+                    image.read(tmppath.toStdString());
+
+                    image.resize(Magick::Geometry(targetSize.width(), targetSize.height()));
+
+                    image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
+                    image.write(tmpImagePath.toStdString());
+
+                    // remove temporary file
+                    QFile::remove(tmppath);
+
+                    // copy result to target destination
+                    QFile::copy(tmpImagePath, targetFilename);
+                    QFile::remove(tmpImagePath);
+
+                    // success!
+                    success = true;
+
+                } catch(Magick::Exception &) { }
+
             }
 
         }
 
-    }
-
-    // imagemagick/graphicsmagick might support it
-#if defined(PQEIMAGEMAGICK) || defined(PQEGRAPHICSMAGICK)
-#ifdef PQEIMAGEMAGICK
-    if(databaseinfo.value("imagemagick").toInt() == 1) {
-#else
-    if(databaseinfo.value("graphicsmagick").toInt() == 1) {
 #endif
 
-        // first check whether ImageMagick/GraphicsMagick supports writing this filetype
-        bool canproceed = false;
+    }
+
+    if(!success) {
+        return false;
+    }
+
+#ifdef PQMEXIV2
+
+    if(gotExifData) {
+
         try {
-            QString magick = databaseinfo.value("im_gm_magick").toString();
-            Magick::CoderInfo magickCoderInfo(magick.toStdString());
-            if(magickCoderInfo.isWritable())
-                canproceed = true;
-        } catch(...) {
-            // do nothing here
+
+            // And write exif data to new image file
+    #if EXIV2_TEST_VERSION(0, 28, 0)
+            Exiv2::Image::UniquePtr image_write = Exiv2::ImageFactory::open(targetFilename.toStdString());
+    #else
+            Exiv2::Image::AutoPtr image_write = Exiv2::ImageFactory::open(targetFilename.toStdString());
+    #endif
+            image_write->setExifData(exifData);
+            image_write->setIptcData(iptcData);
+            image_write->setXmpData(xmpData);
+            image_write->writeMetadata();
+
         }
 
-        // yes, it's supported
-        if(canproceed) {
-
-            try {
-
-                // first we write the QImage to a temporary file
-                // then we load it into magick and write it to the target file
-
-                // find unique temporary path
-                QString tmppath = QDir::tempPath() + "/photoqt/converttmp.ppm";
-                if(QFile::exists(tmppath))
-                    QFile::remove(tmppath);
-
-                img.save(tmppath);
-
-                // load image and write to target file
-                Magick::Image image;
-                image.magick("PPM");
-                image.read(tmppath.toStdString());
-
-                image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
-                image.write(tmpImagePath.toStdString());
-
-                // remove temporary file
-                QFile::remove(tmppath);
-
-                // copy result to target destination
-                QFile::copy(tmpImagePath, targetFilename);
-                QFile::remove(tmpImagePath);
-
-                // success!
-                return true;
-
-            } catch(Magick::Exception &) { }
-
+        catch (Exiv2::Error& e) {
+            qWarning() << "ERROR writing exif data (caught exception):" << e.what();
         }
 
     }
 
-    #endif*/
+#endif
 
-    return false;
+    return true;
 
 }
 

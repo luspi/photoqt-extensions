@@ -25,29 +25,29 @@ import QtQuick.Controls
 import QtCharts
 
 import PQCExtensionsHandler
-import PhotoQt.CPlusPlus
 import PhotoQt
 
 PQTemplateExtension {
 
     id: scale_top
 
-    modalButton1Text: "Scale"
-    modalButton2Text: "Cancel"
+    modalButton2Text: "Scale"
 
-    function modalButton1Action() {
-        // settings["LastUsed"] = targetFormat
-        // var newfile = PQCExtensionsHandler.requestSelectFileFromDialog("Export", PQCExtensionsHandler.currentFile, parseInt(targetFormat), true)
-        // if(newfile !== "") {
-        //     errormessage.visible = false
-        //     exportbusy.showBusy()
-        //     PQCExtensionsHandler.requestCallActionWithImage1(extensionId,
-        //                                                     [newfile,
-        //                                                      PQCExtensionsHandler.requestImageFormatInfoForId(parseInt(targetFormat))])
-        // }
-    }
     function modalButton2Action() {
-        scale_top.hide()
+
+        var newfile = PQCScriptsFilesPaths.selectFileFromDialog("Export", PQCFileFolderModel.currentFile, true)
+        if(newfile !== "") {
+            var uniqueid = PQCImageFormats.detectFormatId(newfile)
+            errorlabel.visible = false
+            scalebusy.showBusy()
+            PQCExtensionsHandler.requestCallActionWithImage1(extensionId,
+                                                            [newfile,
+                                                             spin_w.value,
+                                                             spin_h.value,
+                                                             quality.value,
+                                                             PQCImageFormats.getWriteStatus(uniqueid),
+                                                             PQCImageFormats.getFormatsInfo(uniqueid)])
+        }
     }
 
     content: [
@@ -56,7 +56,9 @@ PQTemplateExtension {
 
             id: flickable
 
-            anchors.fill: parent
+            y: (parent.height-height)/2
+            width: parent.width
+            height: Math.min(parent.height, contentHeight)
             clip: true
 
             contentHeight: insidecont.height+20
@@ -166,7 +168,7 @@ PQTemplateExtension {
                     }
 
                     Image {
-                        source: scale_top.keepAspectRatio ? "image://svg/:/" + PQCLook.iconShade + "/aspectratiokeep.svg" : "image://svg/:/" + PQCLook.iconShade + "/aspectratioignore.svg" // qmllint disable unqualified
+                        source: scale_top.keepAspectRatio ? "image://svg/:/" + PQCLook.iconShade + "/aspectratiokeep.svg" : "image://svg/:/" + PQCLook.iconShade + "/aspectratioignore.svg"
                         y: (spincol.height-height)/2
                         width: height/3
                         height: spincol.height*0.8
@@ -190,7 +192,7 @@ PQTemplateExtension {
                 PQTextS {
 
                     x: (parent.width-width)/2
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold
                     text: qsTranslate("scale", "New size:") + " " +
                     spin_w.value + " x " + spin_h.value + " " +
                     //: This is used as in: 100x100 pixels
@@ -211,23 +213,23 @@ PQTemplateExtension {
                     PQButton {
                         id: but025
                         text: "0.25x"
-                        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-                        width: height*1.5
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        extraSmall: true
                         onClicked: {
-                            spin_w.value = PQCConstants.currentImageResolution.width*0.25 // qmllint disable unqualified
-                            spin_h.value = PQCConstants.currentImageResolution.height*0.25 // qmllint disable unqualified
+                            spin_w.value = PQCConstants.currentImageResolution.width*0.25
+                            spin_h.value = PQCConstants.currentImageResolution.height*0.25
                         }
                     }
 
                     PQButton {
                         id: but050
                         text: "0.5x"
-                        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-                        width: height*1.5
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        extraSmall: true
                         onClicked: {
-                            spin_w.value = PQCConstants.currentImageResolution.width*0.5 // qmllint disable unqualified
+                            spin_w.value = PQCConstants.currentImageResolution.width*0.5
                             spin_h.value = PQCConstants.currentImageResolution.height*0.5
                         }
                     }
@@ -235,11 +237,11 @@ PQTemplateExtension {
                     PQButton {
                         id: but075
                         text: "0.75x"
-                        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-                        width: height*1.5
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        extraSmall: true
                         onClicked: {
-                            spin_w.value = PQCConstants.currentImageResolution.width*0.75 // qmllint disable unqualified
+                            spin_w.value = PQCConstants.currentImageResolution.width*0.75
                             spin_h.value = PQCConstants.currentImageResolution.height*0.75
                         }
                     }
@@ -247,11 +249,11 @@ PQTemplateExtension {
                     PQButton {
                         id: but100
                         text: "1x"
-                        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-                        width: height*1.5
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        extraSmall: true
                         onClicked: {
-                            spin_w.value = PQCConstants.currentImageResolution.width // qmllint disable unqualified
+                            spin_w.value = PQCConstants.currentImageResolution.width
                             spin_h.value = PQCConstants.currentImageResolution.height
                         }
                     }
@@ -259,11 +261,11 @@ PQTemplateExtension {
                     PQButton {
                         id: but150
                         text: "1.5x"
-                        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-                        width: height*1.5
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        extraSmall: true
                         onClicked: {
-                            spin_w.value = PQCConstants.currentImageResolution.width*1.5 // qmllint disable unqualified
+                            spin_w.value = PQCConstants.currentImageResolution.width*1.5
                             spin_h.value = PQCConstants.currentImageResolution.height*1.5
                         }
                     }
@@ -318,6 +320,7 @@ PQTemplateExtension {
             if(val) {
                 errorlabel.visible = false
                 scalebusy.showSuccess()
+                hideAfterDelay.restart()
             } else {
                 scalebusy.hide()
                 errorlabel.visible = true
@@ -326,9 +329,24 @@ PQTemplateExtension {
 
     }
 
+    Timer {
+        id: hideAfterDelay
+        interval: 1000
+        onTriggered:
+            scale_top.hide()
+    }
+
     onShowing: {
+
+        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
+            PQCNotify.showNotificationMessage("Scaling unsupported", "Scaling of this image format is currently unsupported.")
+            return
+        }
+
         scalebusy.hide()
         errorlabel.visible = false
+        spin_w.value = PQCConstants.currentImageResolution.width
+        spin_h.value = PQCConstants.currentImageResolution.height
     }
 
 }

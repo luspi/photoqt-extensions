@@ -25,7 +25,6 @@ import QtQuick.Controls
 import QtCharts
 
 import PQCExtensionsHandler
-import PhotoQt.CPlusPlus
 import PhotoQt
 
 PQTemplateExtension {
@@ -63,7 +62,9 @@ PQTemplateExtension {
 
             id: flickable
 
-            anchors.fill: parent
+            y: (parent.height-height)/2
+            width: parent.width
+            height: Math.min(parent.height, contentHeight)
             clip: true
 
             contentHeight: insidecont.height+20
@@ -267,7 +268,7 @@ PQTemplateExtension {
 
                     x: (parent.width-width)/2
                     width: Math.min(600, export_top.width-100)
-                    height: Math.min(400, flickable.height-targettxt1.height-targettxt2.height-favs_item.height-120)
+                    height: Math.min(400, flickable.parent.height-targettxt1.height-targettxt2.height-favs_item.height-120)
 
                     color: pqtPalette.base
                     border.width: 1
