@@ -33,6 +33,8 @@ PQTemplateExtension {
 
     modalButton2Text: "Scale"
 
+    property bool keepAspectRatio: true
+
     function modalButton2Action() {
 
         var newfile = PQCScriptsFilesPaths.selectFileFromDialog("Export", PQCFileFolderModel.currentFile, true)
@@ -168,7 +170,7 @@ PQTemplateExtension {
                     }
 
                     Image {
-                        source: scale_top.keepAspectRatio ? "image://svg/:/" + PQCLook.iconShade + "/aspectratiokeep.svg" : "image://svg/:/" + PQCLook.iconShade + "/aspectratioignore.svg"
+                        source: "image://svg/" + scale_top.baseDir + "/img/" + PQCLook.iconShade + "/" + (scale_top.keepAspectRatio ? "aspectratiokeep.svg" : "aspectratioignore.svg")
                         y: (spincol.height-height)/2
                         width: height/3
                         height: spincol.height*0.8
