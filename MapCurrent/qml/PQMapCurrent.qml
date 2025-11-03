@@ -1,0 +1,236 @@
+/**************************************************************************
+ * *                                                                      **
+ ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Contact: https://photoqt.org                                         **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick
+import QtQuick.Controls
+import QtLocation
+import QtPositioning
+
+import PQCExtensionsHandler
+import PhotoQt
+
+PQTemplateExtension {
+
+    id: mapcurrent_top
+
+    property real noLocationZoomBefore: 12
+    property bool noLocation: true
+    property real latitude: 49.00937
+    property real longitude: 8.40444
+
+    SystemPalette { id: pqtPalette }
+
+    Plugin {
+
+        id: osmPlugin
+
+        name: "osm"
+
+        PluginParameter {
+            name: "osm.useragent"
+            value: "PhotoQt Image Viewer"
+        }
+
+        PluginParameter {
+            name: "osm.mapping.providersrepository.address"
+            value: "https://osm.photoqt.org"
+        }
+
+        PluginParameter {
+            name: "osm.mapping.highdpi_tiles";
+            value: true
+        }
+
+    }
+
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.AllButtons
+        tooltip: "Click-and-drag to move"
+        drag.target: parent
+    }
+
+    content: [
+
+        Map {
+            id: map
+            anchors.fill: parent
+            plugin: osmPlugin
+            center {
+                latitude: mapcurrent_top.latitude
+                longitude: mapcurrent_top.longitude
+            }
+
+            Behavior on center.latitude { NumberAnimation { duration: 200 } }
+            Behavior on center.longitude { NumberAnimation { duration: 200 } }
+
+            zoomLevel: 1
+            Behavior on zoomLevel { NumberAnimation { duration: 100 } }
+
+            activeMapType: supportedMapTypes[supportedMapTypes.length > 5 ? 5 : (supportedMapTypes.length-1)]
+
+            WheelHandler {
+                id: wheel
+                // workaround for QTBUG-87646 / QTBUG-112394 / QTBUG-112432:
+                // Magic Mouse pretends to be a trackpad but doesn't work with PinchHandler
+                // and we don't yet distinguish mice and trackpads on Wayland either
+                acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland" ?
+                                     PointerDevice.Mouse | PointerDevice.TouchPad :
+                                     PointerDevice.Mouse
+                rotationScale: 1/40
+                property: "zoomLevel"
+            }
+
+            MapQuickItem {
+
+                id: marker
+
+                anchorPoint.x: container.width*(61/256)
+                anchorPoint.y: container.height*(198/201)
+
+                visible: true
+
+                coordinate: QtPositioning.coordinate(mapcurrent_top.latitude, mapcurrent_top.longitude)
+
+                sourceItem:
+                    Image {
+                        id: container
+                        width: 64
+                        height: 50
+                        mipmap: true
+                        smooth: false
+                        source: "qrc:/" + PQCLook.iconShade + "/maplocation.png"
+                    }
+
+            }
+
+            Rectangle {
+                id: noloc
+                anchors.fill: parent
+                color: pqtPalette.base
+                opacity: (mapcurrent_top.noLocation&&PQCFileFolderModel.countMainView>0) ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
+                PQText {
+                    font.weight: PQCLook.fontWeightBold
+                    anchors.centerIn: parent
+                    //: The location here is a GPS location
+                    text: qsTranslate("mapcurrent", "No location data")
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onWheel: (wheel) => {
+                        wheel.accepted = true
+                    }
+                }
+            }
+
+            Rectangle {
+                id: nofileloaded
+                anchors.fill: parent
+                color: pqtPalette.base
+                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
+                PQText {
+                    font.weight: PQCLook.fontWeightBold
+                    anchors.centerIn: parent
+                    //: The location here is a GPS location
+                    text: qsTranslate("mapcurrent", "Current location")
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onWheel: (wheel) => {
+                        wheel.accepted = true
+                    }
+                }
+            }
+
+        }
+
+    ]
+
+    Connections {
+
+        target: PQCMetaData
+
+        function onExifGPSChanged() {
+            mapcurrent_top.updateMap()
+        }
+
+    }
+
+    onShowing: {
+        updateMap()
+    }
+
+    function updateMap() {
+
+        var pos = convertGPSToPoint(PQCMetaData.exifGPS)
+
+        // this value means: no gps data
+        if(pos.x === 9999 || pos.y === 9999) {
+            if(PQCFileFolderModel.countMainView > 0) {
+                noLocationZoomBefore = map.zoomLevel
+                map.zoomLevel = 1
+            }
+            noLocation = true
+            return
+        }
+
+        if(noLocationZoomBefore > 0)
+            map.zoomLevel = noLocationZoomBefore
+        noLocationZoomBefore = 0
+
+        latitude = pos.x
+        longitude = pos.y
+        noLocation = false
+
+    }
+
+    function convertGPSToPoint(gps : string) {
+
+        if(!gps.includes(", "))
+            return Qt.point(9999,9999)
+
+        var one = gps.split(", ")[0]
+        var two = gps.split(", ")[1]
+
+        if(!one.includes("°") || !one.includes("'") || !one.includes("''"))
+            return Qt.point(9999,9999)
+        if(!two.includes("°") || !two.includes("'") || !two.includes("''"))
+            return Qt.point(9999,9999)
+
+        var one_dec = parseFloat(one.split("°")[0]) + parseFloat(one.split("°")[1].split("'")[0])/60.0 + parseFloat(one.split("'")[1].split("''")[0])/3600.0;
+        if(one.includes("S"))
+            one_dec *= -1
+
+        var two_dec = parseFloat(two.split("°")[0]) + parseFloat(two.split("°")[1].split("'")[0])/60.0 + parseFloat(two.split("'")[1].split("''")[0])/3600.0;
+        if(two.includes("W"))
+            two_dec *= -1
+
+        return Qt.point(one_dec, two_dec)
+
+    }
+
+}

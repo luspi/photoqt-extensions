@@ -1,0 +1,28 @@
+about:
+    version: 1
+    name: "MapCurrent"
+    description: "This extension show the GPS location of the current image on a small floating map."
+    author: "Lukas Spies"
+    contact: "Lukas@photoqt.org"
+    targetAPI: 1
+
+setup:
+    integrated:
+        allow: true
+        minimumRequiredWindowSize: [0,0]
+        defaultPosition: "TopLeft"
+        defaultDistanceFromEdge: 100
+        defaultSize: [300,200]
+        fixSizeToContent: false
+    popout:
+        allow: true
+        defaultSize: [300,200]
+        fixSizeToContent: false
+    modal:
+        make: false
+        requireLoadedFile: false
+    defaultShortcut: "G"
+    defaultSize: [300,200]
+    rememberGeometry: true
+    letMeHandleMouseEvents: true
+    haveCPPActions: false
