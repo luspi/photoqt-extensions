@@ -167,29 +167,6 @@ Column {
 
     }
 
-    function check() {
-        PQCExtensionsHandler.requestCallAction1(enlightenment_top.extensionId, ["checkEnlightenment"])
-    }
-
-    Connections {
-
-        target: PQCExtensionsHandler
-
-        function onReplyForAction1(id, val) {
-
-            if(id !== enlightenment_top.extensionId) return
-
-            if(val.length < 5)
-                return
-
-                if(val[0] === "enlightenment") {
-                    enlightenment_top.numWorkspaces = [val[1], val[2]]
-                    enlightenment_top.enlightenmentRemoteError = val[3]
-                    enlightenment_top.msgbusError = val[4]
-                }
-
-        }
-
-    }
+    function check() {}
 
 }

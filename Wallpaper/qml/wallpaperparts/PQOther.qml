@@ -232,30 +232,6 @@ Column {
                 feh.checked = true
     }
 
-    function check() {
-        PQCExtensionsHandler.requestCallAction1(other_top.extensionId, ["checkFeh"])
-        PQCExtensionsHandler.requestCallAction1(other_top.extensionId, ["checkNitrogen"])
-    }
-
-    Connections {
-
-        target: PQCExtensionsHandler
-
-        function onReplyForAction1(id, val) {
-
-            if(id !== other_top.extensionId) return
-
-            if(val.length < 2)
-                return
-
-            if(val[0] === "feh") {
-                other_top.fehError = val[1]
-            } else if(val[0] === "nitrogen") {
-                other_top.nitrogenError = val[1]
-            }
-
-        }
-
-    }
+    function check() {}
 
 }

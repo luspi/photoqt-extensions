@@ -251,129 +251,112 @@ PQTemplateExtension {
 
     ]
 
-    // Connections {
-    //
-    //     target: PQCNotify
-    //
-    //     function onLoaderPassOn(what : string, param : list<var>) {
-    //
-    //         console.log("args: what =", what)
-    //         console.log("args: param =", param)
-    //
-    //         if(what === "show") {
-    //
-    //             if(param[0] === wallpaper_top.thisis)
-    //                 wallpaper_top.show()
-    //
-    //         } else if(what === "hide") {
-    //
-    //             if(param[0] === wallpaper_top.thisis)
-    //                 wallpaper_top.hide()
-    //
-    //         } else if(wallpaper_top.opacity > 0) {
-    //
-    //             if(what === "keyEvent") {
-    //
-    //                 if(wallpaper_top.contextMenuOpen) {
-    //                     wallpaper_top.closeContextMenus()
-    //                     return
-    //                 }
-    //
-    //                 if(param[0] === Qt.Key_Escape) {
-    //
-    //                     if(xfce.combobox.popup.visible)
-    //                         xfce.combobox.popup.close()
-    //                         else
-    //                             wallpaper_top.hide()
-    //
-    //                 } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-    //                     wallpaper_top.setWallpaper()
-    //
-    //                     else if(param[0] === Qt.Key_Tab) {
-    //
-    //                         if(PQCScriptsConfig.amIOnWindows()) return
-    //
-    //                             wallpaper_top.curCat = (wallpaper_top.curCat+1)%wallpaper_top.categories.length
-    //
-    //                     } else if(param[0] === Qt.Key_Right || param[0] === Qt.Key_Left) {
-    //
-    //                         if(wallpaper_top.categories[wallpaper_top.curCat] === "other")
-    //                             other.changeTool()
-    //
-    //                     }
-    //
-    //             }
-    //
-    //         }
-    //
-    //     }
-    //
-    // }
-    //
-    //
-    // function setWallpaper() {
-    //
-    //     var args = {}
-    //
-    //     if(curCat == 0) {
-    //
-    //         if(plasma.checkedScreens.length === 0)
-    //             return
-    //
-    //             args["screens"] = plasma.checkedScreens
-    //
-    //     } else if(curCat == 1) {
-    //
-    //         args["option"] = gnome.checkedOption
-    //
-    //     } else if(curCat == 2) {
-    //
-    //         if(xfce.checkedScreens.length === 0)
-    //             return
-    //
-    //             args["screens"] = xfce.checkedScreens
-    //             args["option"] = xfce.checkedOption
-    //
-    //     } else if(curCat == 3) {
-    //
-    //         if(enlightenment.checkedScreens.length === 0 || enlightenment.checkedWorkspaces.length === 0)
-    //             return
-    //
-    //             args["screens"] = enlightenment.checkedScreens
-    //             args["workspaces"] = enlightenment.checkedWorkspaces
-    //
-    //     } else if(curCat == 4) {
-    //
-    //         args["app"] = other.checkedTool
-    //         args["option"] = other.checkedOption
-    //
-    //     } else if(curCat == 5) {
-    //
-    //         args["WallpaperStyle"] = windows.checkedOption
-    //
-    //     }
-    //
-    //     PQCScriptsWallpaper.setWallpaper(categories[curCat], PQCFileFolderModel.currentFile, args)
-    //
-    //     hide()
-    // }
+    function setWallpaper() {
+
+        var args = {}
+
+        if(curCat == 0) {
+
+            if(plasma.checkedScreens.length === 0)
+                return
+
+            args["category"] = "plasma"
+            args["screens"] = plasma.checkedScreens
+
+        } else if(curCat == 1) {
+
+            args["category"] = "gnome"
+            args["option"] = gnome.checkedOption
+
+        } else if(curCat == 2) {
+
+            if(xfce.checkedScreens.length === 0)
+                return
+
+            args["category"] = "xfce"
+            args["screens"] = xfce.checkedScreens
+            args["option"] = xfce.checkedOption
+
+        } else if(curCat == 3) {
+
+            if(enlightenment.checkedScreens.length === 0 || enlightenment.checkedWorkspaces.length === 0)
+                return
+
+            args["category"] = "enlightenment"
+            args["screens"] = enlightenment.checkedScreens
+            args["workspaces"] = enlightenment.checkedWorkspaces
+
+        } else if(curCat == 4) {
+
+            args["category"] = "other"
+            args["app"] = other.checkedTool
+            args["option"] = other.checkedOption
+
+        } else if(curCat == 5) {
+
+            args["category"] = "windows"
+            args["WallpaperStyle"] = windows.checkedOption
+
+        }
+
+        PQCExtensionsHandler.requestCallActionWithImage1(extensionId, args)
+
+        hide()
+    }
 
     onShowing: {
-        PQCExtensionsHandler.requestCallAction1(extensionId, ["getScreenCount"])
+        PQCExtensionsHandler.requestCallAction1(extensionId, ["checkWallpaper"])
     }
 
     Connections {
 
         target: PQCExtensionsHandler
 
+        function onReceivedShortcut(combo : string) {
+
+            if(!wallpaper_top.visible) return
+
+            if(combo === "Enter" || combo === "Return") {
+
+                wallpaper_top.setWallpaper()
+
+            } else if(combo === "Ctrl+Down") {
+
+                if(PQCScriptsConfig.amIOnWindows()) return
+
+                    wallpaper_top.curCat = (wallpaper_top.curCat+1)%wallpaper_top.categories.length
+
+            } else if(combo === "Ctrl+Up") {
+
+                if(PQCScriptsConfig.amIOnWindows()) return
+
+                wallpaper_top.curCat = (wallpaper_top.curCat+wallpaper_top.categories.length-1)%wallpaper_top.categories.length
+
+            } else if(combo === "Right" || combo === "Left") {
+
+                if(wallpaper_top.categories[wallpaper_top.curCat] === "other")
+                    other.changeTool()
+
+            }
+
+        }
+
         function onReplyForAction1(id, val) {
 
-            if(val.length < 2)
+            if(id !== wallpaper_top.extensionId)
                 return
 
-            if(val[0] === "screenCount") {
-                wallpaper_top.numDesktops = val[1]
-            }
+            if(val.length < 10 || val[0] !== "wallpaper")
+                return
+
+            wallpaper_top.numDesktops = val[1]
+            xfce.xfconfQueryError = val[2]
+            gnome.gsettingsError = val[3]
+            enlightenment.numWorkspaces = [val[4], val[5]]
+            enlightenment.enlightenmentRemoteError = val[6]
+            enlightenment.msgbusError = val[7]
+            other.fehError = val[8]
+            other.nitrogenError = val[9]
 
         }
 

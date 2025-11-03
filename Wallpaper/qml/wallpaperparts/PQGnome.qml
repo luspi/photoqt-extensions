@@ -123,27 +123,6 @@ Column {
         }
     }
 
-    function check() {
-        PQCExtensionsHandler.requestCallAction1(gnome_top.extensionId, ["checkGSettings"])
-    }
-
-    Connections {
-
-        target: PQCExtensionsHandler
-
-        function onReplyForAction1(id, val) {
-
-            if(id !== gnome_top.extensionId) return
-
-            if(val.length < 2)
-                return
-
-            if(val[0] === "gsettings") {
-                gnome_top.gsettingsError = val[1]
-            }
-
-        }
-
-    }
+    function check() {}
 
 }

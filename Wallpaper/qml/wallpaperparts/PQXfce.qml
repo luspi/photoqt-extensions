@@ -151,27 +151,6 @@ Column {
 
     }
 
-    function check() {
-        PQCExtensionsHandler.requestCallAction1(xfce_top.extensionId, ["checkXfce"])
-    }
-
-    Connections {
-
-        target: PQCExtensionsHandler
-
-        function onReplyForAction1(id, val) {
-
-            if(id !== xfce_top.extensionId) return
-
-            if(val.length < 2)
-                return
-
-            if(val[0] === "xfce") {
-                xfce_top.xfconfQueryError = val[1]
-            }
-
-        }
-
-    }
+    function check() {}
 
 }
