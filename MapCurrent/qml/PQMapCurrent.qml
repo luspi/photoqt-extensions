@@ -124,13 +124,17 @@ PQTemplateExtension {
 
             }
 
-            Rectangle {
+            Item {
                 id: noloc
                 anchors.fill: parent
-                color: pqtPalette.base
                 opacity: (mapcurrent_top.noLocation&&PQCFileFolderModel.countMainView>0) ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
+                Rectangle {
+                    anchors.fill: parent
+                    color: pqtPalette.base
+                    opacity: 0.8
+                }
                 PQText {
                     font.weight: PQCLook.fontWeightBold
                     anchors.centerIn: parent
@@ -189,7 +193,7 @@ PQTemplateExtension {
         var pos = convertGPSToPoint(PQCMetaData.exifGPS)
 
         // this value means: no gps data
-        if(pos.x === 9999 || pos.y === 9999) {
+        if(pos[0] === 9999 || pos[1] === 9999) {
             if(PQCFileFolderModel.countMainView > 0) {
                 noLocationZoomBefore = map.zoomLevel
                 map.zoomLevel = 1
@@ -202,24 +206,24 @@ PQTemplateExtension {
             map.zoomLevel = noLocationZoomBefore
         noLocationZoomBefore = 0
 
-        latitude = pos.x
-        longitude = pos.y
+        latitude = pos[0]
+        longitude = pos[1]
         noLocation = false
 
     }
 
-    function convertGPSToPoint(gps : string) {
+    function convertGPSToPoint(gps : string) : list<real> {
 
         if(!gps.includes(", "))
-            return Qt.point(9999,9999)
+            return [9999,9999]
 
         var one = gps.split(", ")[0]
         var two = gps.split(", ")[1]
 
         if(!one.includes("°") || !one.includes("'") || !one.includes("''"))
-            return Qt.point(9999,9999)
+            return [9999,9999]
         if(!two.includes("°") || !two.includes("'") || !two.includes("''"))
-            return Qt.point(9999,9999)
+            return [9999,9999]
 
         var one_dec = parseFloat(one.split("°")[0]) + parseFloat(one.split("°")[1].split("'")[0])/60.0 + parseFloat(one.split("'")[1].split("''")[0])/3600.0;
         if(one.includes("S"))
@@ -229,7 +233,7 @@ PQTemplateExtension {
         if(two.includes("W"))
             two_dec *= -1
 
-        return Qt.point(one_dec, two_dec)
+        return [one_dec, two_dec]
 
     }
 
