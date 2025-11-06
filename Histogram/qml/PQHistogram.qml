@@ -229,7 +229,7 @@ PQTemplateExtension {
         target: PQCConstants
 
         function onCurrentImageSourceChanged() {
-            PQCExtensionsHandler.requestCallActionWithImage1(histogram_top.extensionId)
+            PQCExtensionsHandler.requestCallActionWithImage(histogram_top.extensionId)
         }
 
     }
@@ -250,7 +250,7 @@ PQTemplateExtension {
 
         target: PQCExtensionsHandler
 
-        function onReplyForActionWithImage1(id, val) {
+        function onReplyForActionWithImage(id, val) {
 
             if(id !== histogram_top.extensionId || val === undefined || val[0] !== PQCFileFolderModel.currentFile) {
                 return
@@ -310,7 +310,7 @@ PQTemplateExtension {
             failed.opacity = 0
             nofileloaded.opacity = 0
             busy.opacity = 1
-            PQCExtensionsHandler.requestCallActionWithImage1(histogram_top.extensionId)
+            PQCExtensionsHandler.requestCallActionWithImage(histogram_top.extensionId)
         }
 
     }

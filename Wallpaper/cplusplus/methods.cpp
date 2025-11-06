@@ -32,7 +32,7 @@
 #endif
 
 // set as wallpaper
-QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant additional) {
+QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 
     QVariantMap options = additional.toMap();
 
@@ -257,12 +257,8 @@ QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant addit
 
 }
 
-QVariant Methods::actionWithImage2(QString fileapth, QImage &img, QVariant additional) {
-    return QVariant();
-}
-
 // do various actions
-QVariant Methods::action1(QString filepath, QVariant additional) {
+QVariant Methods::action(QString filepath, QVariant additional) {
 
     const QVariantList lst = additional.toList();
 
@@ -285,10 +281,6 @@ QVariant Methods::action1(QString filepath, QVariant additional) {
     ret << checkNitrogen();
 
     return ret;
-}
-
-QVariant Methods::action2(QString filepath, QVariant additional) {
-    return QVariant();
 }
 
 /*****************************/

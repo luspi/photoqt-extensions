@@ -23,7 +23,7 @@
 #include <QColor>
 #include <QFileInfo>
 
-QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant additional) {
+QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 
     QFileInfo info(filepath);
     QString key = QString("%1%2").arg(filepath).arg(info.lastModified().toMSecsSinceEpoch());
@@ -109,14 +109,6 @@ QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant addit
 
 }
 
-QVariant Methods::actionWithImage2(QString fileapth, QImage &img, QVariant additional) {
-    return QVariant();
-}
-
-QVariant Methods::action1(QString filepath, QVariant additional) {
-    return QVariant();
-}
-
-QVariant Methods::action2(QString filepath, QVariant additional) {
+QVariant Methods::action(QString filepath, QVariant additional) {
     return QVariant();
 }

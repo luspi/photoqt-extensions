@@ -27,7 +27,7 @@
 #include <Magick++/Image.h>
 #endif
 
-QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant additional) {
+QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 
     const QString targetFilename = additional.toList()[0].toString();
     const QSize targetSize(additional.toList()[1].toInt(), additional.toList()[2].toInt());
@@ -208,14 +208,6 @@ QVariant Methods::actionWithImage1(QString filepath, QImage &img, QVariant addit
 
 }
 
-QVariant Methods::actionWithImage2(QString fileapth, QImage &img, QVariant additional) {
-    return QVariant();
-}
-
-QVariant Methods::action1(QString filepath, QVariant additional) {
-    return QVariant();
-}
-
-QVariant Methods::action2(QString filepath, QVariant additional) {
+QVariant Methods::action(QString filepath, QVariant additional) {
     return QVariant();
 }

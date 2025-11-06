@@ -42,9 +42,9 @@ PQTemplateExtension {
         if(newfile !== "") {
             errormessage.visible = false
             exportbusy.showBusy()
-            PQCExtensionsHandler.requestCallActionWithImage1(extensionId,
-                                                            [newfile,
-                                                             PQCImageFormats.getFormatsInfo(parseInt(targetFormat))])
+            PQCExtensionsHandler.requestCallActionWithImage(extensionId,
+                                                           [newfile,
+                                                            PQCImageFormats.getFormatsInfo(parseInt(targetFormat))])
         }
     }
 
@@ -433,7 +433,7 @@ PQTemplateExtension {
 
         target: PQCExtensionsHandler
 
-        function onReplyForActionWithImage1(id, val) {
+        function onReplyForActionWithImage(id, val) {
             if(id !== export_top.extensionId)
                 return
             if(val) {

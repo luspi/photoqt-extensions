@@ -35,13 +35,7 @@ class Methods : public QObject, public PQCExtensionActions {
     Q_INTERFACES(PQCExtensionActions)
 
 public:
-    QVariant action1(QString filepath, QVariant additional = QVariant()) override;
-    QVariant action2(QString filepath, QVariant additional = QVariant()) override;
-
-    QVariant actionWithImage1(QString filepath, QImage &img, QVariant additional = QVariant()) override;
-    QVariant actionWithImage2(QString filepath, QImage &img, QVariant additional = QVariant()) override;
-
-private:
-    QMap<QString,QVariantList> histogramCache;
+    QVariant action(QString filepath, QVariant additional = QVariant()) override;
+    QVariant actionWithImage(QString filepath, QImage &img, QVariant additional = QVariant()) override;
 
 };

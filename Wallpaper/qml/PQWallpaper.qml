@@ -251,6 +251,10 @@ PQTemplateExtension {
 
     ]
 
+    function modalButton2Action() {
+        setWallpaper()
+    }
+
     function setWallpaper() {
 
         var args = {}
@@ -299,13 +303,14 @@ PQTemplateExtension {
 
         }
 
-        PQCExtensionsHandler.requestCallActionWithImage1(extensionId, args)
+        console.warn(">>> SET:", extensionId, args)
+        PQCExtensionsHandler.requestCallActionWithImage(extensionId, args)
 
         hide()
     }
 
     onShowing: {
-        PQCExtensionsHandler.requestCallAction1(extensionId, ["checkWallpaper"])
+        PQCExtensionsHandler.requestCallAction(extensionId, ["checkWallpaper"])
     }
 
     Connections {
@@ -341,9 +346,9 @@ PQTemplateExtension {
 
         }
 
-        function onReplyForAction1(id, val) {
+        function onReplyForAction(id, val) {
 
-            if(id !== wallpaper_top.extensionId)
+            if(id !== wallpaper_top.extensionId && val !== undefined)
                 return
 
             if(val.length < 10 || val[0] !== "wallpaper")

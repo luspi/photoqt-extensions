@@ -42,13 +42,13 @@ PQTemplateExtension {
             var uniqueid = PQCImageFormats.detectFormatId(newfile)
             errorlabel.visible = false
             scalebusy.showBusy()
-            PQCExtensionsHandler.requestCallActionWithImage1(extensionId,
-                                                            [newfile,
-                                                             spin_w.value,
-                                                             spin_h.value,
-                                                             quality.value,
-                                                             PQCImageFormats.getWriteStatus(uniqueid),
-                                                             PQCImageFormats.getFormatsInfo(uniqueid)])
+            PQCExtensionsHandler.requestCallActionWithImage(extensionId,
+                                                           [newfile,
+                                                            spin_w.value,
+                                                            spin_h.value,
+                                                            quality.value,
+                                                            PQCImageFormats.getWriteStatus(uniqueid),
+                                                            PQCImageFormats.getFormatsInfo(uniqueid)])
         }
     }
 
@@ -316,7 +316,7 @@ PQTemplateExtension {
 
         target: PQCExtensionsHandler
 
-        function onReplyForActionWithImage1(id, val) {
+        function onReplyForActionWithImage(id, val) {
             if(id !== scale_top.extensionId)
                 return
             if(val) {
@@ -347,6 +347,8 @@ PQTemplateExtension {
 
         scalebusy.hide()
         errorlabel.visible = false
+        spin_w.reactToValueChanged = false
+        spin_h.reactToValueChanged = false
         spin_w.value = PQCConstants.currentImageResolution.width
         spin_h.value = PQCConstants.currentImageResolution.height
     }
