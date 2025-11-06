@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 3.26)
 project(photoqt LANGUAGES C CXX)
 
 add_subdirectory("ExportImage/")
+add_subdirectory("FloatingNavigation/")
 add_subdirectory("Histogram/")
 add_subdirectory("MapCurrent/")
 add_subdirectory("QuickActions/")
