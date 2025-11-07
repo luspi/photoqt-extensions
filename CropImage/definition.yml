@@ -1,0 +1,27 @@
+about:
+    version: 1
+    name: "Crop Image"
+    description: "This extension allows cropping an image."
+    author: "Lukas Spies"
+    contact: "Lukas@photoqt.org"
+    targetAPI: 1
+
+setup:
+    integrated:
+        allow: true
+        minimumRequiredWindowSize: [600,400]
+        defaultPosition: ""
+        defaultDistanceFromEdge: 100
+        defaultSize: [0,0]
+        fixSizeToContent: false
+    popout:
+        allow: true
+        defaultSize: [800,600]
+        fixSizeToContent: false
+    modal:
+        make: true
+        requireLoadedFile: true
+    defaultShortcut: "Shift+C"
+    rememberGeometry: true
+    letMeHandleMouseEvents: true
+    haveCPPActions: true
