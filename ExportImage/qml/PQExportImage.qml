@@ -433,6 +433,13 @@ PQTemplateExtension {
 
         target: PQCExtensionsHandler
 
+        function onReceivedShortcut(combo : string) {
+            if(!export_top.visible) return
+            if(combo === "Enter" || combo === "Return") {
+                export_top.modalButton2Action()
+            }
+        }
+
         function onReplyForActionWithImage(id, val) {
             if(id !== export_top.extensionId)
                 return

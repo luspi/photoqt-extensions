@@ -37,7 +37,7 @@ PQTemplateExtension {
 
     function modalButton2Action() {
 
-        var newfile = PQCScriptsFilesPaths.selectFileFromDialog("Export", PQCFileFolderModel.currentFile, true)
+        var newfile = PQCScriptsFilesPaths.selectFileFromDialog("Scale", PQCFileFolderModel.currentFile, true)
         if(newfile !== "") {
             var uniqueid = PQCImageFormats.detectFormatId(newfile)
             errorlabel.visible = false
@@ -316,6 +316,13 @@ PQTemplateExtension {
 
         target: PQCExtensionsHandler
 
+        function onReceivedShortcut(combo : string) {
+            if(!scale_top.visible) return
+            if(combo === "Enter" || combo === "Return") {
+                scale_top.modalButton2Action()
+            }
+        }
+
         function onReplyForActionWithImage(id, val) {
             if(id !== scale_top.extensionId)
                 return
@@ -341,7 +348,9 @@ PQTemplateExtension {
     onShowing: {
 
         if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
-            PQCNotify.showNotificationMessage("Scaling unsupported", "Scaling of this image format is currently unsupported.")
+            PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Scaling not supported"),
+                                              qsTranslate("filemanagement", "Scaling of this image format is currently not supported."))
+            hide()
             return
         }
 
