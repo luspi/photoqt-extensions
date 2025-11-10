@@ -612,13 +612,12 @@ PQTemplateExtension {
 
     }
 
-    onShowing: {
+    function showing() {
 
         if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Cropping not supported"),
                                               qsTranslate("filemanagement", "Cropping of this image format is currently not supported."))
-            hide()
-            return
+            return false
         }
 
         cropbusy.hide()
@@ -633,6 +632,8 @@ PQTemplateExtension {
 
         if(theimage.status === Image.Ready && !updateStartEndPosBackupAndStart.running)
             updateStartEndPosBackupAndStart.restart()
+
+        return true
 
     }
 

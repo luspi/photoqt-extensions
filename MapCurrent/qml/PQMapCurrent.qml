@@ -184,8 +184,9 @@ PQTemplateExtension {
 
     }
 
-    onShowing: {
+    function showing() {
         updateMap()
+        return true
     }
 
     function updateMap() {

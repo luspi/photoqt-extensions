@@ -309,8 +309,9 @@ PQTemplateExtension {
         hide()
     }
 
-    onShowing: {
+    function showing() {
         PQCExtensionsHandler.requestCallAction(extensionId, ["checkWallpaper"])
+        return true
     }
 
     Connections {

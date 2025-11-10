@@ -300,7 +300,7 @@ PQTemplateExtension {
 
     }
 
-    onShowing: {
+    function showing() {
 
         if(PQCFileFolderModel.countMainView === 0) {
             nofileloaded.opacity = 1
@@ -312,6 +312,8 @@ PQTemplateExtension {
             busy.opacity = 1
             PQCExtensionsHandler.requestCallActionWithImage(histogram_top.extensionId)
         }
+
+        return true
 
     }
 

@@ -454,9 +454,10 @@ PQTemplateExtension {
 
     }
 
-    onShowing: {
+    function showing() {
         exportbusy.hide()
         errormessage.visible = false
+        return true
     }
 
 }

@@ -345,13 +345,12 @@ PQTemplateExtension {
             scale_top.hide()
     }
 
-    onShowing: {
+    function showing() {
 
         if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Scaling not supported"),
                                               qsTranslate("filemanagement", "Scaling of this image format is currently not supported."))
-            hide()
-            return
+            return false
         }
 
         scalebusy.hide()
@@ -360,6 +359,9 @@ PQTemplateExtension {
         spin_h.reactToValueChanged = false
         spin_w.value = PQCConstants.currentImageResolution.width
         spin_h.value = PQCConstants.currentImageResolution.height
+
+        return true
+
     }
 
 }
