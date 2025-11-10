@@ -579,6 +579,9 @@ PQTemplateExtension {
 
     function showing() {
 
+        if(PQCFileFolderModel.currentFile === "")
+            return false
+
         imgurpast.opacity = 0
         errorCode = ""
         progresspercentage = 0

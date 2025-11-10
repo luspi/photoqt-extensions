@@ -18,9 +18,7 @@ setup:
         allow: true
         defaultSize: [300,200]
         fixSizeToContent: false
-    modal:
-        make: false
-        requireLoadedFile: false
+    modal: false
     defaultShortcut: "G"
     defaultSize: [300,200]
     rememberGeometry: true

@@ -18,9 +18,7 @@ setup:
         allow: true
         defaultSize: [800,600]
         fixSizeToContent: false
-    modal:
-        make: true
-        requireLoadedFile: true
+    modal: true
     defaultShortcut: "W"
     rememberGeometry: true
     letMeHandleMouseEvents: true

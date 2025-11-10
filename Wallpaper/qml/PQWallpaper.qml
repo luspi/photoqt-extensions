@@ -310,6 +310,8 @@ PQTemplateExtension {
     }
 
     function showing() {
+        if(PQCFileFolderModel.currentFile === "")
+            return false
         PQCExtensionsHandler.requestCallAction(extensionId, ["checkWallpaper"])
     }
 

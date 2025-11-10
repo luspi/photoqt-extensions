@@ -18,9 +18,7 @@ setup:
         allow: true
         defaultSize: [0,0]
         fixSizeToContent: true
-    modal:
-        make: false
-        requireLoadedFile: false
+    modal: false
     defaultShortcut: "Ctrl+Shift+A"
     rememberGeometry: false
     letMeHandleMouseEvents: true

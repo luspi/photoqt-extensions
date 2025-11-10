@@ -455,6 +455,8 @@ PQTemplateExtension {
     }
 
     function showing() {
+        if(PQCFileFolderModel.currentFile === "")
+            return false
         exportbusy.hide()
         errormessage.visible = false
     }

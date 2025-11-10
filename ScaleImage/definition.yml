@@ -20,9 +20,7 @@ setup:
         byDefault: true
         defaultSize: [800,600]
         fixSizeToContent: false
-    modal:
-        make: true
-        requireLoadedFile: true
+    modal: true
     defaultShortcut: "Ctrl+X"
     rememberGeometry: true
     letMeHandleMouseEvents: true

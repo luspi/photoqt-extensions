@@ -614,6 +614,9 @@ PQTemplateExtension {
 
     function showing() {
 
+        if(PQCFileFolderModel.currentFile === "")
+            return false
+
         if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Cropping not supported"),
                                               qsTranslate("filemanagement", "Cropping of this image format is currently not supported."))

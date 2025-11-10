@@ -347,6 +347,9 @@ PQTemplateExtension {
 
     function showing() {
 
+        if(PQCFileFolderModel.currentFile === "")
+            return false
+
         if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Scaling not supported"),
                                               qsTranslate("filemanagement", "Scaling of this image format is currently not supported."))
