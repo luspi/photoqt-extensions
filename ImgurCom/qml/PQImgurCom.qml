@@ -595,8 +595,6 @@ PQTemplateExtension {
                                                settings["AuthDateTime"]],
                                                false);
 
-        return true
-
     }
 
     function hiding() {
@@ -607,8 +605,6 @@ PQTemplateExtension {
         }
 
         PQCExtensionsHandler.requestCallAction(imgur_top.extensionId, ["interruptUpload"])
-
-        return true
 
     }
 

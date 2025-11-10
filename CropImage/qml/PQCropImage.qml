@@ -633,8 +633,6 @@ PQTemplateExtension {
         if(theimage.status === Image.Ready && !updateStartEndPosBackupAndStart.running)
             updateStartEndPosBackupAndStart.restart()
 
-        return true
-
     }
 
 }

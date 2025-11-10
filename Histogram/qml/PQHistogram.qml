@@ -313,8 +313,6 @@ PQTemplateExtension {
             PQCExtensionsHandler.requestCallActionWithImage(histogram_top.extensionId)
         }
 
-        return true
-
     }
 
 }

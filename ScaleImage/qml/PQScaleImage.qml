@@ -360,8 +360,6 @@ PQTemplateExtension {
         spin_w.value = PQCConstants.currentImageResolution.width
         spin_h.value = PQCConstants.currentImageResolution.height
 
-        return true
-
     }
 
 }
