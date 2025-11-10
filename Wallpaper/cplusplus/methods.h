@@ -28,7 +28,7 @@
 #include <QImage>
 #include "pqc_extensionactions.h"
 
-class Methods : public QObject, public PQCExtensionActions {
+class Methods : public PQCExtensionActions {
 
     Q_OBJECT
     Q_PLUGIN_METADATA(IID PhotoQt_IID)
@@ -52,5 +52,8 @@ private:
     QList<int> getEnlightenmentWorkspaceCount();
 
     bool checkIfCommandExists(QString cmd, QStringList args, QString &out);
+
+Q_SIGNALS:
+    void sendMessage(QVariant val);
 
 };

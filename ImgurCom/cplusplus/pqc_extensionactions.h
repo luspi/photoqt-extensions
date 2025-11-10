@@ -40,7 +40,7 @@ public:
     virtual QVariant actionWithImage(QString filepath, QImage &img, QVariant additional = QVariant()) = 0;
 
 Q_SIGNALS:
-    void notify(QVariant val);
+    void sendMessage(QVariant val);
 
 };
 

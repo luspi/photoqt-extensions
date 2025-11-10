@@ -338,7 +338,7 @@ void Methods::uploadProgress(qint64 bytesSent, qint64 bytesTotal) {
 
     // Compute and emit progress, between 0 and 1
     double progress = (double)bytesSent/(double)bytesTotal;
-    Q_EMIT PQCExtensionActions::notify(QVariantList() << "progress" << progress);
+    Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "progress" << progress);
 
 }
 
@@ -357,7 +357,7 @@ void Methods::uploadError(QNetworkReply::NetworkError err) {
         return;
 
     // Compose, output, and emit error message
-    Q_EMIT PQCExtensionActions::notify(QVariantList() << "uploadError" << err);
+    Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "uploadError" << err);
 
 }
 
@@ -371,8 +371,8 @@ void Methods::uploadFinished() {
 
     // The reply is not open when operation was aborted
     if(!reply->isOpen()) {
-        Q_EMIT PQCExtensionActions::notify(QVariantList() << "url" << "");
-        Q_EMIT PQCExtensionActions::notify(QVariantList() << "uploadFinished");
+        Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "url" << "");
+        Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "uploadFinished");
         return;
     }
 
@@ -384,13 +384,13 @@ void Methods::uploadFinished() {
 
     // If there has been an error...
     if(resp.contains("success=\"0\"")) {
-        Q_EMIT PQCExtensionActions::notify(QVariantList() << "uploadFinished");
+        Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "uploadFinished");
         return;
     }
 
     // If data doesn't contain a valid link, something went wrong
     if(!resp.contains("<link>") || !resp.contains("<deletehash>")) {
-        Q_EMIT PQCExtensionActions::notify(QVariantList() << "uploadFinished");
+        Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "uploadFinished");
         return;
     }
 
@@ -400,9 +400,9 @@ void Methods::uploadFinished() {
     qDebug() << "URL:" << imgLink;
     qDebug() << "Delete hash:" << delHash;
     // and tell the user
-    Q_EMIT PQCExtensionActions::notify(QVariantList() << "url" << imgLink);
-    Q_EMIT PQCExtensionActions::notify(QVariantList() << "deleteHash" << delHash);
-    Q_EMIT PQCExtensionActions::notify(QVariantList() << "uploadFinished");
+    Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "url" << imgLink);
+    Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "deleteHash" << delHash);
+    Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "uploadFinished");
 
 }
 

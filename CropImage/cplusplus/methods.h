@@ -28,7 +28,7 @@
 #include <QImage>
 #include "pqc_extensionactions.h"
 
-class Methods : public QObject, public PQCExtensionActions {
+class Methods : public PQCExtensionActions {
 
     Q_OBJECT
     Q_PLUGIN_METADATA(IID PhotoQt_IID)
@@ -38,5 +38,7 @@ public:
     QVariant action(QString filepath, QVariant additional = QVariant()) override;
     QVariant actionWithImage(QString filepath, QImage &img, QVariant additional = QVariant()) override;
 
+Q_SIGNALS:
+    void sendMessage(QVariant val);
 
 };

@@ -28,7 +28,7 @@
 #include <QImage>
 #include "pqc_extensionactions.h"
 
-class Methods : public QObject, public PQCExtensionActions {
+class Methods : public PQCExtensionActions {
 
     Q_OBJECT
     Q_PLUGIN_METADATA(IID PhotoQt_IID)
@@ -40,5 +40,8 @@ public:
 
 private:
     QMap<QString,QVariantList> histogramCache;
+
+Q_SIGNALS:
+    void sendMessage(QVariant val);
 
 };

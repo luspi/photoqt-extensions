@@ -98,7 +98,7 @@ private Q_SLOTS:
     void uploadFinished();
 
 Q_SIGNALS:
-    void notify(QVariant val);
+    void sendMessage(QVariant val);
     void abortUpload();
 
 };
