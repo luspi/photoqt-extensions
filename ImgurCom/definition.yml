@@ -1,0 +1,32 @@
+about:
+    version: 1
+    name: "Upload to imgur.com"
+    description: "This extension allows uploading an image to imgur.com."
+    author: "Lukas Spies"
+    contact: "Lukas@photoqt.org"
+    targetAPI: 1
+
+setup:
+    integrated:
+        allow: true
+        minimumRequiredWindowSize: [600,400]
+        defaultPosition: ""
+        defaultDistanceFromEdge: 100
+        defaultSize: [0,0]
+        fixSizeToContent: false
+    popout:
+        allow: true
+        defaultSize: [800,600]
+        fixSizeToContent: false
+    modal:
+        make: true
+        requireLoadedFile: true
+    defaultShortcut: "Ctrl+I"
+    rememberGeometry: true
+    letMeHandleMouseEvents: true
+    haveCPPActions: true
+    settings:
+        - ["AccessToken", "string", ""]
+        - ["RefreshToken", "string", ""]
+        - ["AccountName", "string", ""]
+        - ["AuthDateTime", "string", ""]
