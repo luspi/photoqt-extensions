@@ -4,6 +4,7 @@ about:
     description: "This extension allows exporting an image to another format."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
+    website: "https://gitlab.com/lspies/photoqt-extensions"
     targetAPI: 1
 
 setup:

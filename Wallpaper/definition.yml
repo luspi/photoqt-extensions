@@ -1,9 +1,10 @@
 about:
     version: 1
-    name: "Set as Wallpaper"
+    name: "Wallpaper"
     description: "This extension allows setting an image as wallpaper."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
+    website: "https://gitlab.com/lspies/photoqt-extensions"
     targetAPI: 1
 
 setup:

@@ -4,6 +4,7 @@ about:
     description: "This extension provides a histogram for any viewed image."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
+    website: "https://gitlab.com/lspies/photoqt-extensions"
     targetAPI: 1
 
 setup:

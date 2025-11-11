@@ -1,9 +1,10 @@
 about:
     version: 1
-    name: "FloatingNavigation"
+    name: "Floating Navigation"
     description: "This extension provides floating buttons to navigate between images and to show/hide the main menu."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
+    website: "https://gitlab.com/lspies/photoqt-extensions"
     targetAPI: 1
 
 setup:

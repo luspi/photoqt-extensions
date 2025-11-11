@@ -1,9 +1,10 @@
 about:
     version: 1
-    name: "MapCurrent"
+    name: "Current Map"
     description: "This extension show the GPS location of the current image on a small floating map."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
+    website: "https://gitlab.com/lspies/photoqt-extensions"
     targetAPI: 1
 
 setup:

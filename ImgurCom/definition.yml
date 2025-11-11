@@ -1,9 +1,10 @@
 about:
     version: 1
-    name: "Upload to imgur.com"
+    name: "imgur.com"
     description: "This extension allows uploading an image to imgur.com."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
+    website: "https://gitlab.com/lspies/photoqt-extensions"
     targetAPI: 1
 
 setup:
