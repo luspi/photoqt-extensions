@@ -30,6 +30,7 @@
 #include <QTimer>
 #include <QBuffer>
 #include <QStandardPaths>
+#include <QEventLoop>
 
 QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 
