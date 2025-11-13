@@ -200,6 +200,27 @@ QVariant Methods::action(QString filepath, QVariant additional) {
 
         Q_EMIT abortUpload();
 
+    } else if(what == "getAuthorizeUrlForPin") {
+
+        if(m_networkManager == nullptr)
+            m_networkManager = new QNetworkAccessManager;
+
+        if(imgurClientID == "" || imgurClientSecret == "") {
+            QString ret = obtainClientIdSecret();
+            if(ret != "")
+                return "failed to obtain URL";
+        }
+
+        // return authorisation url
+        return QVariantList() << "authorizeUrlForPin" << QString("https://api.imgur.com/oauth2/authorize?client_id=%1&response_type=pin&state=requestaccess").arg(imgurClientID);
+
+    } else if(what == "forgetAccount") {
+
+        // TODO: accountForgotten
+
+    } else if(what == "doAuthorizeHandlePin") {
+
+        // TODO: authorizeHandlePin, ret, accountname
     }
 
     return false;
