@@ -31,14 +31,14 @@ PQTemplateExtension {
 
     id: export_top
 
-    modalButton2Text: "Export"
+    modalButton2Text: qsTranslate("export", "Export")
 
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     function modalButton2Action() {
         settings["LastUsed"] = targetFormat
-        var newfile = PQCScriptsFilesPaths.selectFileFromDialog("Export", PQCFileFolderModel.currentFile, parseInt(targetFormat), true)
+        var newfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("export", "Export"), PQCFileFolderModel.currentFile, parseInt(targetFormat), true)
         if(newfile !== "") {
             errormessage.visible = false
             exportbusy.showBusy()

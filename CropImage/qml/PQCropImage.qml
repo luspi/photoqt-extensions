@@ -31,7 +31,7 @@ PQTemplateExtension {
 
     id: crop_top
 
-    modalButton2Text: "Crop"
+    modalButton2Text: qsTranslate("cropimage", "Crop")
 
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
@@ -43,7 +43,7 @@ PQTemplateExtension {
 
         var formatId = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
 
-        var newfile = PQCScriptsFilesPaths.selectFileFromDialog("Crop", PQCFileFolderModel.currentFile, parseInt(formatId), true)
+        var newfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("cropimage", "Crop"), PQCFileFolderModel.currentFile, parseInt(formatId), true)
         if(newfile !== "") {
             errorlabel.hide()
             cropbusy.showBusy()
@@ -462,7 +462,7 @@ PQTemplateExtension {
                     horizontalAlignment: Qt.AlignHCenter
                     font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    text: qsTranslate("cropimage", "An error occured, file could not be scaled")
+                    text: qsTranslate("cropimage", "An error occured, file could not be cropped")
                 }
 
                 Timer {
