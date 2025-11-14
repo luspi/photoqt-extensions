@@ -1,0 +1,38 @@
+localization:
+
+  image: ubuntu:noble
+
+  only:
+    - schedules
+
+  script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools openssh-client git wget
+    - eval `ssh-agent -s`
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh key
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - echo "${SSH_PUBLIC_KEY}" >> ~/.ssh/id_rsa.pub
+    - echo "StrictHostKeyChecking no" > ~/.ssh/config
+    - git config --global user.email "${CI_EMAIL}"
+    - git config --global user.name "${CI_USERNAME}"
+    - git clone git@gitlab.com:lspies/photoqt-extensions-lang.git && cd photoqt-extensions-lang
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../CropImage -ts CropImage.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../ExportImage -ts ExportImage.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../FloatingNavigation -ts FloatingNavigation.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../Histogram -ts Histogram.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../ImgurCom -ts ImgurCom.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../MapCurrent -ts MapCurrent.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../QuickActions -ts QuickActions.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../ScaleImage -ts ScaleImage.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../Wallpaper -ts Wallpaper.ts
+    - git add CropImage.ts
+    - git add ExportImage.ts
+    - git add FloatingNavigation.ts
+    - git add Histogram.ts
+    - git add ImgurCom.ts
+    - git add MapCurrent.ts
+    - git add QuickActions.ts
+    - git add ScaleImage.ts
+    - git add Wallpaper.ts
+    - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI"
+    - git push
