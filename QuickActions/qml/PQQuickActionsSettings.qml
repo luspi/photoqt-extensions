@@ -40,12 +40,6 @@ Flickable {
 
         spacing: 10
 
-        PQText {
-            width: parent.width
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: "Quick Actions can have any desired order. Some actions refer to other extensions and only function if that extension is installed and enabled. Note that any changes are applied automatically."
-        }
-
         PQCheckBox {
             id: quick_show
             text: qsTranslate("settingsmanager", "show quick actions")
@@ -53,6 +47,19 @@ Flickable {
                 if(checked !== extsettings["ExtShow"])
                     PQCExtensionsHandler.showExtension(set_top.extensionId)
             }
+        }
+
+        Rectangle {
+            width: parent.width
+            height: 1
+            color: pqtPalette.text
+            opacity: 0.4
+        }
+
+        PQText {
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: "Quick Actions can have any desired order. Some actions refer to other extensions and only function if that extension is installed and enabled. Note that any changes are applied automatically."
         }
 
         ListView {
@@ -308,25 +315,10 @@ Flickable {
 
     Component.onCompleted: {
 
-        console.warn(">>> items:", extsettings["Items"])
-
         quick_show.checked = extsettings["ExtShow"]
 
         set_top.curEntries = extsettings["Items"]
         populateModel()
-    }
-
-    Connections {
-
-        target: PQCExtensionsHandler
-
-        function onReplyForAction(extensionId : string, val : var) {
-
-            if(extensionId !== set_top.extensionId)
-                return
-
-        }
-
     }
 
     function populateModel() {
