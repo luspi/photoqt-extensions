@@ -31,13 +31,13 @@ PQTemplateExtension {
 
     id: scale_top
 
-    modalButton2Text: "Scale"
+    modalButton2Text: qsTranslate("scaleimage", "Scale")
 
     property bool keepAspectRatio: true
 
     function modalButton2Action() {
 
-        var newfile = PQCScriptsFilesPaths.selectFileFromDialog("Scale", PQCFileFolderModel.currentFile, true)
+        var newfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("scaleimage", "Scale image"), PQCFileFolderModel.currentFile, true)
         if(newfile !== "") {
             var uniqueid = PQCImageFormats.detectFormatId(newfile)
             errorlabel.visible = false
@@ -94,7 +94,7 @@ PQTemplateExtension {
                     font.weight: PQCLook.fontWeightBold
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     visible: false
-                    text: qsTranslate("scale", "An error occured, file could not be scaled")
+                    text: qsTranslate("scaleimage", "An error occured, file could not be scaled")
                 }
 
                 Item {
@@ -113,13 +113,13 @@ PQTemplateExtension {
                         PQText {
                             height: spin_w.height
                             //: The number of horizontal pixels of the image
-                            text: qsTranslate("scale", "Width:")
+                            text: qsTranslate("scaleimage", "Width:")
                             verticalAlignment: Qt.AlignVCenter
                         }
                         PQText {
                             height: spin_h.height
                             //: The number of vertical pixels of the image
-                            text: qsTranslate("scale", "Height:")
+                            text: qsTranslate("scaleimage", "Height:")
                             verticalAlignment: Qt.AlignVCenter
                         }
                     }
@@ -195,10 +195,10 @@ PQTemplateExtension {
 
                     x: (parent.width-width)/2
                     font.weight: PQCLook.fontWeightBold
-                    text: qsTranslate("scale", "New size:") + " " +
-                    spin_w.value + " x " + spin_h.value + " " +
-                    //: This is used as in: 100x100 pixels
-                    qsTranslate("scale", "pixels")
+                    text: qsTranslate("scaleimage", "New size:") + " " +
+                          spin_w.value + " x " + spin_h.value + " " +
+                          //: This is used as in: 100x100 pixels
+                          qsTranslate("scaleimage", "pixels")
                 }
 
                 Item {
@@ -286,7 +286,7 @@ PQTemplateExtension {
                     spacing: 10
 
                     PQText {
-                        text: qsTranslate("scale", "Quality:")
+                        text: qsTranslate("scaleimage", "Quality:")
                     }
 
                     PQSlider {
@@ -351,8 +351,8 @@ PQTemplateExtension {
             return false
 
         if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
-            PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Scaling not supported"),
-                                              qsTranslate("filemanagement", "Scaling of this image format is currently not supported."))
+            PQCNotify.showNotificationMessage(qsTranslate("scaleimage", "Scaling not supported"),
+                                              qsTranslate("scaleimage", "Scaling of this image format is currently not supported."))
             return false
         }
 

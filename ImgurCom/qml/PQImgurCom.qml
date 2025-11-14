@@ -33,7 +33,7 @@ PQTemplateExtension {
 
     SystemPalette { id: pqtPalette }
 
-    modalButton2Text: "Show past uploads"
+    modalButton2Text: qsTranslate("imgurcom", "Show past uploads")
 
     property int progresspercentage: 0
     property string errorCode: ""
@@ -49,7 +49,7 @@ PQTemplateExtension {
                 statusmessage.text: imgur_top.progresspercentage+"%"
             }
             PropertyChanges {
-                imgur_top.modalButton1Text: "Cancel"
+                imgur_top.modalButton1Text: qsTranslate("imgurcom", "Cancel")
             }
         },
         State {
@@ -61,29 +61,27 @@ PQTemplateExtension {
                 progressbar.text: "..."
             }
             PropertyChanges {
-                imgur_top.modalButton1Text: "Cancel"
+                imgur_top.modalButton1Text: qsTranslate("imgurcom", "Cancel")
             }
         },
         State {
             name: "longtime"
             PropertyChanges {
                 statusmessage.opacity: 1
-                statusmessage.text: qsTranslate("imgur", "This seems to take a long time...") + "<br>" +
-                qsTranslate("imgur", "There might be a problem with your internet connection or the imgur.com servers.")
+                statusmessage.text: qsTranslate("imgurcom", "This seems to take a long time...") + "<br>" + qsTranslate("imgurcom", "There might be a problem with your internet connection or the imgur.com servers.")
             }
             PropertyChanges {
                 progressbar.text: "..."
             }
             PropertyChanges {
-                imgur_top.modalButton1Text: "Cancel"
+                imgur_top.modalButton1Text: qsTranslate("imgurcom", "Cancel")
             }
         },
         State {
             name: "error"
             PropertyChanges {
                 statusmessage.opacity: 1
-                statusmessage.text: qsTranslate("imgur", "An Error occurred while uploading image!") + "<br>" +
-                qsTranslate("imgur", "Error code:") + " " + imgur_top.errorCode
+                statusmessage.text: qsTranslate("imgurcom", "An Error occurred while uploading image!") + "<br>" + qsTranslate("imgurcom", "Error code:") + " " + imgur_top.errorCode
             }
             PropertyChanges {
                 progressbar.text: "..."
@@ -92,15 +90,14 @@ PQTemplateExtension {
                 working.animationRunning: false
             }
             PropertyChanges {
-                imgur_top.modalButton1Text: "Close"
+                imgur_top.modalButton1Text: qsTranslate("imgurcom", "Close")
             }
         },
         State {
             name: "nointernet"
             PropertyChanges {
                 statusmessage.opacity: 1
-                statusmessage.text: qsTranslate("imgur", "You do not seem to be connected to the internet...") + "<br>" +
-                qsTranslate("imgur", "Unable to upload!")
+                statusmessage.text: qsTranslate("imgurcom", "You do not seem to be connected to the internet...") + "<br>" + qsTranslate("imgurcom", "Unable to upload!")
             }
             PropertyChanges {
                 progressbar.text: "..."
@@ -109,7 +106,7 @@ PQTemplateExtension {
                 working.animationRunning: false
             }
             PropertyChanges {
-                imgur_top.modalButton1Text: "Close"
+                imgur_top.modalButton1Text: qsTranslate("imgurcom", "Close")
             }
         },
         State {
@@ -124,7 +121,7 @@ PQTemplateExtension {
                 resultscol.opacity: 1
             }
             PropertyChanges {
-                imgur_top.modalButton1Text: "Close"
+                imgur_top.modalButton1Text: qsTranslate("imgurcom", "Close")
             }
         }
 
@@ -151,7 +148,7 @@ PQTemplateExtension {
                 spacing: 10
 
                 PQTextL {
-                    text: qsTranslate("imgur", "Access Image")
+                    text: qsTranslate("imgurcom", "Access Image")
                     font.weight: PQCLook.fontWeightBold
                 }
 
@@ -166,7 +163,7 @@ PQTemplateExtension {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            text: qsTranslate("imgur", "Click to open in browser")
+                            text: qsTranslate("imgurcom", "Click to open in browser")
                             onClicked:
                             Qt.openUrlExternally(imgur_top.imageURL)
                         }
@@ -189,7 +186,7 @@ PQTemplateExtension {
                 }
 
                 PQTextL {
-                    text: qsTranslate("imgur", "Delete Image")
+                    text: qsTranslate("imgurcom", "Delete Image")
                     font.weight: PQCLook.fontWeightBold
                 }
 
@@ -204,7 +201,7 @@ PQTemplateExtension {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            text: qsTranslate("imgur", "Click to open in browser")
+                            text: qsTranslate("imgurcom", "Click to open in browser")
                             onClicked:
                             Qt.openUrlExternally("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
                         }
@@ -274,7 +271,7 @@ PQTemplateExtension {
             visible: pastview.dat.length==0
             anchors.centerIn: parent
             //: The uploads are uploads to imgur.com
-            text: qsTranslate("imgur", "No past uploads found")
+            text: qsTranslate("imgurcom", "No past uploads found")
             font.weight: PQCLook.fontWeightBold
         }
 
@@ -371,7 +368,7 @@ PQTemplateExtension {
                                     PQText {
                                         id: acctxt
                                         //: Used as in: access this image
-                                        text: qsTranslate("imgur", "Access:") + " "
+                                        text: qsTranslate("imgurcom", "Access:") + " "
                                     }
                                     PQText {
                                         font.weight: PQCLook.fontWeightBold
@@ -380,7 +377,7 @@ PQTemplateExtension {
                                             anchors.fill: parent
                                             cursorShape: Qt.PointingHandCursor
                                             hoverEnabled: true
-                                            text: qsTranslate("imgur", "Click to open in browser")
+                                            text: qsTranslate("imgurcom", "Click to open in browser")
                                             onClicked:
                                             Qt.openUrlExternally(deleg.curdata[2])
                                         }
@@ -404,7 +401,7 @@ PQTemplateExtension {
                                     PQText {
                                         id: deltxt
                                         //: Used as in: delete this image
-                                        text: qsTranslate("imgur", "Delete:") + " "
+                                        text: qsTranslate("imgurcom", "Delete:") + " "
                                     }
                                     PQText {
                                         font.weight: PQCLook.fontWeightBold
@@ -413,7 +410,7 @@ PQTemplateExtension {
                                             anchors.fill: parent
                                             cursorShape: Qt.PointingHandCursor
                                             hoverEnabled: true
-                                            text: qsTranslate("imgur", "Click to open in browser")
+                                            text: qsTranslate("imgurcom", "Click to open in browser")
                                             onClicked:
                                             Qt.openUrlExternally("https://imgur.com/delete/" + deleg.curdata[3])
                                         }
@@ -455,7 +452,7 @@ PQTemplateExtension {
                 PQButton {
                     id: clearbutton
                     //: Written on button, please keep short. Used as in: clear all entries
-                    text: qsTranslate("imgur", "Clear all")
+                    text: qsTranslate("imgurcom", "Clear all")
                     onClicked: {
                         PQCExtensionsHandler.requestCallAction(imgur_top.extensionId, ["deletePastUploadEntry", "xxx"])
                     }

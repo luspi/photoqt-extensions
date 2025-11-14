@@ -72,7 +72,7 @@ PQTemplateExtension {
                     drag.maximumX: PQCConstants.windowWidth-nav_top.width
                     drag.minimumY: 0
                     drag.maximumY: PQCConstants.windowHeight-nav_top.height
-                    tooltip: qsTranslate("navigate", "Navigate to previous image in folder")
+                    tooltip: qsTranslate("floatingnavigation", "Navigate to previous image in folder")
                     onClicked:
                         PQCExtensionsHandler.executeInternalCommand("__prev")
                     onEntered: {
@@ -105,7 +105,7 @@ PQTemplateExtension {
                     drag.maximumX: PQCConstants.windowWidth-nav_top.width
                     drag.minimumY: 0
                     drag.maximumY: PQCConstants.windowHeight-nav_top.height
-                    tooltip: qsTranslate("navigate", "Navigate to next image in folder")
+                    tooltip: qsTranslate("floatingnavigation", "Navigate to next image in folder")
                     onClicked:
                         PQCExtensionsHandler.executeInternalCommand("__next")
                     onEntered: {
@@ -135,7 +135,7 @@ PQTemplateExtension {
                     drag.maximumX: PQCConstants.windowWidth-nav_top.width
                     drag.minimumY: 0
                     drag.maximumY: PQCConstants.windowHeight-nav_top.height
-                    tooltip: qsTranslate("navigate", "Show main menu")
+                    tooltip: qsTranslate("floatingnavigation", "Show main menu")
                     onClicked:
                         PQCExtensionsHandler.executeInternalCommand("__toggleMainMenu")
                     onEntered: {

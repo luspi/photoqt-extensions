@@ -27,7 +27,7 @@ Flickable {
 
         PQCheckBox {
             id: float_show
-            text: qsTranslate("settingsmanager", "show floating navigation")
+            text: qsTranslate("floatingnavigation", "show floating navigation")
             onCheckedChanged: {
                 if(checked !== extsettings["ExtShow"])
                     PQCExtensionsHandler.showExtension(set_top.extensionId)
@@ -45,7 +45,7 @@ Flickable {
             width: parent.width
             font.italic: true
             enabled: false
-            text: "There are currently no other settings here."
+            text: qsTranslate("floatingnavigation", "There are currently no other settings here.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 

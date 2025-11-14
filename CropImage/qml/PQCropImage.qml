@@ -462,7 +462,7 @@ PQTemplateExtension {
                     horizontalAlignment: Qt.AlignHCenter
                     font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    text: qsTranslate("scale", "An error occured, file could not be scaled")
+                    text: qsTranslate("cropimage", "An error occured, file could not be scaled")
                 }
 
                 Timer {
@@ -618,8 +618,8 @@ PQTemplateExtension {
             return false
 
         if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
-            PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Cropping not supported"),
-                                              qsTranslate("filemanagement", "Cropping of this image format is currently not supported."))
+            PQCNotify.showNotificationMessage(qsTranslate("cropimage", "Cropping not supported"),
+                                              qsTranslate("cropimage", "Cropping of this image format is currently not supported."))
             return false
         }
 

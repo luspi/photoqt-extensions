@@ -23,16 +23,16 @@ Flickable {
         PQText {
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: "Below you can see either whether PhotoQt is connected to which user account, or you can initiate the authentication process by clicking on the button below."
+            text: qsTranslate("imgurcom", "Below you can see either whether PhotoQt is connected to which user account, or you can initiate the authentication process by clicking on the button below.")
         }
 
         PQText {
             visible: set_top.account !== ""
-            text: "Authenticated with: " + set_top.account
+            text: qsTranslate("imgurcom", "Authenticated with:") + " " + set_top.account
         }
 
         PQButton {
-            text: set_top.account==="" ? "Authenticate" : "Forget account"
+            text: set_top.account==="" ? qsTranslate("imgurcom", "Authenticate") : qsTranslate("imgurcom", "Forget account")
             onClicked: {
                 if(set_top.account == "") {
                     PQCExtensionsHandler.requestCallAction("ImgurCom", ["getAuthorizeUrlForPin"], false)
@@ -65,7 +65,7 @@ Flickable {
                 id: authinfotxt
                 width: set_top.width
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: qsTranslate("settingsmanager", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
+                text: qsTranslate("imgurcom", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
             }
 
             Row {
@@ -95,7 +95,7 @@ Flickable {
                 color: "red"
                 property string err: ""
                 visible: err!=""
-                text: qsTranslate("settingsmanager", "An error occured:") + " " + err
+                text: qsTranslate("imgurcom", "An error occured:") + " " + err
             }
 
         }

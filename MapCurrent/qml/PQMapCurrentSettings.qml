@@ -27,7 +27,7 @@ Flickable {
 
         PQCheckBox {
             id: map_show
-            text: qsTranslate("settingsmanager", "show small floating map")
+            text: qsTranslate("mapcurrent", "show small floating map")
             onCheckedChanged: {
                 if(checked !== extsettings["ExtShow"])
                     PQCExtensionsHandler.showExtension(set_top.extensionId)
@@ -45,7 +45,7 @@ Flickable {
             width: parent.width
             font.italic: true
             enabled: false
-            text: "There are currently no other settings here."
+            text: qsTranslate("mapcurrent", "There are currently no other settings here.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 

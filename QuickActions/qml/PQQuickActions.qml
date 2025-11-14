@@ -68,9 +68,7 @@ PQTemplateExtension {
         "clipboard" :   [qsTranslate("quickactions", "Copy to clipboard"),               "clipboard",      "__clipboard",   false],
         "export" :      [qsTranslate("quickactions", "Export to different format"),      "convert",        "__export",      false],
         "wallpaper" :   [qsTranslate("quickactions", "Set as wallpaper"),                "wallpaper",      "__wallpaper",   false],
-        "qr" :          [(PQCConstants.barcodeDisplayed ?
-        qsTranslate("quickactions", "Hide QR/barcodes") :
-        qsTranslate("quickactions", "Detect QR/barcodes")),   "qrcode",         "__detectBarCodes", false],
+        "qr" :          [(PQCConstants.barcodeDisplayed ? qsTranslate("quickactions", "Hide QR/barcodes") : qsTranslate("quickactions", "Detect QR/barcodes")), "qrcode", "__detectBarCodes", false],
         "close" :       [qsTranslate("quickactions", "Close window"),               "quit",           "__close",          true],
         "quit" :        [qsTranslate("quickactions", "Quit"),                       "quit",           "__quit",           true],
     }
@@ -423,7 +421,7 @@ PQTemplateExtension {
             id: themenu
 
             PQMenuItem {
-                text: qsTranslate("MainMenu", "Reset position to default")
+                text: qsTranslate("quickactions", "Reset position to default")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 onTriggered: {
                     PQCExtensionsHandler.requestResetGeometry(quickactions_top.extensionId)
@@ -431,7 +429,7 @@ PQTemplateExtension {
             }
 
             PQMenuItem {
-                text: qsTranslate("settingsmanager", "Manage in settings manager")
+                text: qsTranslate("quickactions", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                 onTriggered: {
                     // TODO 5.0
@@ -444,7 +442,7 @@ PQTemplateExtension {
 
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
-                text: qsTranslate("histogram", "Hide quick actions")
+                text: qsTranslate("quickactions", "Hide quick actions")
                 onTriggered: {
                     quickactions_top.hide()
                 }

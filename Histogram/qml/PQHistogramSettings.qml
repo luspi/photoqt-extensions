@@ -27,7 +27,7 @@ Flickable {
 
         PQCheckBox {
             id: hist_show
-            text: qsTranslate("settingsmanager", "show histogram")
+            text: qsTranslate("histogram", "show histogram")
             onCheckedChanged: {
                 if(checked !== extsettings["ExtShow"])
                     PQCExtensionsHandler.showExtension(set_top.extensionId)
@@ -44,14 +44,14 @@ Flickable {
         PQText {
             enabled: hist_show.checked
             width: parent.width
-            text: "The Histogram can either show the RGB colors separately (but overlayed) or all combined into a grayscale histogram."
+            text: qsTranslate("histogram", "The Histogram can either show the RGB colors separately (but overlayed) or all combined into a grayscale histogram.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQRadioButton {
             id: histCol
             enabled: hist_show.checked
-            text: "color version"
+            text: qsTranslate("histogram", "color version")
             onCheckedChanged: {
                 if(checked && extsettings["Version"] !== "color")
                     extsettings["Version"] = "color"
@@ -61,7 +61,7 @@ Flickable {
         PQRadioButton {
             id: histGray
             enabled: hist_show.checked
-            text: "grayscale version"
+            text: qsTranslate("histogram", "greyscale version")
             onCheckedChanged: {
                 if(checked && extsettings["Version"] !== "grey")
                     extsettings["Version"] = "grey"

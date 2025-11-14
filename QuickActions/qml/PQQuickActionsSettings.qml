@@ -42,7 +42,7 @@ Flickable {
 
         PQCheckBox {
             id: quick_show
-            text: qsTranslate("settingsmanager", "show quick actions")
+            text: qsTranslate("quickactions", "show quick actions")
             onCheckedChanged: {
                 if(checked !== extsettings["ExtShow"])
                     PQCExtensionsHandler.showExtension(set_top.extensionId)
@@ -59,7 +59,7 @@ Flickable {
         PQText {
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: "Quick Actions can have any desired order. Some actions refer to other extensions and only function if that extension is installed and enabled. Note that any changes are applied automatically."
+            text: qsTranslate("quickactions", "Quick Actions can have any desired order. Some actions refer to other extensions and only function if that extension is installed and enabled. Note that any changes are applied automatically.")
         }
 
         ListView {
@@ -158,7 +158,7 @@ Flickable {
                             set_top.populateModel()
                         }
                     }
-                    text: "<b>" + avail.disp[deleg.name] + "</b><br>Click-and-drag to reorder, right click for more options"
+                    text: "<b>" + avail.disp[deleg.name] + "</b><br>" + qsTranslate("quickactions", "Click-and-drag to reorder, right click for more options")
                     cursorShape: Qt.OpenHandCursor
                     onPressed:
                         cursorShape = Qt.ClosedHandCursor
@@ -218,7 +218,7 @@ Flickable {
                 PQMenu {
                     id: contextmenu
                     PQMenuItem {
-                        text: "Remove entry"
+                        text: qsTranslate("quickactions", "Remove entry")
                         onClicked: {
                             set_top.curEntries.splice(deleg.index, 1)
                             set_top.populateModel()
@@ -302,7 +302,7 @@ Flickable {
             PQButton {
                 id: but_add
                 //: This is written on a button that is used to add a selected block to the status info section.
-                text: qsTranslate("settingsmanager", "add")
+                text: qsTranslate("quickactions", "add")
                 enabled: quick_show.checked
                 smallerVersion: true
                 onClicked: {
