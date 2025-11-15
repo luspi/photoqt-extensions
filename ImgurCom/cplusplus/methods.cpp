@@ -292,7 +292,6 @@ QString Methods::uploadImage(QString filename) {
     QNetworkRequest request(QUrl("https://api.imgur.com/3/image.xml"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", QString("Client-ID " + imgurClientID).toLatin1());
-    qWarning() << "HEADER:" << ("Authorization", QString("Client-ID " + imgurClientID).toLatin1());
 
     // Send upload request and connect to feedback signals
     QNetworkReply *reply = m_networkManager->post(request, file);

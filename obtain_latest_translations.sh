@@ -18,8 +18,6 @@ do
     for l in "${langs[@]}"
     do
 
-        echo "Language: $l"
-
         mkdir -p "$ext"/lang
         cp photoqt-extensions-lang/localized/"$ext"_"$l".ts "$ext"/lang/
 
