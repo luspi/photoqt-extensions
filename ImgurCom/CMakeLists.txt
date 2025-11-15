@@ -33,7 +33,7 @@ if(BUILD_EXTENSIONS_AS_PART_OF_PHOTOQT)
     foreach(F ${LANG_SRC})
         get_filename_component(FileName ${F} NAME)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy ${LANG_SRC} ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/lang/${FileName}
+            COMMAND ${CMAKE_COMMAND} -E copy ${F} ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/lang/${FileName}
         )
     endforeach()
 endif()
