@@ -1,5 +1,11 @@
 #!/bin/bash
 
+lrelexe="lrelease"
+if [ $# -eq 1 ]
+then
+    lrelexe="$1"
+fi
+
 rm -rf photoqt-extensions-lang
 git clone -b l10n_main https://gitlab.com/lspies/photoqt-extensions-lang
 
@@ -28,7 +34,7 @@ do
     for l in "${langs[@]}"
     do
 
-        lrelease "$ext"/lang/"$ext"_"$l".ts
+        eval "$lrelexe $ext/lang/"$ext"_$l.ts"
 
     done
 
