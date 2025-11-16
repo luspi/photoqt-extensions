@@ -19,6 +19,10 @@ setup:
         allow: true
         defaultSize: [300,100]
         fixSizeToContent: false
+    contextmenu:
+        section: "other"
+        icon: "floatingnavigation.svg"
+        title: "Floating navigation"
     modal: false
     defaultShortcut: "Shift+F"
     rememberGeometry: false

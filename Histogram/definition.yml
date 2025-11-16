@@ -19,6 +19,10 @@ setup:
         allow: true
         defaultSize: [300,200]
         fixSizeToContent: false
+    contextmenu:
+        section: "about"
+        icon: "histogram.svg"
+        title: "Histogram"
     modal: false
     defaultShortcut: "H"
     defaultSize: [300,200]

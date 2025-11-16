@@ -19,6 +19,10 @@ setup:
         allow: true
         defaultSize: [300,200]
         fixSizeToContent: false
+    contextmenu:
+        section: "about"
+        icon: "mapcurrent.svg"
+        title: "Show on map"
     modal: false
     defaultShortcut: "G"
     defaultSize: [300,200]

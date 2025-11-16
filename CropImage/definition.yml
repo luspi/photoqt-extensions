@@ -19,6 +19,10 @@ setup:
         allow: true
         defaultSize: [800,600]
         fixSizeToContent: false
+    contextmenu:
+        section: "manipulate"
+        icon: "crop.svg"
+        title: "Crop image"
     modal: true
     defaultShortcut: "Shift+C"
     rememberGeometry: true

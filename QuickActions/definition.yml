@@ -19,6 +19,10 @@ setup:
         allow: true
         defaultSize: [0,0]
         fixSizeToContent: true
+    contextmenu:
+        section: "other"
+        icon: "quickactions.svg"
+        title: "Quick actions"
     modal: false
     defaultShortcut: "Ctrl+Shift+A"
     rememberGeometry: false

@@ -21,6 +21,10 @@ setup:
         byDefault: true
         defaultSize: [800,600]
         fixSizeToContent: false
+    contextmenu:
+        section: "manipulate"
+        icon: "scale.svg"
+        title: "Scale image"
     modal: true
     defaultShortcut: "Ctrl+X"
     rememberGeometry: true

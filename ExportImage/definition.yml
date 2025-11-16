@@ -19,6 +19,10 @@ setup:
         allow: true
         defaultSize: [800,600]
         fixSizeToContent: false
+    contextmenu:
+        section: "use"
+        icon: "export.svg"
+        title: "Export to different format"
     modal: true
     defaultShortcut: "Ctrl+S"
     rememberGeometry: true

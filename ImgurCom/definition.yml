@@ -19,6 +19,8 @@ setup:
         allow: true
         defaultSize: [800,600]
         fixSizeToContent: false
+    contextmenu:
+        section: ""
     modal: true
     defaultShortcut: "Ctrl+I"
     rememberGeometry: true
