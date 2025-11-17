@@ -2,15 +2,9 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt
 
-Flickable {
+PQTemplateExtensionSettings {
 
     id: set_top
-
-    anchors.fill: parent
-    anchors.margins: 10
-    anchors.topMargin: 15
-
-    property string extensionId: "QuickActions"
 
     SystemPalette { id: pqtPalette }
 
@@ -178,7 +172,7 @@ Flickable {
                     height: visible ? 40 : 0
                     opacity: quick_show.checked ? 1 : 0.5
                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                    source: visible ? ("image://svg/" + PQCExtensionsMethods.getExtensionLocation(set_top.extensionId) + "/img/"  + PQCLook.iconShade + "/" + avail.svgs[deleg.name] + ".svg") : ""
+                    source: visible ? ("image://svg/" + set_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + avail.svgs[deleg.name] + ".svg") : ""
                     sourceSize: Qt.size(width, height)
 
                 }

@@ -2,15 +2,11 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt
 
-Flickable {
+PQTemplateExtensionSettings {
 
     id: set_top
 
-    anchors.fill: parent
-    anchors.margins: 10
-    anchors.topMargin: 15
-
-    property string extensionId: "FloatingNavigation"
+    contentHeight: col.height
 
     SystemPalette { id: pqtPalette }
 
@@ -20,6 +16,8 @@ Flickable {
     }
 
     Column {
+
+        id: col
 
         width: parent.width
         spacing: 10

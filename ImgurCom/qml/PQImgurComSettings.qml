@@ -1,13 +1,11 @@
 import QtQuick
 import PhotoQt
 
-Flickable {
+PQTemplateExtensionSettings {
 
     id: set_top
 
-    anchors.fill: parent
-    anchors.margins: 10
-    anchors.topMargin: 15
+    contentHeight: col.height
 
     property string account: ""
 
