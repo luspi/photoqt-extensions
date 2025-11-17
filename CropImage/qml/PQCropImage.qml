@@ -36,24 +36,19 @@ PQTemplateExtension {
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
+    property int formatId: -1
+
     function modalButton2Action() {
 
-        var topleft = resizerect.startPos
-        var botright = resizerect.endPos
+        formatId = PQCImageFormats.detectFormatId(PQCExtensionsHandler.currentFile)
 
-        var formatId = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
+        errorlabel.hide()
 
-        var newfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("cropimage", "Crop"), PQCFileFolderModel.currentFile, parseInt(formatId), true)
-        if(newfile !== "") {
-            errorlabel.hide()
-            cropbusy.showBusy()
-            PQCExtensionsHandler.requestCallActionWithImage(extensionId,
-                                                            [newfile,
-                                                            PQCImageFormats.getFormatsInfo(formatId),
-                                                            PQCImageFormats.getWriteStatus(formatId),
-                                                            topleft,
-                                                            botright])
-        }
+        PQCExtensionsHandler.requestCallAction(crop_top.extensionId,
+                                                                 [PQCExtensionsHandler.currentFile,
+                                                                  PQCImageFormats.getFormatName(formatId),
+                                                                  PQCImageFormats.getFormatEndings(formatId)],
+                                                                  false)
 
     }
 
@@ -83,7 +78,7 @@ PQTemplateExtension {
 
                 fillMode: Image.PreserveAspectFit
 
-                source: PQCFileFolderModel.currentFile==="" ? "" : ("image://full/" + PQCFileFolderModel.currentFile) // qmllint disable unqualified
+                source: PQCExtensionsHandler.currentFile==="" ? "" : ("image://full/" + PQCExtensionsHandler.currentFile) // qmllint disable unqualified
 
                 onStatusChanged: (status) => {
                     if(status === Image.Ready) {
@@ -598,6 +593,23 @@ PQTemplateExtension {
                 }
         }
 
+        function onReplyForAction(id, val) {
+
+            if(id !== crop_top.extensionId)
+                return
+
+            if(val === "")
+                return
+
+            cropbusy.showBusy()
+            PQCExtensionsHandler.requestCallActionWithImage(crop_top.extensionId,
+                                                            [val,
+                                                            PQCImageFormats.getFormatsInfo(formatId),
+                                                            PQCImageFormats.getWriteStatus(formatId),
+                                                            resizerect.startPos,
+                                                            resizerect.endPos])
+        }
+
         function onReplyForActionWithImage(id, val) {
             if(id !== crop_top.extensionId)
                 return
@@ -614,12 +626,12 @@ PQTemplateExtension {
 
     function showing() {
 
-        if(PQCFileFolderModel.currentFile === "")
+        if(PQCExtensionsHandler.currentFile === "")
             return false
 
-        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
-            PQCNotify.showNotificationMessage(qsTranslate("cropimage", "Cropping not supported"),
-                                              qsTranslate("cropimage", "Cropping of this image format is currently not supported."))
+        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCExtensionsHandler.currentFile)) <= 0) {
+            PQCExtensionsHandler.showNotification(qsTranslate("cropimage", "Cropping not supported"),
+                                                  qsTranslate("cropimage", "Cropping of this image format is currently not supported."))
             return false
         }
 

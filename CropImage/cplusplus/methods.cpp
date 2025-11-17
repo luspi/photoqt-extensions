@@ -20,6 +20,7 @@
  **                                                                      **
  **************************************************************************/
 #include "methods.h"
+#include <QFileDialog>
 
 QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 
@@ -73,9 +74,12 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
             // yes, it's supported
             if(canproceed) {
 
+                QString tmpDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+                qWarning() << ">>> tmpDir =" << tmpDir;
+
                 // we scale the image to this tmeporary file and then copy it to the right location
                 // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-                QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforcrop" + "." + databaseinfo.value("endings").toString().split(",")[0];
+                QString tmpImagePath = tmpDir + "/temporaryfileforcrop" + "." + databaseinfo.value("endings").toString().split(",")[0];
                 if(QFile::exists(tmpImagePath))
                     QFile::remove(tmpImagePath);
 
@@ -85,7 +89,7 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
                     // then we load it into magick and write it to the target file
 
                     // find unique temporary path
-                    QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
+                    QString tmppath = tmpDir + "/converttmp.ppm";
                     if(QFile::exists(tmppath))
                         QFile::remove(tmppath);
 
@@ -125,5 +129,14 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
 }
 
 QVariant Methods::action(QString filepath, QVariant additional) {
-    return QVariant();
+
+    const QVariantList lst = additional.toList();
+    const QString currentFile = lst.at(0).toString();
+    const QString formatName = lst.at(1).toString();
+    const QStringList formatEndings = lst.at(2).toStringList();
+
+    const QString targetFilename = QFileDialog::getSaveFileName(0, "Save file as", currentFile, QString("%1 (*.%2);;All files (*.*)").arg(formatName, formatEndings.join(" *.")));
+
+    return targetFilename;
+
 }
