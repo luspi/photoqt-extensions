@@ -20,6 +20,7 @@
  **                                                                      **
  **************************************************************************/
 #include "methods.h"
+#include <QFileDialog>
 
 #if defined(PQEIMAGEMAGICK) || defined(PQEGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>
@@ -209,5 +210,14 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
 }
 
 QVariant Methods::action(QString filepath, QVariant additional) {
-    return QVariant();
+
+    const QVariantList lst = additional.toList();
+    const QString currentFile = lst.at(0).toString();
+    const QString formatName = lst.at(1).toString();
+    const QStringList formatEndings = lst.at(2).toStringList();
+
+    const QString targetFilename = QFileDialog::getSaveFileName(0, "Save file as", currentFile, QString("%1 (*.%2);;All files (*.*)").arg(formatName, formatEndings.join(" *.")));
+
+    return targetFilename;
+
 }

@@ -23,8 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtCharts
-
-import PQCExtensionsHandler
 import PhotoQt
 
 PQTemplateExtension {
@@ -62,12 +60,12 @@ PQTemplateExtension {
         "rotateright" : [qsTranslate("quickactions", "Rotate right"),                    "rotateright",    "__rotateR",     false],
         "mirrorhor" :   [qsTranslate("quickactions", "Mirror horizontally"),             "leftrightarrow", "__flipH",       false],
         "mirrorver" :   [qsTranslate("quickactions", "Mirror vertically"),               "updownarrow",    "__flipV",       false],
-        "crop" :        [qsTranslate("quickactions", "Crop image"),                      "crop",           "__crop",        false],
-        "scale" :       [qsTranslate("quickactions", "Scale image"),                     "scale",          "__scale",       false],
+        "crop" :        [qsTranslate("quickactions", "Crop image"),                      "crop",           "CropImage",        false],
+        "scale" :       [qsTranslate("quickactions", "Scale image"),                     "scale",          "ScaleImage",       false],
         "tagfaces" :    [qsTranslate("quickactions", "Tag faces"),                       "faces",          "__tagFaces",    false],
         "clipboard" :   [qsTranslate("quickactions", "Copy to clipboard"),               "clipboard",      "__clipboard",   false],
-        "export" :      [qsTranslate("quickactions", "Export to different format"),      "convert",        "__export",      false],
-        "wallpaper" :   [qsTranslate("quickactions", "Set as wallpaper"),                "wallpaper",      "__wallpaper",   false],
+        "export" :      [qsTranslate("quickactions", "Export to different format"),      "convert",        "ExportImage",      false],
+        "wallpaper" :   [qsTranslate("quickactions", "Set as wallpaper"),                "wallpaper",      "Wallpaper",   false],
         "qr" :          [(PQCConstants.barcodeDisplayed ? qsTranslate("quickactions", "Hide QR/barcodes") : qsTranslate("quickactions", "Detect QR/barcodes")), "qrcode", "__detectBarCodes", false],
         "close" :       [qsTranslate("quickactions", "Close window"),               "quit",           "__close",          true],
         "quit" :        [qsTranslate("quickactions", "Quit"),                       "quit",           "__quit",           true],
@@ -203,13 +201,16 @@ PQTemplateExtension {
                             width: sepver.visible ? 0 : sze
                             height: sepver.visible ? 0 : sze
                             visible: !sepver.visible && !unknownver.visible
-                            enabled: visible && (delegver.props[3] || PQCFileFolderModel.countMainView>0)
+                            enabled: visible && (delegver.props[3] || PQCExtensionProperties.currentFileList.length>0)
                             tooltip: settings["ExtPopout"] ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: settings["ExtPopout"] ? undefined : element_top
                             source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
 
                             onClicked: {
-                                PQCScriptsShortcuts.executeInternalCommand(delegver.props[2])
+                                if(delegver.props[2].startsWith("__"))
+                                    PQCExtensionMethods.executeInternalCommand(delegver.props[2])
+                                else
+                                    PQCExtensionMethods.runExtension(delegver.props[2])
                             }
 
                             onRightClicked: {
@@ -354,13 +355,16 @@ PQTemplateExtension {
                             width: sephor.visible ? 0 : sze
                             height: sephor.visible ? 0 : sze
                             visible: !sephor.visible && !unknownhor.visible
-                            enabled: visible && (deleghor.props[3] || PQCFileFolderModel.countMainView>0)
+                            enabled: visible && (deleghor.props[3] || PQCExtensionProperties.currentFileList.length>0)
                             tooltip: settings["ExtPopout"] ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: settings["ExtPopout"] ? undefined : element_top
                             source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
 
                             onClicked: {
-                                PQCScriptsShortcuts.executeInternalCommand(deleghor.props[2])
+                                if(deleghor.props[2].startsWith("__"))
+                                    PQCExtensionMethods.executeInternalCommand(deleghor.props[2])
+                                else
+                                    PQCExtensionMethods.runExtension(deleghor.props[2])
                             }
 
                             onRightClicked: {
@@ -424,7 +428,7 @@ PQTemplateExtension {
                 text: qsTranslate("quickactions", "Reset position to default")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 onTriggered: {
-                    PQCExtensionsHandler.requestResetGeometry(quickactions_top.extensionId)
+                    PQCExtensionMethods.requestResetGeometry(quickactions_top.extensionId)
                 }
             }
 

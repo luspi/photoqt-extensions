@@ -24,6 +24,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QImageWriter>
+#include <QFileDialog>
 
 #if defined(PQEIMAGEMAGICK) || defined(PQEGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>
@@ -138,5 +139,16 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
 }
 
 QVariant Methods::action(QString filepath, QVariant additional) {
-    return QVariant();
+
+    const QVariantList lst = additional.toList();
+    const QFileInfo info(lst.at(0).toString());
+    const QString formatName = lst.at(1).toString();
+    const QStringList formatEndings = lst.at(2).toStringList();
+
+    const QString useName = QString("%1/%2.%3").arg(info.absolutePath(), info.baseName(), formatEndings[0]);
+
+    const QString targetFilename = QFileDialog::getSaveFileName(0, "Export file to", useName, QString("%1 (*.%2);;All files (*.*)").arg(formatName, formatEndings.join(" *.")));
+
+    return targetFilename;
+
 }

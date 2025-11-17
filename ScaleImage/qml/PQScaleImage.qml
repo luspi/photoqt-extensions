@@ -23,8 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtCharts
-
-import PQCExtensionsHandler
 import PhotoQt
 
 PQTemplateExtension {
@@ -35,21 +33,20 @@ PQTemplateExtension {
 
     property bool keepAspectRatio: true
 
+    property int formatId: -1
+
     function modalButton2Action() {
 
-        var newfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("scaleimage", "Scale image"), PQCFileFolderModel.currentFile, true)
-        if(newfile !== "") {
-            var uniqueid = PQCImageFormats.detectFormatId(newfile)
-            errorlabel.visible = false
-            scalebusy.showBusy()
-            PQCExtensionsHandler.requestCallActionWithImage(extensionId,
-                                                           [newfile,
-                                                            spin_w.value,
-                                                            spin_h.value,
-                                                            quality.value,
-                                                            PQCImageFormats.getWriteStatus(uniqueid),
-                                                            PQCImageFormats.getFormatsInfo(uniqueid)])
-        }
+        formatId = PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)
+
+        errorlabel.visible = false
+
+        PQCExtensionMethods.requestCallAction(scale_top.extensionId,
+                                                [PQCExtensionProperties.currentFile,
+                                                PQCImageFormats.getFormatName(formatId),
+                                                PQCImageFormats.getFormatEndings(formatId)],
+                                                false)
+
     }
 
     content: [
@@ -219,6 +216,8 @@ PQTemplateExtension {
                         font.weight: PQCLook.fontWeightNormal
                         extraSmall: true
                         onClicked: {
+                            spin_w.reactToValueChanged = false
+                            spin_h.reactToValueChanged = false
                             spin_w.value = PQCConstants.currentImageResolution.width*0.25
                             spin_h.value = PQCConstants.currentImageResolution.height*0.25
                         }
@@ -231,6 +230,8 @@ PQTemplateExtension {
                         font.weight: PQCLook.fontWeightNormal
                         extraSmall: true
                         onClicked: {
+                            spin_w.reactToValueChanged = false
+                            spin_h.reactToValueChanged = false
                             spin_w.value = PQCConstants.currentImageResolution.width*0.5
                             spin_h.value = PQCConstants.currentImageResolution.height*0.5
                         }
@@ -243,6 +244,8 @@ PQTemplateExtension {
                         font.weight: PQCLook.fontWeightNormal
                         extraSmall: true
                         onClicked: {
+                            spin_w.reactToValueChanged = false
+                            spin_h.reactToValueChanged = false
                             spin_w.value = PQCConstants.currentImageResolution.width*0.75
                             spin_h.value = PQCConstants.currentImageResolution.height*0.75
                         }
@@ -255,6 +258,8 @@ PQTemplateExtension {
                         font.weight: PQCLook.fontWeightNormal
                         extraSmall: true
                         onClicked: {
+                            spin_w.reactToValueChanged = false
+                            spin_h.reactToValueChanged = false
                             spin_w.value = PQCConstants.currentImageResolution.width
                             spin_h.value = PQCConstants.currentImageResolution.height
                         }
@@ -267,6 +272,8 @@ PQTemplateExtension {
                         font.weight: PQCLook.fontWeightNormal
                         extraSmall: true
                         onClicked: {
+                            spin_w.reactToValueChanged = false
+                            spin_h.reactToValueChanged = false
                             spin_w.value = PQCConstants.currentImageResolution.width*1.5
                             spin_h.value = PQCConstants.currentImageResolution.height*1.5
                         }
@@ -314,13 +321,33 @@ PQTemplateExtension {
 
     Connections {
 
-        target: PQCExtensionsHandler
+        target: PQCExtensionMethods
 
         function onReceivedShortcut(combo : string) {
             if(!scale_top.visible) return
             if(combo === "Enter" || combo === "Return") {
                 scale_top.modalButton2Action()
             }
+        }
+
+        function onReplyForAction(id, val) {
+
+            if(id !== scale_top.extensionId)
+                return
+
+            if(val === "")
+                return
+
+            var uniqueid = PQCImageFormats.detectFormatId(val)
+            scalebusy.showBusy()
+            PQCExtensionMethods.requestCallActionWithImage(extensionId,
+                                                            [val,
+                                                            spin_w.value,
+                                                            spin_h.value,
+                                                            quality.value,
+                                                            PQCImageFormats.getWriteStatus(uniqueid),
+                                                            PQCImageFormats.getFormatsInfo(uniqueid)])
+
         }
 
         function onReplyForActionWithImage(id, val) {
@@ -347,12 +374,12 @@ PQTemplateExtension {
 
     function showing() {
 
-        if(PQCFileFolderModel.currentFile === "")
+        if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)) <= 0) {
-            PQCNotify.showNotificationMessage(qsTranslate("scaleimage", "Scaling not supported"),
-                                              qsTranslate("scaleimage", "Scaling of this image format is currently not supported."))
+        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)) <= 0) {
+            PQCExtensionMethods.showNotification(qsTranslate("scaleimage", "Scaling not supported"),
+                                                  qsTranslate("scaleimage", "Scaling of this image format is currently not supported."))
             return false
         }
 

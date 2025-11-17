@@ -23,8 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtCharts
-
-import PQCExtensionsHandler
 import PhotoQt
 
 PQTemplateExtension {
@@ -174,8 +172,7 @@ PQTemplateExtension {
                         width: result_access.height
                         height: width
                         source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
-                        onClicked:
-                        PQCScriptsClipboard.copyTextToClipboard(imgur_top.imageURL)
+                        onClicked: PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageURL])
                     }
 
                 }
@@ -212,8 +209,7 @@ PQTemplateExtension {
                         width: result_delete.height
                         height: width
                         source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
-                        onClicked:
-                        PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
+                        onClicked: PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageDeleteHash])
                     }
 
                 }
@@ -329,7 +325,7 @@ PQTemplateExtension {
                             onEntered: parent.opacity = 1
                             onExited: parent.opacity = 0.5
                             onClicked: {
-                                PQCExtensionsHandler.requestCallAction(imgur_top.extensionId, ["deletePastUploadEntry", deleg.curdata[0]])
+                                PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["deletePastUploadEntry", deleg.curdata[0]])
                             }
                         }
                     }
@@ -392,7 +388,7 @@ PQTemplateExtension {
                                         height: width
                                         source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
                                         onClicked:
-                                            PQCScriptsClipboard.copyTextToClipboard(deleg.curdata[2])
+                                            PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[2]])
                                     }
                                 }
 
@@ -425,7 +421,7 @@ PQTemplateExtension {
                                         height: width
                                         source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
                                         onClicked:
-                                        PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + deleg.curdata[3])
+                                        PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[3]])
                                     }
                                 }
 
@@ -454,7 +450,7 @@ PQTemplateExtension {
                     //: Written on button, please keep short. Used as in: clear all entries
                     text: qsTranslate("imgurcom", "Clear all")
                     onClicked: {
-                        PQCExtensionsHandler.requestCallAction(imgur_top.extensionId, ["deletePastUploadEntry", "xxx"])
+                        PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["deletePastUploadEntry", "xxx"])
                     }
                 }
             }
@@ -463,7 +459,7 @@ PQTemplateExtension {
 
         function show() {
             opacity = 1
-            PQCExtensionsHandler.requestCallAction(imgur_top.extensionId, ["getPastUploads"])
+            PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["getPastUploads"])
         }
 
         function hide() {
@@ -482,7 +478,7 @@ PQTemplateExtension {
 
     Connections {
 
-        target: PQCExtensionsHandler
+        target: PQCExtensionMethods
 
         function onReplyForAction(extensionId : string, val : var) {
 
@@ -509,7 +505,7 @@ PQTemplateExtension {
 
             } else if(val[0] === "deletedPastEntry") {
 
-                PQCExtensionsHandler.requestCallAction(imgur_top.extensionId, ["getPastUploads"])
+                PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["getPastUploads"])
 
             }
 
@@ -557,7 +553,7 @@ PQTemplateExtension {
                 if(imgur_top.errorCode == "") {
                     working.hide()
                     imgur_top.state = "result"
-                    PQCExtensionsHandler.requestCallActionWithImage(imgur_top.extensionId, ["saveToHistory", imgur_top.imageURL, imgur_top.imageDeleteHash])
+                    PQCExtensionMethods.requestCallActionWithImage(imgur_top.extensionId, ["saveToHistory", imgur_top.imageURL, imgur_top.imageDeleteHash])
                 }
 
             }
@@ -576,7 +572,7 @@ PQTemplateExtension {
 
     function showing() {
 
-        if(PQCFileFolderModel.currentFile === "")
+        if(PQCExtensionProperties.currentFile === "")
             return false
 
         imgurpast.opacity = 0
@@ -588,9 +584,7 @@ PQTemplateExtension {
         state = "uploading"
         working.showBusy()
 
-        PQCExtensionsHandler.requestCallAction(imgur_top.extensionId, ["start",
-                                               PQCExtensionsHandler.getExtensionDataLocation(imgur_top.extensionId),
-                                               PQCExtensionsHandler.getExtensionCacheLocation(imgur_top.extensionId),
+        PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["start",
                                                settings["AccessToken"], settings["RefreshToken"], settings["AccountName"],
                                                settings["AuthDateTime"]],
                                                false);
@@ -604,7 +598,7 @@ PQTemplateExtension {
             return false
         }
 
-        PQCExtensionsHandler.requestCallAction(imgur_top.extensionId, ["interruptUpload"])
+        PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["interruptUpload"])
 
     }
 

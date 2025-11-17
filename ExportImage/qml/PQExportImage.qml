@@ -23,8 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtCharts
-
-import PQCExtensionsHandler
 import PhotoQt
 
 PQTemplateExtension {
@@ -37,15 +35,17 @@ PQTemplateExtension {
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     function modalButton2Action() {
+
         settings["LastUsed"] = targetFormat
-        var newfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("export", "Export"), PQCFileFolderModel.currentFile, parseInt(targetFormat), true)
-        if(newfile !== "") {
-            errormessage.visible = false
-            exportbusy.showBusy()
-            PQCExtensionsHandler.requestCallActionWithImage(extensionId,
-                                                           [newfile,
-                                                            PQCImageFormats.getFormatsInfo(parseInt(targetFormat))])
-        }
+
+        errormessage.visible = false
+
+        PQCExtensionMethods.requestCallAction(export_top.extensionId,
+                                               [PQCExtensionProperties.currentFile,
+                                                PQCImageFormats.getFormatName(parseInt(targetFormat)),
+                                                PQCImageFormats.getFormatEndings(parseInt(targetFormat))],
+                                                false)
+
     }
 
     /***************************************************************/
@@ -430,14 +430,35 @@ PQTemplateExtension {
     }
 
     Connections {
+        target: exportbusy
+        function onSuccessHidden() {
+            export_top.hide()
+        }
+    }
 
-        target: PQCExtensionsHandler
+    Connections {
+
+        target: PQCExtensionMethods
 
         function onReceivedShortcut(combo : string) {
             if(!export_top.visible) return
             if(combo === "Enter" || combo === "Return") {
                 export_top.modalButton2Action()
             }
+        }
+        function onReplyForAction(id, val) {
+
+            if(id !== export_top.extensionId)
+                return
+
+            if(val === "")
+                return
+
+            exportbusy.showBusy()
+            PQCExtensionMethods.requestCallActionWithImage(extensionId,
+                                                            [val,
+                                                             PQCImageFormats.getFormatsInfo(parseInt(export_top.targetFormat))])
+
         }
 
         function onReplyForActionWithImage(id, val) {
@@ -455,7 +476,7 @@ PQTemplateExtension {
     }
 
     function showing() {
-        if(PQCFileFolderModel.currentFile === "")
+        if(PQCExtensionProperties.currentFile === "")
             return false
         exportbusy.hide()
         errormessage.visible = false

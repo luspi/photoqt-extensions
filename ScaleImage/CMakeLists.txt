@@ -16,7 +16,7 @@ if(WITH_IMAGEMAGICK)
     endif()
 endif()
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui LinguistTools)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui LinguistTools Widgets)
 
 if(WITH_IMAGEMAGICK AND NOT TARGET ImageMagick::Magick++)
     find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
@@ -34,7 +34,7 @@ qt_add_library(${PROJECT_NAME} SHARED
     cplusplus/pqc_extensionactions.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
 
 file(GLOB files "lang/*.ts")
 qt_add_translations(${PROJECT_NAME} TS_FILES ${files} QM_FILES_OUTPUT_VARIABLE LANG_SRC)

@@ -1,6 +1,5 @@
 import QtQuick
 import PhotoQt
-import PQCExtensionsHandler
 
 Flickable {
 
@@ -35,11 +34,11 @@ Flickable {
             text: set_top.account==="" ? qsTranslate("imgurcom", "Authenticate") : qsTranslate("imgurcom", "Forget account")
             onClicked: {
                 if(set_top.account == "") {
-                    PQCExtensionsHandler.requestCallAction("ImgurCom", ["getAuthorizeUrlForPin"], false)
+                    PQCExtensionMethods.requestCallAction("ImgurCom", ["getAuthorizeUrlForPin"], false)
                     authcol.authshow = true
                     error.err = ""
                 } else {
-                    PQCExtensionsHandler.requestCallAction("ImgurCom", ["forgetAccount"], false)
+                    PQCExtensionMethods.requestCallAction("ImgurCom", ["forgetAccount"], false)
                 }
             }
         }
@@ -82,7 +81,7 @@ Flickable {
                     cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
                     onClicked: {
                         authpinrow.enabled = false
-                        PQCExtensionsHandler.requestCallAction("ImgurCom", ["doAuthorizeHandlePin"], false)
+                        PQCExtensionMethods.requestCallAction("ImgurCom", ["doAuthorizeHandlePin"], false)
                     }
                 }
             }
@@ -104,7 +103,7 @@ Flickable {
 
     Connections {
 
-        target: PQCExtensionsHandler
+        target: PQCExtensionMethods
 
         function onReplyForAction(extensionId : string, val : var) {
 

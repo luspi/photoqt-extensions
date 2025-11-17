@@ -24,8 +24,6 @@ import QtQuick
 import QtQuick.Controls
 import QtLocation
 import QtPositioning
-
-import PQCExtensionsHandler
 import PhotoQt
 
 PQTemplateExtension {
@@ -127,7 +125,7 @@ PQTemplateExtension {
             Item {
                 id: noloc
                 anchors.fill: parent
-                opacity: (mapcurrent_top.noLocation&&PQCFileFolderModel.countMainView>0) ? 1 : 0
+                opacity: (mapcurrent_top.noLocation&&PQCExtensionProperties.currentFileList.length>0) ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 Rectangle {
@@ -153,7 +151,7 @@ PQTemplateExtension {
                 id: nofileloaded
                 anchors.fill: parent
                 color: pqtPalette.base
-                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0
+                opacity: PQCExtensionProperties.currentFileList.length===0 ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 PQText {
@@ -176,9 +174,9 @@ PQTemplateExtension {
 
     Connections {
 
-        target: PQCMetaData
+        target: PQCExtensionProperties
 
-        function onExifGPSChanged() {
+        function onCurrentMetadataChanged() {
             mapcurrent_top.updateMap()
         }
 
@@ -190,11 +188,11 @@ PQTemplateExtension {
 
     function updateMap() {
 
-        var pos = convertGPSToPoint(PQCMetaData.exifGPS)
+        var pos = convertGPSToPoint(PQCExtensionProperties.currentMetadata["exifGPS"])
 
         // this value means: no gps data
         if(pos[0] === 9999 || pos[1] === 9999) {
-            if(PQCFileFolderModel.countMainView > 0) {
+            if(PQCExtensionProperties.currentFileList.length > 0) {
                 noLocationZoomBefore = map.zoomLevel
                 map.zoomLevel = 1
             }

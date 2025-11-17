@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt
-import PQCExtensionsHandler
 
 Flickable {
 
@@ -45,7 +44,7 @@ Flickable {
             text: qsTranslate("quickactions", "show quick actions")
             onCheckedChanged: {
                 if(checked !== extsettings["ExtShow"])
-                    PQCExtensionsHandler.showExtension(set_top.extensionId)
+                    PQCExtensionMethods.runExtension(set_top.extensionId)
             }
         }
 
@@ -179,7 +178,7 @@ Flickable {
                     height: visible ? 40 : 0
                     opacity: quick_show.checked ? 1 : 0.5
                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                    source: visible ? ("image://svg/" + PQCExtensionsHandler.getExtensionLocation(set_top.extensionId) + "/img/"  + PQCLook.iconShade + "/" + avail.svgs[deleg.name] + ".svg") : ""
+                    source: visible ? ("image://svg/" + PQCExtensionsMethods.getExtensionLocation(set_top.extensionId) + "/img/"  + PQCLook.iconShade + "/" + avail.svgs[deleg.name] + ".svg") : ""
                     sourceSize: Qt.size(width, height)
 
                 }

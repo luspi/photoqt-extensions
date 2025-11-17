@@ -23,8 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtCharts
-
-import PQCExtensionsHandler
 import PhotoQt
 
 PQTemplateExtension {
@@ -158,7 +156,7 @@ PQTemplateExtension {
                 radius: histogram_top.radius
                 anchors.fill: parent
                 color: pqtPalette.base
-                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0
+                opacity: PQCExtensionProperties.currentFileList.length===0 ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 PQText {
@@ -229,14 +227,14 @@ PQTemplateExtension {
         target: PQCConstants
 
         function onCurrentImageSourceChanged() {
-            PQCExtensionsHandler.requestCallActionWithImage(histogram_top.extensionId)
+            PQCExtensionMethods.requestCallActionWithImage(histogram_top.extensionId)
         }
 
     }
 
     Connections {
 
-        target: PQCFileFolderModel
+        target: PQCExtensionProperties
 
         function onCurrentFileChanged() {
             failed.opacity = 0
@@ -248,11 +246,11 @@ PQTemplateExtension {
 
     Connections {
 
-        target: PQCExtensionsHandler
+        target: PQCExtensionMethods
 
         function onReplyForActionWithImage(id, val) {
 
-            if(id !== histogram_top.extensionId || val === undefined || val[0] !== PQCFileFolderModel.currentFile) {
+            if(id !== histogram_top.extensionId || val === undefined || val[0] !== PQCExtensionProperties.currentFile) {
                 return
             }
 
@@ -302,7 +300,7 @@ PQTemplateExtension {
 
     function showing() {
 
-        if(PQCFileFolderModel.countMainView === 0) {
+        if(PQCExtensionProperties.currentFileList.length === 0) {
             nofileloaded.opacity = 1
             busy.opacity = 0
             failed.opacity = 0
@@ -310,7 +308,7 @@ PQTemplateExtension {
             failed.opacity = 0
             nofileloaded.opacity = 0
             busy.opacity = 1
-            PQCExtensionsHandler.requestCallActionWithImage(histogram_top.extensionId)
+            PQCExtensionMethods.requestCallActionWithImage(histogram_top.extensionId)
         }
 
     }

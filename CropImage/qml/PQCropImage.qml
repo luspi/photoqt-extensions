@@ -23,8 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtCharts
-
-import PQCExtensionsHandler
 import PhotoQt
 
 PQTemplateExtension {
@@ -40,12 +38,12 @@ PQTemplateExtension {
 
     function modalButton2Action() {
 
-        formatId = PQCImageFormats.detectFormatId(PQCExtensionsHandler.currentFile)
+        formatId = PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)
 
         errorlabel.hide()
 
-        PQCExtensionsHandler.requestCallAction(crop_top.extensionId,
-                                                                 [PQCExtensionsHandler.currentFile,
+        PQCExtensionMethods.requestCallAction(crop_top.extensionId,
+                                                                 [PQCExtensionProperties.currentFile,
                                                                   PQCImageFormats.getFormatName(formatId),
                                                                   PQCImageFormats.getFormatEndings(formatId)],
                                                                   false)
@@ -78,7 +76,7 @@ PQTemplateExtension {
 
                 fillMode: Image.PreserveAspectFit
 
-                source: PQCExtensionsHandler.currentFile==="" ? "" : ("image://full/" + PQCExtensionsHandler.currentFile) // qmllint disable unqualified
+                source: PQCExtensionProperties.currentFile==="" ? "" : ("image://full/" + PQCExtensionProperties.currentFile) // qmllint disable unqualified
 
                 onStatusChanged: (status) => {
                     if(status === Image.Ready) {
@@ -584,7 +582,7 @@ PQTemplateExtension {
 
     Connections {
 
-        target: PQCExtensionsHandler
+        target: PQCExtensionMethods
 
         function onReceivedShortcut(combo : string) {
             if(!crop_top.visible) return
@@ -602,7 +600,7 @@ PQTemplateExtension {
                 return
 
             cropbusy.showBusy()
-            PQCExtensionsHandler.requestCallActionWithImage(crop_top.extensionId,
+            PQCExtensionMethods.requestCallActionWithImage(crop_top.extensionId,
                                                             [val,
                                                             PQCImageFormats.getFormatsInfo(formatId),
                                                             PQCImageFormats.getWriteStatus(formatId),
@@ -626,11 +624,11 @@ PQTemplateExtension {
 
     function showing() {
 
-        if(PQCExtensionsHandler.currentFile === "")
+        if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCExtensionsHandler.currentFile)) <= 0) {
-            PQCExtensionsHandler.showNotification(qsTranslate("cropimage", "Cropping not supported"),
+        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)) <= 0) {
+            PQCExtensionMethods.showNotification(qsTranslate("cropimage", "Cropping not supported"),
                                                   qsTranslate("cropimage", "Cropping of this image format is currently not supported."))
             return false
         }

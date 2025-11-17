@@ -22,8 +22,6 @@
 
 import QtQuick
 import QtQuick.Controls
-
-import PQCExtensionsHandler
 import PhotoQt
 
 PQTemplateExtension {
@@ -60,7 +58,7 @@ PQTemplateExtension {
                 height: parent.height
                 source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/leftarrow.svg"
                 sourceSize: Qt.size(width, height)
-                enabled: PQCFileFolderModel.countMainView>0
+                enabled: PQCExtensionProperties.currentFileList.length>0
                 opacity: enabled ? 1 : 0.5
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 PQMouseArea {
@@ -74,7 +72,7 @@ PQTemplateExtension {
                     drag.maximumY: PQCConstants.windowHeight-nav_top.height
                     tooltip: qsTranslate("floatingnavigation", "Navigate to previous image in folder")
                     onClicked:
-                        PQCExtensionsHandler.executeInternalCommand("__prev")
+                        PQCExtensionMethods.executeInternalCommand("__prev")
                     onEntered: {
                         resetMouseOver.stop()
                         nav_top.mouseOverId = 1
@@ -93,7 +91,7 @@ PQTemplateExtension {
                 height: parent.height
                 source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/rightarrow.svg"
                 sourceSize: Qt.size(width, height)
-                enabled: PQCFileFolderModel.countMainView>0
+                enabled: PQCExtensionProperties.currentFileList.length>0
                 opacity: enabled ? 1 : 0.5
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 PQMouseArea {
@@ -107,7 +105,7 @@ PQTemplateExtension {
                     drag.maximumY: PQCConstants.windowHeight-nav_top.height
                     tooltip: qsTranslate("floatingnavigation", "Navigate to next image in folder")
                     onClicked:
-                        PQCExtensionsHandler.executeInternalCommand("__next")
+                        PQCExtensionMethods.executeInternalCommand("__next")
                     onEntered: {
                         resetMouseOver.stop()
                         nav_top.mouseOverId = 2
@@ -137,7 +135,7 @@ PQTemplateExtension {
                     drag.maximumY: PQCConstants.windowHeight-nav_top.height
                     tooltip: qsTranslate("floatingnavigation", "Show main menu")
                     onClicked:
-                        PQCExtensionsHandler.executeInternalCommand("__toggleMainMenu")
+                        PQCExtensionMethods.executeInternalCommand("__toggleMainMenu")
                     onEntered: {
                         resetMouseOver.stop()
                         nav_top.mouseOverId = 3

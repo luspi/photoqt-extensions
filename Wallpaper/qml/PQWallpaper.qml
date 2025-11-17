@@ -22,8 +22,6 @@
 
 import QtQuick
 import QtQuick.Controls
-
-import PQCExtensionsHandler
 import PhotoQt
 import "./wallpaperparts"
 
@@ -34,7 +32,7 @@ PQTemplateExtension {
     modalButton2Text: "Set as wallpaper"
 
     property list<string> categories: ["plasma", "gnome", "xfce", "enlightenment", "other"]
-    property int curCat: PQCScriptsConfig.amIOnWindows() ? categories.length : 0
+    property int curCat: PQCExtensionMethods.amIOnWindows() ? categories.length : 0
     property int numDesktops: 0
 
     SystemPalette { id: pqtPalette }
@@ -73,7 +71,7 @@ PQTemplateExtension {
                     width: visible ? parent.width*0.375 : 0
                     height: Math.min(600, wallpaper_top.height*0.8)
 
-                    visible: !PQCScriptsConfig.amIOnWindows()
+                    visible: !PQCExtensionMethods.amIOnWindows()
 
                     Item {
                         width: parent.width
@@ -303,21 +301,20 @@ PQTemplateExtension {
 
         }
 
-        console.warn(">>> SET:", extensionId, args)
-        PQCExtensionsHandler.requestCallActionWithImage(extensionId, args)
+        PQCExtensionMethods.requestCallActionWithImage(extensionId, args, false)
 
         hide()
     }
 
     function showing() {
-        if(PQCFileFolderModel.currentFile === "")
+        if(PQCExtensionProperties.currentFile === "")
             return false
-        PQCExtensionsHandler.requestCallAction(extensionId, ["checkWallpaper"])
+        PQCExtensionMethods.requestCallAction(extensionId, ["checkWallpaper"])
     }
 
     Connections {
 
-        target: PQCExtensionsHandler
+        target: PQCExtensionMethods
 
         function onReceivedShortcut(combo : string) {
 
@@ -329,13 +326,13 @@ PQTemplateExtension {
 
             } else if(combo === "Ctrl+Down") {
 
-                if(PQCScriptsConfig.amIOnWindows()) return
+                if(PQCExtensionMethods.amIOnWindows()) return
 
                     wallpaper_top.curCat = (wallpaper_top.curCat+1)%wallpaper_top.categories.length
 
             } else if(combo === "Ctrl+Up") {
 
-                if(PQCScriptsConfig.amIOnWindows()) return
+                if(PQCExtensionMethods.amIOnWindows()) return
 
                 wallpaper_top.curCat = (wallpaper_top.curCat+wallpaper_top.categories.length-1)%wallpaper_top.categories.length
 

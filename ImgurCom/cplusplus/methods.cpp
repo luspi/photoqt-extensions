@@ -31,6 +31,8 @@
 #include <QBuffer>
 #include <QStandardPaths>
 #include <QEventLoop>
+#include <QApplication>
+#include <QClipboard>
 
 QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 
@@ -93,13 +95,13 @@ QVariant Methods::action(QString filepath, QVariant additional) {
         if(m_networkManager == nullptr)
             m_networkManager = new QNetworkAccessManager;
 
-        extensionConfigLocation = lst.at(1).toString();
-        extensionCacheLocation = lst.at(2).toString();
+        extensionConfigLocation = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
+        extensionCacheLocation = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 
-        access_token = lst.at(3).toString();
-        refresh_token = lst.at(4).toString();
-        account_name = lst.at(5).toString();
-        auth_datetime = lst.at(6).toString();
+        access_token = lst.at(1).toString();
+        refresh_token = lst.at(2).toString();
+        account_name = lst.at(3).toString();
+        auth_datetime = lst.at(4).toString();
 
         if(!checkIfConnectedToInternet()) {
             return "nointernet";
@@ -221,6 +223,10 @@ QVariant Methods::action(QString filepath, QVariant additional) {
     } else if(what == "doAuthorizeHandlePin") {
 
         // TODO: authorizeHandlePin, ret, accountname
+    } else if(what == "copyTextToClipboard") {
+
+        qApp->clipboard()->setText(lst.at(1).toString(), QClipboard::Clipboard);
+
     }
 
     return false;

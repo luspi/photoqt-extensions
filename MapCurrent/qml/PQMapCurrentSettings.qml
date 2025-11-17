@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt
-import PQCExtensionsHandler
 
 Flickable {
 
@@ -30,7 +29,7 @@ Flickable {
             text: qsTranslate("mapcurrent", "show small floating map")
             onCheckedChanged: {
                 if(checked !== extsettings["ExtShow"])
-                    PQCExtensionsHandler.showExtension(set_top.extensionId)
+                    PQCExtensionMethods.runExtension(set_top.extensionId)
             }
         }
 

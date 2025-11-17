@@ -5,7 +5,7 @@ project(ImgurCom)
 
 set(SUBFOLDER "lib/PhotoQt/extensions/" CACHE STRING "What subfolder to move the installed files to.")
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Sql Network LinguistTools)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Sql Network LinguistTools Widgets)
 
 qt_standard_project_setup()
 
@@ -17,7 +17,7 @@ qt_add_library(${PROJECT_NAME} SHARED
 
 qt_add_resources(${PROJECT_NAME} imgurhistory.db)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Sql Qt6::Network)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Sql Qt6::Network Qt6::Widgets)
 
 file(GLOB files "lang/*.ts")
 qt_add_translations(${PROJECT_NAME} TS_FILES ${files} QM_FILES_OUTPUT_VARIABLE LANG_SRC)
