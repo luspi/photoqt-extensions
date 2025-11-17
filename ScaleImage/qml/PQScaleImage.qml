@@ -191,8 +191,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCConstants.currentImageResolution.width*0.25
-                    spin_h.value = PQCConstants.currentImageResolution.height*0.25
+                    spin_w.value = PQCExtensionProperties.currentImageResolution.width*0.25
+                    spin_h.value = PQCExtensionProperties.currentImageResolution.height*0.25
                 }
             }
 
@@ -205,8 +205,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCConstants.currentImageResolution.width*0.5
-                    spin_h.value = PQCConstants.currentImageResolution.height*0.5
+                    spin_w.value = PQCExtensionProperties.currentImageResolution.width*0.5
+                    spin_h.value = PQCExtensionProperties.currentImageResolution.height*0.5
                 }
             }
 
@@ -219,8 +219,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCConstants.currentImageResolution.width*0.75
-                    spin_h.value = PQCConstants.currentImageResolution.height*0.75
+                    spin_w.value = PQCExtensionProperties.currentImageResolution.width*0.75
+                    spin_h.value = PQCExtensionProperties.currentImageResolution.height*0.75
                 }
             }
 
@@ -233,8 +233,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCConstants.currentImageResolution.width
-                    spin_h.value = PQCConstants.currentImageResolution.height
+                    spin_w.value = PQCExtensionProperties.currentImageResolution.width
+                    spin_h.value = PQCExtensionProperties.currentImageResolution.height
                 }
             }
 
@@ -247,8 +247,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCConstants.currentImageResolution.width*1.5
-                    spin_h.value = PQCConstants.currentImageResolution.height*1.5
+                    spin_w.value = PQCExtensionProperties.currentImageResolution.width*1.5
+                    spin_h.value = PQCExtensionProperties.currentImageResolution.height*1.5
                 }
             }
 
@@ -314,15 +314,15 @@ PQTemplateExtension {
             if(val === "")
                 return
 
-            var uniqueid = PQCImageFormats.detectFormatId(val)
+            var uniqueid = PQCExtensionMethods.getImageFormatId(val)
             scalebusy.showBusy()
             PQCExtensionMethods.requestCallActionWithImage(extensionId,
                                                             [val,
                                                             spin_w.value,
                                                             spin_h.value,
                                                             quality.value,
-                                                            PQCImageFormats.getWriteStatus(uniqueid),
-                                                            PQCImageFormats.getFormatsInfo(uniqueid)])
+                                                            PQCExtensionMethods.getImageFormatWriteStatus(uniqueid),
+                                                            PQCExtensionMethods.getImageFormatInfo(uniqueid)])
 
         }
 
@@ -343,14 +343,14 @@ PQTemplateExtension {
 
     function modalButton2Action() {
 
-        formatId = PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)
+        formatId = PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)
 
             errorlabel.visible = false
 
             PQCExtensionMethods.requestCallAction(scale_top.extensionId,
                                                   [PQCExtensionProperties.currentFile,
-                                                  PQCImageFormats.getFormatName(formatId),
-                                                  PQCImageFormats.getFormatEndings(formatId)],
+                                                  PQCExtensionMethods.getImageFormatName(formatId),
+                                                  PQCExtensionMethods.getImageFormatEndings(formatId)],
                                                   false)
 
     }
@@ -360,7 +360,7 @@ PQTemplateExtension {
         if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)) <= 0) {
+        if(PQCExtensionMethods.getImageFormatWriteStatus(PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)) <= 0) {
             PQCExtensionMethods.showNotification(qsTranslate("scaleimage", "Scaling not supported"),
                                                   qsTranslate("scaleimage", "Scaling of this image format is currently not supported."))
             return false
@@ -370,8 +370,8 @@ PQTemplateExtension {
         errorlabel.visible = false
         spin_w.reactToValueChanged = false
         spin_h.reactToValueChanged = false
-        spin_w.value = PQCConstants.currentImageResolution.width
-        spin_h.value = PQCConstants.currentImageResolution.height
+        spin_w.value = PQCExtensionProperties.currentImageResolution.width
+        spin_h.value = PQCExtensionProperties.currentImageResolution.height
 
     }
 

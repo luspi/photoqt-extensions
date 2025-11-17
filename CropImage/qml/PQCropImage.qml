@@ -575,8 +575,8 @@ PQTemplateExtension {
             cropbusy.showBusy()
             PQCExtensionMethods.requestCallActionWithImage(crop_top.extensionId,
                                                             [val,
-                                                            PQCImageFormats.getFormatsInfo(formatId),
-                                                            PQCImageFormats.getWriteStatus(formatId),
+                                                            PQCExtensionMethods.getImageFormatInfo(formatId),
+                                                            PQCExtensionMethods.getImageFormatWriteStatus(formatId),
                                                             resizerect.startPos,
                                                             resizerect.endPos])
         }
@@ -597,14 +597,14 @@ PQTemplateExtension {
 
     function modalButton2Action() {
 
-        formatId = PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)
+        formatId = PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)
 
             errorlabel.hide()
 
             PQCExtensionMethods.requestCallAction(crop_top.extensionId,
                                                   [PQCExtensionProperties.currentFile,
-                                                  PQCImageFormats.getFormatName(formatId),
-                                                  PQCImageFormats.getFormatEndings(formatId)],
+                                                  PQCExtensionMethods.getImageFormatName(formatId),
+                                                  PQCExtensionMethods.getImageFormatEndings(formatId)],
                                                   false)
 
     }
@@ -614,7 +614,7 @@ PQTemplateExtension {
         if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(PQCImageFormats.getWriteStatus(PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)) <= 0) {
+        if(PQCExtensionMethods.getImageFormatWriteStatus(PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)) <= 0) {
             PQCExtensionMethods.showNotification(qsTranslate("cropimage", "Cropping not supported"),
                                                   qsTranslate("cropimage", "Cropping of this image format is currently not supported."))
             return false
@@ -623,10 +623,10 @@ PQTemplateExtension {
         cropbusy.hide()
         errorlabel.hide()
 
-        resizerect.startPos = Qt.point(PQCConstants.currentVisibleAreaX,
-                                       PQCConstants.currentVisibleAreaY)
-        resizerect.endPos = Qt.point(resizerect.startPos.x + PQCConstants.currentVisibleAreaWidthRatio,
-                                     resizerect.startPos.y + PQCConstants.currentVisibleAreaHeightRatio)
+        resizerect.startPos = Qt.point(PQCExtensionProperties.currentVisibleArea.x,
+                                       PQCExtensionProperties.currentVisibleArea.y)
+        resizerect.endPos = Qt.point(resizerect.startPos.x + PQCExtensionProperties.currentVisibleArea.width,
+                                     resizerect.startPos.y + PQCExtensionProperties.currentVisibleArea.height)
 
         animShowed = false
 

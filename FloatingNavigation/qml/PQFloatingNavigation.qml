@@ -64,9 +64,9 @@ PQTemplateExtension {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top.parent.parent
                 drag.minimumX: 0
-                drag.maximumX: PQCConstants.windowWidth-nav_top.width
+                drag.maximumX: PQCExtensionProperties.currentWindowSize.width-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: PQCConstants.windowHeight-nav_top.height
+                drag.maximumY: PQCExtensionProperties.currentWindowSize.height-nav_top.height
                 tooltip: qsTranslate("floatingnavigation", "Navigate to previous image in folder")
                 onClicked:
                     PQCExtensionMethods.executeInternalCommand("__prev")
@@ -97,9 +97,9 @@ PQTemplateExtension {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top.parent.parent
                 drag.minimumX: 0
-                drag.maximumX: PQCConstants.windowWidth-nav_top.width
+                drag.maximumX: PQCExtensionProperties.currentWindowSize.width-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: PQCConstants.windowHeight-nav_top.height
+                drag.maximumY: PQCExtensionProperties.currentWindowSize.height-nav_top.height
                 tooltip: qsTranslate("floatingnavigation", "Navigate to next image in folder")
                 onClicked:
                     PQCExtensionMethods.executeInternalCommand("__next")
@@ -127,9 +127,9 @@ PQTemplateExtension {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top.parent.parent
                 drag.minimumX: 0
-                drag.maximumX: PQCConstants.windowWidth-nav_top.width
+                drag.maximumX: PQCExtensionProperties.currentWindowSize.width-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: PQCConstants.windowHeight-nav_top.height
+                drag.maximumY: PQCExtensionProperties.currentWindowSize.height-nav_top.height
                 tooltip: qsTranslate("floatingnavigation", "Show main menu")
                 onClicked:
                     PQCExtensionMethods.executeInternalCommand("__toggleMainMenu")

@@ -170,12 +170,12 @@ PQTemplateExtension {
                                 y: 5
                                 spacing: 10
                                 PQText {
-                                    text: "*." + PQCImageFormats.getFormatEndings(favdeleg.myid).join(", *.")
+                                    text: "*." + PQCExtensionMethods.getImageFormatEndings(favdeleg.myid).join(", *.")
                                 }
                                 PQTextS {
                                     y: (parent.height-height)/2
                                     font.italic: true
-                                    text: "(" + PQCImageFormats.getFormatName(favdeleg.myid) + ")"
+                                    text: "(" + PQCExtensionMethods.getImageFormatName(favdeleg.myid) + ")"
                                 }
                             }
                             Image {
@@ -258,7 +258,7 @@ PQTemplateExtension {
 
                 ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
 
-                property list<var> thedata: PQCImageFormats.getWriteableFormats()
+                property list<var> thedata: PQCExtensionMethods.getImageFormatsThatAreWriteable()
                 model: thedata.length
 
                 clip: true
@@ -388,7 +388,7 @@ PQTemplateExtension {
         PQText {
             id: targettxt2
             x: (parent.width-width)/2
-            text: (export_top.targetFormat==="" ? "---" : PQCImageFormats.getFormatName(export_top.targetFormat))
+            text: (export_top.targetFormat==="" ? "---" : PQCExtensionMethods.getImageFormatName(export_top.targetFormat))
             font.weight: PQCLook.fontWeightBold
         }
 
@@ -424,9 +424,7 @@ PQTemplateExtension {
                 return
 
             exportbusy.showBusy()
-            PQCExtensionMethods.requestCallActionWithImage(extensionId,
-                                                            [val,
-                                                             PQCImageFormats.getFormatsInfo(parseInt(export_top.targetFormat))])
+            PQCExtensionMethods.requestCallActionWithImage(extensionId, [val, PQCExtensionMethods.getImageFormatInfo(parseInt(export_top.targetFormat))])
 
         }
 
@@ -452,8 +450,8 @@ PQTemplateExtension {
 
         PQCExtensionMethods.requestCallAction(export_top.extensionId,
                                               [PQCExtensionProperties.currentFile,
-                                              PQCImageFormats.getFormatName(parseInt(targetFormat)),
-                                              PQCImageFormats.getFormatEndings(parseInt(targetFormat))],
+                                              PQCExtensionMethods.getImageFormatName(parseInt(targetFormat)),
+                                              PQCExtensionMethods.getImageFormatEndings(parseInt(targetFormat))],
                                               false)
 
     }
