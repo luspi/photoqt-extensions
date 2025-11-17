@@ -32,142 +32,141 @@ PQTemplateExtension {
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
-    content: [
+    contentHeight: chart.height
 
-        ChartView {
-            id: chart
+    ChartView {
 
-            anchors.fill: parent
+        id: chart
 
-            antialiasing: true
-            legend.visible: false
+        anchors.fill: parent
 
-            margins.left: 0
-            margins.right: 0
-            margins.top: 0
-            margins.bottom: 0
+        antialiasing: true
+        legend.visible: false
 
-            backgroundColor: "transparent"
+        margins.left: 0
+        margins.right: 0
+        margins.top: 0
+        margins.bottom: 0
 
-            ValueAxis {
-                id: noaxisX
-                labelsVisible: false
-                gridVisible: true
-                gridLineColor: pqtPaletteDisabled.text
-                color: pqtPaletteDisabled.text
-                min: 0
-                max: 255
-            }
-            ValueAxis {
-                id: noaxisY
-                labelsVisible: false
-                gridVisible: true
-                gridLineColor: pqtPaletteDisabled.text
-                color: pqtPaletteDisabled.text
-                min: 0
-                max: 1.01
-            }
+        backgroundColor: "transparent"
 
-            AreaSeries {
-                id: histogramred_cont
-                axisX: noaxisX
-                axisY: noaxisY
-                color: "#bbff0000"
-                borderWidth: 1
-                borderColor: "#ff0000"
-                visible: settings["Version"]==="color"
-                upperSeries: LineSeries {
-                    id: histogramred
-                }
-            }
-
-            AreaSeries {
-                id: histogramgreen_cont
-                axisX: noaxisX
-                axisY: noaxisY
-                color: "#bb00ff00"
-                borderWidth: 1
-                borderColor: "#00ff00"
-                visible: settings["Version"]==="color"
-                upperSeries: LineSeries {
-                    id: histogramgreen
-                }
-            }
-
-            AreaSeries {
-                id: histogramblue_cont
-                axisX: noaxisX
-                axisY: noaxisY
-                color: "#bb0000ff"
-                borderWidth: 1
-                borderColor: "#0000ff"
-                visible: settings["Version"]==="color"
-                upperSeries: LineSeries {
-                    id: histogramblue
-                }
-            }
-
-            AreaSeries {
-                id: histogramgrey_cont
-                axisX: noaxisX
-                axisY: noaxisY
-                color: pqtPaletteDisabled.text
-                opacity: 0.8
-                borderWidth: 1
-                borderColor: pqtPalette.text
-                visible: settings["Version"]==="grey"
-                upperSeries: LineSeries {
-                    id: histogramgrey
-                }
-            }
-
-
-
-            Rectangle {
-                id: busy
-                radius: histogram_top.radius
-                anchors.fill: parent
-                color: pqtPalette.base
-                opacity: 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-                PQText {
-                    anchors.centerIn: parent
-                    text: qsTranslate("histogram", "Loading...")
-                }
-            }
-
-            Rectangle {
-                id: failed
-                radius: histogram_top.radius
-                anchors.fill: parent
-                color: pqtPalette.base
-                opacity: 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-                PQText {
-                    anchors.centerIn: parent
-                    text: qsTranslate("histogram", "Error loading histogram")
-                }
-            }
-
-            Rectangle {
-                id: nofileloaded
-                radius: histogram_top.radius
-                anchors.fill: parent
-                color: pqtPalette.base
-                opacity: PQCExtensionProperties.currentFileList.length===0 ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-                PQText {
-                    anchors.centerIn: parent
-                    text: qsTranslate("histogram", "Histogram")
-                }
-            }
-
+        ValueAxis {
+            id: noaxisX
+            labelsVisible: false
+            gridVisible: true
+            gridLineColor: pqtPaletteDisabled.text
+            color: pqtPaletteDisabled.text
+            min: 0
+            max: 255
+        }
+        ValueAxis {
+            id: noaxisY
+            labelsVisible: false
+            gridVisible: true
+            gridLineColor: pqtPaletteDisabled.text
+            color: pqtPaletteDisabled.text
+            min: 0
+            max: 1.01
         }
 
-    ]
+        AreaSeries {
+            id: histogramred_cont
+            axisX: noaxisX
+            axisY: noaxisY
+            color: "#bbff0000"
+            borderWidth: 1
+            borderColor: "#ff0000"
+            visible: settings["Version"]==="color"
+            upperSeries: LineSeries {
+                id: histogramred
+            }
+        }
+
+        AreaSeries {
+            id: histogramgreen_cont
+            axisX: noaxisX
+            axisY: noaxisY
+            color: "#bb00ff00"
+            borderWidth: 1
+            borderColor: "#00ff00"
+            visible: settings["Version"]==="color"
+            upperSeries: LineSeries {
+                id: histogramgreen
+            }
+        }
+
+        AreaSeries {
+            id: histogramblue_cont
+            axisX: noaxisX
+            axisY: noaxisY
+            color: "#bb0000ff"
+            borderWidth: 1
+            borderColor: "#0000ff"
+            visible: settings["Version"]==="color"
+            upperSeries: LineSeries {
+                id: histogramblue
+            }
+        }
+
+        AreaSeries {
+            id: histogramgrey_cont
+            axisX: noaxisX
+            axisY: noaxisY
+            color: pqtPaletteDisabled.text
+            opacity: 0.8
+            borderWidth: 1
+            borderColor: pqtPalette.text
+            visible: settings["Version"]==="grey"
+            upperSeries: LineSeries {
+                id: histogramgrey
+            }
+        }
+
+
+
+        Rectangle {
+            id: busy
+            radius: histogram_top.radius
+            anchors.fill: parent
+            color: pqtPalette.base
+            opacity: 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: opacity>0
+            PQText {
+                anchors.centerIn: parent
+                text: qsTranslate("histogram", "Loading...")
+            }
+        }
+
+        Rectangle {
+            id: failed
+            radius: histogram_top.radius
+            anchors.fill: parent
+            color: pqtPalette.base
+            opacity: 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: opacity>0
+            PQText {
+                anchors.centerIn: parent
+                text: qsTranslate("histogram", "Error loading histogram")
+            }
+        }
+
+        Rectangle {
+            id: nofileloaded
+            radius: histogram_top.radius
+            anchors.fill: parent
+            color: pqtPalette.base
+            opacity: PQCExtensionProperties.currentFileList.length===0 ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: opacity>0
+            PQText {
+                anchors.centerIn: parent
+                text: qsTranslate("histogram", "Histogram")
+            }
+        }
+
+    }
 
     onRightClicked: (mouse) => {
         menu.item.popup() // qmllint disable missing-property
@@ -224,22 +223,13 @@ PQTemplateExtension {
 
     Connections {
 
-        target: PQCConstants
-
-        function onCurrentImageSourceChanged() {
-            PQCExtensionMethods.requestCallActionWithImage(histogram_top.extensionId)
-        }
-
-    }
-
-    Connections {
-
         target: PQCExtensionProperties
 
         function onCurrentFileChanged() {
             failed.opacity = 0
             nofileloaded.opacity = 0
             busy.opacity = 1
+            PQCExtensionMethods.requestCallActionWithImage(histogram_top.extensionId)
         }
 
     }

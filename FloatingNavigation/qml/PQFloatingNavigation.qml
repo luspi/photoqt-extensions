@@ -33,7 +33,7 @@ PQTemplateExtension {
 
     color: "transparent"
 
-    opacity: mouseOver ? 1 : 0.2
+    opacity: mouseOver||isPoppedOut ? 1 : 0.2
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
     Timer {
@@ -46,110 +46,105 @@ PQTemplateExtension {
         }
     }
 
-    content: [
+    Item {
 
-        Item {
+        anchors.fill: parent
 
-            width: parent.width
+        Image {
+            width: parent.width/3
             height: parent.height
-
-            Image {
-                width: parent.width/3
-                height: parent.height
-                source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/leftarrow.svg"
-                sourceSize: Qt.size(width, height)
-                enabled: PQCExtensionProperties.currentFileList.length>0
-                opacity: enabled ? 1 : 0.5
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    drag.target: nav_top.parent.parent
-                    drag.minimumX: 0
-                    drag.maximumX: PQCConstants.windowWidth-nav_top.width
-                    drag.minimumY: 0
-                    drag.maximumY: PQCConstants.windowHeight-nav_top.height
-                    tooltip: qsTranslate("floatingnavigation", "Navigate to previous image in folder")
-                    onClicked:
-                        PQCExtensionMethods.executeInternalCommand("__prev")
-                    onEntered: {
-                        resetMouseOver.stop()
-                        nav_top.mouseOverId = 1
-                        nav_top.mouseOver = true
-                    }
-                    onExited: {
-                        resetMouseOver.oldId = 1
-                        resetMouseOver.restart()
-                    }
+            source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/leftarrow.svg"
+            sourceSize: Qt.size(width, height)
+            enabled: PQCExtensionProperties.currentFileList.length>0
+            opacity: enabled ? 1 : 0.5
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                drag.target: nav_top.parent.parent
+                drag.minimumX: 0
+                drag.maximumX: PQCConstants.windowWidth-nav_top.width
+                drag.minimumY: 0
+                drag.maximumY: PQCConstants.windowHeight-nav_top.height
+                tooltip: qsTranslate("floatingnavigation", "Navigate to previous image in folder")
+                onClicked:
+                    PQCExtensionMethods.executeInternalCommand("__prev")
+                onEntered: {
+                    resetMouseOver.stop()
+                    nav_top.mouseOverId = 1
+                    nav_top.mouseOver = true
+                }
+                onExited: {
+                    resetMouseOver.oldId = 1
+                    resetMouseOver.restart()
                 }
             }
-
-            Image {
-                x: width
-                width: parent.width/3
-                height: parent.height
-                source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/rightarrow.svg"
-                sourceSize: Qt.size(width, height)
-                enabled: PQCExtensionProperties.currentFileList.length>0
-                opacity: enabled ? 1 : 0.5
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    drag.target: nav_top.parent.parent
-                    drag.minimumX: 0
-                    drag.maximumX: PQCConstants.windowWidth-nav_top.width
-                    drag.minimumY: 0
-                    drag.maximumY: PQCConstants.windowHeight-nav_top.height
-                    tooltip: qsTranslate("floatingnavigation", "Navigate to next image in folder")
-                    onClicked:
-                        PQCExtensionMethods.executeInternalCommand("__next")
-                    onEntered: {
-                        resetMouseOver.stop()
-                        nav_top.mouseOverId = 2
-                        nav_top.mouseOver = true
-                    }
-                    onExited: {
-                        resetMouseOver.oldId = 2
-                        resetMouseOver.restart()
-                    }
-                }
-            }
-
-            Image {
-                x: 2*width
-                width: parent.width/3
-                height: parent.height
-                source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/menu.svg"
-                sourceSize: Qt.size(width, height)
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    drag.target: nav_top.parent.parent
-                    drag.minimumX: 0
-                    drag.maximumX: PQCConstants.windowWidth-nav_top.width
-                    drag.minimumY: 0
-                    drag.maximumY: PQCConstants.windowHeight-nav_top.height
-                    tooltip: qsTranslate("floatingnavigation", "Show main menu")
-                    onClicked:
-                        PQCExtensionMethods.executeInternalCommand("__toggleMainMenu")
-                    onEntered: {
-                        resetMouseOver.stop()
-                        nav_top.mouseOverId = 3
-                        nav_top.mouseOver = true
-                    }
-                    onExited: {
-                        resetMouseOver.oldId = 3
-                        resetMouseOver.restart()
-                    }
-                }
-            }
-
         }
 
-    ]
+        Image {
+            x: width
+            width: parent.width/3
+            height: parent.height
+            source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/rightarrow.svg"
+            sourceSize: Qt.size(width, height)
+            enabled: PQCExtensionProperties.currentFileList.length>0
+            opacity: enabled ? 1 : 0.5
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                drag.target: nav_top.parent.parent
+                drag.minimumX: 0
+                drag.maximumX: PQCConstants.windowWidth-nav_top.width
+                drag.minimumY: 0
+                drag.maximumY: PQCConstants.windowHeight-nav_top.height
+                tooltip: qsTranslate("floatingnavigation", "Navigate to next image in folder")
+                onClicked:
+                    PQCExtensionMethods.executeInternalCommand("__next")
+                onEntered: {
+                    resetMouseOver.stop()
+                    nav_top.mouseOverId = 2
+                    nav_top.mouseOver = true
+                }
+                onExited: {
+                    resetMouseOver.oldId = 2
+                    resetMouseOver.restart()
+                }
+            }
+        }
+
+        Image {
+            x: 2*width
+            width: parent.width/3
+            height: parent.height
+            source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/menu.svg"
+            sourceSize: Qt.size(width, height)
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                drag.target: nav_top.parent.parent
+                drag.minimumX: 0
+                drag.maximumX: PQCConstants.windowWidth-nav_top.width
+                drag.minimumY: 0
+                drag.maximumY: PQCConstants.windowHeight-nav_top.height
+                tooltip: qsTranslate("floatingnavigation", "Show main menu")
+                onClicked:
+                    PQCExtensionMethods.executeInternalCommand("__toggleMainMenu")
+                onEntered: {
+                    resetMouseOver.stop()
+                    nav_top.mouseOverId = 3
+                    nav_top.mouseOver = true
+                }
+                onExited: {
+                    resetMouseOver.oldId = 3
+                    resetMouseOver.restart()
+                }
+            }
+        }
+
+    }
 
 }

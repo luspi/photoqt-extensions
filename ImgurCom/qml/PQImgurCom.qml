@@ -127,98 +127,87 @@ PQTemplateExtension {
 
     state: "uploading"
 
-    content: [
+    Column {
 
-        Item {
+        id: resultscol
 
-            width: parent.width
-            height: parent.height
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
 
-            Column {
+        opacity: 0
 
-                id: resultscol
+        spacing: 10
 
-                x: (parent.width-width)/2
-                y: (parent.height-height)/2
+        PQTextL {
+            text: qsTranslate("imgurcom", "Access Image")
+            font.weight: PQCLook.fontWeightBold
+        }
 
-                opacity: 0
+        Row {
 
-                spacing: 10
+            spacing: 10
 
-                PQTextL {
-                    text: qsTranslate("imgurcom", "Access Image")
-                    font.weight: PQCLook.fontWeightBold
+            PQTextL {
+                id: result_access
+                text: imgur_top.imageURL
+                PQMouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    text: qsTranslate("imgurcom", "Click to open in browser")
+                    onClicked:
+                    Qt.openUrlExternally(imgur_top.imageURL)
                 }
+            }
 
-                Row {
-
-                    spacing: 10
-
-                    PQTextL {
-                        id: result_access
-                        text: imgur_top.imageURL
-                        PQMouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            hoverEnabled: true
-                            text: qsTranslate("imgurcom", "Click to open in browser")
-                            onClicked:
-                            Qt.openUrlExternally(imgur_top.imageURL)
-                        }
-                    }
-
-                    PQButtonIcon {
-                        id: copy1
-                        width: result_access.height
-                        height: width
-                        source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
-                        onClicked: PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageURL])
-                    }
-
-                }
-
-                Item {
-                    width: 1
-                    height: 10
-                }
-
-                PQTextL {
-                    text: qsTranslate("imgurcom", "Delete Image")
-                    font.weight: PQCLook.fontWeightBold
-                }
-
-                Row {
-
-                    spacing: 10
-
-                    PQTextL {
-                        id: result_delete
-                        text: "https://imgur.com/delete/" + imgur_top.imageDeleteHash
-                        PQMouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            hoverEnabled: true
-                            text: qsTranslate("imgurcom", "Click to open in browser")
-                            onClicked:
-                            Qt.openUrlExternally("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
-                        }
-                    }
-
-                    PQButtonIcon {
-                        id: copy2
-                        width: result_delete.height
-                        height: width
-                        source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
-                        onClicked: PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageDeleteHash])
-                    }
-
-                }
-
+            PQButtonIcon {
+                id: copy1
+                width: result_access.height
+                height: width
+                source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                onClicked: PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageURL])
             }
 
         }
 
-    ]
+        Item {
+            width: 1
+            height: 10
+        }
+
+        PQTextL {
+            text: qsTranslate("imgurcom", "Delete Image")
+            font.weight: PQCLook.fontWeightBold
+        }
+
+        Row {
+
+            spacing: 10
+
+            PQTextL {
+                id: result_delete
+                text: "https://imgur.com/delete/" + imgur_top.imageDeleteHash
+                PQMouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    text: qsTranslate("imgurcom", "Click to open in browser")
+                    onClicked:
+                    Qt.openUrlExternally("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
+                }
+            }
+
+            PQButtonIcon {
+                id: copy2
+                width: result_delete.height
+                height: width
+                source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                onClicked: PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageDeleteHash])
+            }
+
+        }
+
+    }
 
     // The busy indicator
     PQWorking {

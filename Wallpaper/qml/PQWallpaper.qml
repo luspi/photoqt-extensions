@@ -38,216 +38,199 @@ PQTemplateExtension {
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
-    content: [
+    contentHeight: insidecont.height
 
-        Flickable {
+    Row {
 
-            id: flickable
+        id: insidecont
 
-            y: (parent.height-height)/2
-            width: parent.width
-            height: Math.min(parent.height, contentHeight)
-            clip: true
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
 
-            contentHeight: insidecont.height+20
+        width: Math.min(parent.width, 800)
 
-            ScrollBar.vertical: PQVerticalScrollBar { }
+        spacing: 10
 
-            Row {
+        Item {
+            id: category
+            x: 0
+            y: 0
+            width: visible ? parent.width*0.375 : 0
+            height: Math.min(600, wallpaper_top.height*0.8)
 
-                id: insidecont
+            visible: !PQCExtensionMethods.amIOnWindows()
 
-                x: ((parent.width-width)/2)
-                y: 10
-
-                width: Math.min(parent.width, 800)
-
-                spacing: 10
-
-                Item {
-                    id: category
-                    x: 0
-                    y: 0
-                    width: visible ? parent.width*0.375 : 0
-                    height: Math.min(600, wallpaper_top.height*0.8)
-
-                    visible: !PQCExtensionMethods.amIOnWindows()
-
-                    Item {
-                        width: parent.width
-                        height: childrenRect.height
-                        anchors.centerIn: parent
-                        Column {
-                            spacing: 20
-                            PQTextL {
-                                width: category.width
-                                horizontalAlignment: Text.AlignHCenter
-                                color: wallpaper_top.curCat==0 ? pqtPalette.text : pqtPaletteDisabled.text
-                                font.weight: PQCLook.fontWeightBold
-                                text: "Plasma"
-                                PQMouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    hoverEnabled: true
-                                    //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
-                                    text: qsTranslate("wallpaper", "Click to choose %1").arg("Plasma")
-                                    onClicked:
-                                    wallpaper_top.curCat = 0
-                                }
-                            }
-                            PQTextL {
-                                width: category.width
-                                horizontalAlignment: Text.AlignHCenter
-                                color: wallpaper_top.curCat==1 ? pqtPalette.text : pqtPaletteDisabled.text
-                                font.weight: PQCLook.fontWeightBold
-                                text: "Gnome<br>Unity<br>Cinnamon"
-                                PQMouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    hoverEnabled: true
-                                    //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
-                                    text: qsTranslate("wallpaper", "Click to choose %1").arg("Gnome/Unity/Cinnamon")
-                                    onClicked:
-                                    wallpaper_top.curCat = 1
-                                }
-                            }
-                            PQTextL {
-                                width: category.width
-                                horizontalAlignment: Text.AlignHCenter
-                                color: wallpaper_top.curCat==2 ? pqtPalette.text : pqtPaletteDisabled.text
-                                font.weight: PQCLook.fontWeightBold
-                                text: "XFCE4"
-                                PQMouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    hoverEnabled: true
-                                    //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
-                                    text: qsTranslate("wallpaper", "Click to choose %1").arg("XFCE4")
-                                    onClicked:
-                                    wallpaper_top.curCat = 2
-                                }
-                            }
-                            PQTextL {
-                                width: category.width
-                                horizontalAlignment: Text.AlignHCenter
-                                color: wallpaper_top.curCat==3 ? pqtPalette.text : pqtPaletteDisabled.text
-                                font.weight: PQCLook.fontWeightBold
-                                text: "Enlightenment"
-                                PQMouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    hoverEnabled: true
-                                    //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
-                                    text: qsTranslate("wallpaper", "Click to choose %1").arg("Enlightenment")
-                                    onClicked:
-                                    wallpaper_top.curCat = 3
-                                }
-                            }
-                            PQTextL {
-                                width: category.width
-                                horizontalAlignment: Text.AlignHCenter
-                                color: wallpaper_top.curCat==4 ? pqtPalette.text : pqtPaletteDisabled.text
-                                font.weight: PQCLook.fontWeightBold
-                                text: "Other"
-                                PQMouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    hoverEnabled: true
-                                    //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
-                                    text: qsTranslate("wallpaper", "Click to choose %1")
-                                    //: Used as in: Other Desktop Environment
-                                    .arg(qsTranslate("wallpaper", "Other"))
-                                    onClicked:
-                                    wallpaper_top.curCat = 4
-                                }
-                            }
+            Item {
+                width: parent.width
+                height: childrenRect.height
+                anchors.centerIn: parent
+                Column {
+                    spacing: 20
+                    PQTextL {
+                        width: category.width
+                        horizontalAlignment: Text.AlignHCenter
+                        color: wallpaper_top.curCat==0 ? pqtPalette.text : pqtPaletteDisabled.text
+                        font.weight: PQCLook.fontWeightBold
+                        text: "Plasma"
+                        PQMouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            hoverEnabled: true
+                            //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            text: qsTranslate("wallpaper", "Click to choose %1").arg("Plasma")
+                            onClicked:
+                            wallpaper_top.curCat = 0
                         }
                     }
-
-                    Rectangle {
-                        anchors {
-                            top: parent.top
-                            right: parent.right
-                            bottom: parent.bottom
+                    PQTextL {
+                        width: category.width
+                        horizontalAlignment: Text.AlignHCenter
+                        color: wallpaper_top.curCat==1 ? pqtPalette.text : pqtPaletteDisabled.text
+                        font.weight: PQCLook.fontWeightBold
+                        text: "Gnome<br>Unity<br>Cinnamon"
+                        PQMouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            hoverEnabled: true
+                            //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            text: qsTranslate("wallpaper", "Click to choose %1").arg("Gnome/Unity/Cinnamon")
+                            onClicked:
+                            wallpaper_top.curCat = 1
                         }
-                        width: 1
-                        color: "#cccccc"
                     }
-
+                    PQTextL {
+                        width: category.width
+                        horizontalAlignment: Text.AlignHCenter
+                        color: wallpaper_top.curCat==2 ? pqtPalette.text : pqtPaletteDisabled.text
+                        font.weight: PQCLook.fontWeightBold
+                        text: "XFCE4"
+                        PQMouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            hoverEnabled: true
+                            //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            text: qsTranslate("wallpaper", "Click to choose %1").arg("XFCE4")
+                            onClicked:
+                            wallpaper_top.curCat = 2
+                        }
+                    }
+                    PQTextL {
+                        width: category.width
+                        horizontalAlignment: Text.AlignHCenter
+                        color: wallpaper_top.curCat==3 ? pqtPalette.text : pqtPaletteDisabled.text
+                        font.weight: PQCLook.fontWeightBold
+                        text: "Enlightenment"
+                        PQMouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            hoverEnabled: true
+                            //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            text: qsTranslate("wallpaper", "Click to choose %1").arg("Enlightenment")
+                            onClicked:
+                            wallpaper_top.curCat = 3
+                        }
+                    }
+                    PQTextL {
+                        width: category.width
+                        horizontalAlignment: Text.AlignHCenter
+                        color: wallpaper_top.curCat==4 ? pqtPalette.text : pqtPaletteDisabled.text
+                        font.weight: PQCLook.fontWeightBold
+                        text: "Other"
+                        PQMouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            hoverEnabled: true
+                            //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            text: qsTranslate("wallpaper", "Click to choose %1")
+                            //: Used as in: Other Desktop Environment
+                            .arg(qsTranslate("wallpaper", "Other"))
+                            onClicked:
+                            wallpaper_top.curCat = 4
+                        }
+                    }
                 }
+            }
 
-                Flickable {
-
-                    x: category.width
-                    y: (parent.height-height)/2
-                    width: parent.width-category.width-10
-                    height: Math.min(600, contentHeight)
-
-                    ScrollBar.vertical: PQVerticalScrollBar { }
-
-                    contentHeight: (wallpaper_top.curCat==0 ?
-                                    plasma.height :
-                                     (wallpaper_top.curCat==1 ?
-                                      gnome.height :
-                                       (wallpaper_top.curCat==2 ?
-                                        xfce.height :
-                                         (wallpaper_top.curCat==3 ?
-                                          enlightenment.height :
-                                           (wallpaper_top.curCat==4 ?
-                                            other.height :
-                                              windows.height)))))
-
-                    clip: true
-
-                    PQPlasma {
-                        id: plasma
-                        numDesktops: wallpaper_top.numDesktops
-                        extensionId: wallpaper_top.extensionId
-                        visible: wallpaper_top.curCat==0
-                    }
-
-                    PQGnome {
-                        id: gnome
-                        numDesktops: wallpaper_top.numDesktops
-                        extensionId: wallpaper_top.extensionId
-                        visible: wallpaper_top.curCat==1
-                    }
-
-                    PQXfce {
-                        id: xfce
-                        numDesktops: wallpaper_top.numDesktops
-                        extensionId: wallpaper_top.extensionId
-                        visible: wallpaper_top.curCat==2
-                    }
-
-                    PQEnlightenment {
-                        id: enlightenment
-                        numDesktops: wallpaper_top.numDesktops
-                        extensionId: wallpaper_top.extensionId
-                        visible: wallpaper_top.curCat==3
-                    }
-
-                    PQOther {
-                        id: other
-                        numDesktops: wallpaper_top.numDesktops
-                        extensionId: wallpaper_top.extensionId
-                        visible: wallpaper_top.curCat==4
-                    }
-
-                    PQWindows {
-                        id: windows
-                        numDesktops: wallpaper_top.numDesktops
-                        extensionId: wallpaper_top.extensionId
-                        visible: wallpaper_top.curCat==5
-                    }
-
+            Rectangle {
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    bottom: parent.bottom
                 }
-
+                width: 1
+                color: "#cccccc"
             }
 
         }
 
-    ]
+        Flickable {
+
+            x: category.width
+            y: (parent.height-height)/2
+            width: parent.width-category.width-10
+            height: Math.min(600, contentHeight)
+
+            ScrollBar.vertical: PQVerticalScrollBar { }
+
+            contentHeight: (wallpaper_top.curCat==0 ?
+                            plasma.height :
+                                (wallpaper_top.curCat==1 ?
+                                gnome.height :
+                                (wallpaper_top.curCat==2 ?
+                                xfce.height :
+                                    (wallpaper_top.curCat==3 ?
+                                    enlightenment.height :
+                                    (wallpaper_top.curCat==4 ?
+                                    other.height :
+                                        windows.height)))))
+
+            clip: true
+
+            PQPlasma {
+                id: plasma
+                numDesktops: wallpaper_top.numDesktops
+                extensionId: wallpaper_top.extensionId
+                visible: wallpaper_top.curCat==0
+            }
+
+            PQGnome {
+                id: gnome
+                numDesktops: wallpaper_top.numDesktops
+                extensionId: wallpaper_top.extensionId
+                visible: wallpaper_top.curCat==1
+            }
+
+            PQXfce {
+                id: xfce
+                numDesktops: wallpaper_top.numDesktops
+                extensionId: wallpaper_top.extensionId
+                visible: wallpaper_top.curCat==2
+            }
+
+            PQEnlightenment {
+                id: enlightenment
+                numDesktops: wallpaper_top.numDesktops
+                extensionId: wallpaper_top.extensionId
+                visible: wallpaper_top.curCat==3
+            }
+
+            PQOther {
+                id: other
+                numDesktops: wallpaper_top.numDesktops
+                extensionId: wallpaper_top.extensionId
+                visible: wallpaper_top.curCat==4
+            }
+
+            PQWindows {
+                id: windows
+                numDesktops: wallpaper_top.numDesktops
+                extensionId: wallpaper_top.extensionId
+                visible: wallpaper_top.curCat==5
+            }
+
+        }
+
+    }
 
     function modalButton2Action() {
         setWallpaper()

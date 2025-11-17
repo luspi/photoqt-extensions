@@ -77,332 +77,178 @@ PQTemplateExtension {
 
     property int sze: settings["ExtPopout"] ? 50 : 40
 
-    content: [
+    contentHeight: contentitem.height
+    width: contentitem.width
+    height: contentitem.height
 
-        Item {
+    Item {
 
-            id: contentitem
+        id: contentitem
 
-            property string orientation: "horizontal"
-            x: 2
-            y: 2
-            width: (orientation=="horizontal" ? contentrow.width : contentcol.width)+4
-            height: (orientation=="horizontal" ? contentrow.height : contentcol.height)+4
+        property string orientation: "horizontal"
+        x: 2
+        y: 2
+        width: (orientation=="horizontal" ? contentrow.width : contentcol.width)+4
+        height: (orientation=="horizontal" ? contentrow.height : contentcol.height)+4
 
-            MouseArea {
-                id: mouseBG
-                anchors.fill: parent
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
-                hoverEnabled: true
-                drag.target: settings["ExtPopout"] ? undefined : element_top
-                onClicked: (mouse) => {
-                    if(mouse.button == Qt.RightButton)
-                        menu.item.popup()
-                }
+        MouseArea {
+            id: mouseBG
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton|Qt.RightButton
+            hoverEnabled: true
+            drag.target: settings["ExtPopout"] ? undefined : element_top
+            onClicked: (mouse) => {
+                if(mouse.button == Qt.RightButton)
+                    menu.item.popup()
             }
+        }
 
-            Column {
+        Column {
 
-                id: contentcol
+            id: contentcol
 
-                width: childrenRect.width
-                spacing: 0
+            width: childrenRect.width
+            spacing: 0
 
-                Repeater {
+            Repeater {
 
-                    model: contentitem.orientation=="vertical" ? quickactions_top.buttons.length : 0
+                model: contentitem.orientation=="vertical" ? quickactions_top.buttons.length : 0
 
-                    Column {
+                Column {
 
-                        id: delegver
+                    id: delegver
 
-                        required property int modelData
-                        property string cat: quickactions_top.buttons[modelData]
+                    required property int modelData
+                    property string cat: quickactions_top.buttons[modelData]
 
-                        property list<var> props: (delegver.cat in quickactions_top.mappings ?
-                        quickactions_top.mappings[delegver.cat] :
-                        ["?", "?", "?", "?"])
+                    property list<var> props: (delegver.cat in quickactions_top.mappings ?
+                    quickactions_top.mappings[delegver.cat] :
+                    ["?", "?", "?", "?"])
 
-                        width: childrenRect.width
+                    width: childrenRect.width
 
-                        Item {
-                            width: sze
-                            height: 2
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                drag.target: settings["ExtPopout"] ? undefined : element_top
-                                onEntered: {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = -1*delegver.modelData
-                                    quickactions_top.mouseOver = true
-                                }
-                                onExited: {
-                                    resetMouseOver.leftIndex = -1*delegver.modelData
-                                    resetMouseOver.restart()
-                                }
+                    Item {
+                        width: sze
+                        height: 2
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag.target: settings["ExtPopout"] ? undefined : element_top
+                            onEntered: {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = -1*delegver.modelData
+                                quickactions_top.mouseOver = true
+                            }
+                            onExited: {
+                                resetMouseOver.leftIndex = -1*delegver.modelData
+                                resetMouseOver.restart()
                             }
                         }
-
-                        Rectangle {
-                            id: sepver
-                            visible: delegver.props[0]==="|"
-                            width: sze
-                            height: 4
-                            color: pqtPalette.text
-                            opacity: 0.2
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                drag.target: settings["ExtPopout"] ? undefined : element_top
-                                onEntered: {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = delegver.modelData
-                                    quickactions_top.mouseOver = true
-                                }
-                                onExited: {
-                                    resetMouseOver.leftIndex = delegver.modelData
-                                    resetMouseOver.restart()
-                                }
-                            }
-                        }
-
-                        Rectangle {
-                            id: unknownver
-                            visible: delegver.props[0]==="?"
-                            width: visible ? sze : 0
-                            height: visible ? sze : 0
-                            color: "red"
-                            PQText {
-                                anchors.centerIn: parent
-                                color: "white"
-                                text: "?"
-                            }
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                drag.target: settings["ExtPopout"] ? undefined : element_top
-                                onEntered: {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = delegver.modelData
-                                    quickactions_top.mouseOver = true
-                                }
-                                onExited: {
-                                    resetMouseOver.leftIndex = delegver.modelData
-                                    resetMouseOver.restart()
-                                }
-                            }
-                        }
-
-                        PQButtonIcon {
-                            id: iconver
-                            enableContextMenu: false
-                            overrideBaseColor: "transparent"
-                            width: sepver.visible ? 0 : sze
-                            height: sepver.visible ? 0 : sze
-                            visible: !sepver.visible && !unknownver.visible
-                            enabled: visible && (delegver.props[3] || PQCExtensionProperties.currentFileList.length>0)
-                            tooltip: settings["ExtPopout"] ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
-                            dragTarget: settings["ExtPopout"] ? undefined : element_top
-                            source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
-
-                            onClicked: {
-                                if(delegver.props[2].startsWith("__"))
-                                    PQCExtensionMethods.executeInternalCommand(delegver.props[2])
-                                else
-                                    PQCExtensionMethods.runExtension(delegver.props[2])
-                            }
-
-                            onRightClicked: {
-                                if(!settings["ExtPopout"])
-                                    menu.item.popup()
-                            }
-
-                            onHoveredChanged: {
-                                if(hovered) {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = delegver.modelData
-                                    quickactions_top.mouseOver = true
-                                } else {
-                                    resetMouseOver.leftIndex = delegver.modelData
-                                    resetMouseOver.restart()
-                                }
-                            }
-                        }
-
-                        Item {
-                            width: sze
-                            height: 2
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                drag.target: settings["ExtPopout"] ? undefined : element_top
-                                onEntered: {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = -1*delegver.modelData
-                                    quickactions_top.mouseOver = true
-                                }
-                                onExited: {
-                                    resetMouseOver.leftIndex = -1*delegver.modelData
-                                    resetMouseOver.restart()
-                                }
-                            }
-                        }
-
                     }
 
-                }
-
-            }
-
-            Row {
-
-                id: contentrow
-
-                height: childrenRect.height
-                spacing: 0
-
-                Repeater {
-
-                    model: contentitem.orientation=="horizontal" ? quickactions_top.buttons.length : 0
-
-                    Row {
-
-                        id: deleghor
-
-                        required property int modelData
-                        property string cat: quickactions_top.buttons[modelData]
-
-                        property list<var> props: (deleghor.cat in quickactions_top.mappings ?
-                        quickactions_top.mappings[deleghor.cat] :
-                        ["?", "?", "?", "?"])
-
-                        height: childrenRect.height
-
-                        Item {
-                            width: 2
-                            height: sze
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                drag.target: settings["ExtPopout"] ? undefined : element_top
-                                onEntered: {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = -1*deleghor.modelData
-                                    quickactions_top.mouseOver = true
-                                }
-                                onExited: {
-                                    resetMouseOver.leftIndex = -1*deleghor.modelData
-                                    resetMouseOver.restart()
-                                }
+                    Rectangle {
+                        id: sepver
+                        visible: delegver.props[0]==="|"
+                        width: sze
+                        height: 4
+                        color: pqtPalette.text
+                        opacity: 0.2
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag.target: settings["ExtPopout"] ? undefined : element_top
+                            onEntered: {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = delegver.modelData
+                                quickactions_top.mouseOver = true
+                            }
+                            onExited: {
+                                resetMouseOver.leftIndex = delegver.modelData
+                                resetMouseOver.restart()
                             }
                         }
+                    }
 
-                        Rectangle {
-                            id: sephor
-                            visible: deleghor.props[0]==="|"
-                            width: 4
-                            height: sze
-                            color: pqtPalette.text
-                            opacity: 0.2
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                drag.target: settings["ExtPopout"] ? undefined : element_top
-                                onEntered: {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = deleghor.modelData
-                                    quickactions_top.mouseOver = true
-                                }
-                                onExited: {
-                                    resetMouseOver.leftIndex = deleghor.modelData
-                                    resetMouseOver.restart()
-                                }
+                    Rectangle {
+                        id: unknownver
+                        visible: delegver.props[0]==="?"
+                        width: visible ? sze : 0
+                        height: visible ? sze : 0
+                        color: "red"
+                        PQText {
+                            anchors.centerIn: parent
+                            color: "white"
+                            text: "?"
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag.target: settings["ExtPopout"] ? undefined : element_top
+                            onEntered: {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = delegver.modelData
+                                quickactions_top.mouseOver = true
+                            }
+                            onExited: {
+                                resetMouseOver.leftIndex = delegver.modelData
+                                resetMouseOver.restart()
                             }
                         }
+                    }
 
-                        Rectangle {
-                            id: unknownhor
-                            visible: deleghor.props[0]==="?"
-                            width: visible ? sze : 0
-                            height: visible ? sze : 0
-                            color: "red"
-                            PQText {
-                                anchors.centerIn: parent
-                                color: "white"
-                                text: "?"
-                            }
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                drag.target: settings["ExtPopout"] ? undefined : element_top
-                                onEntered: {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = -1*deleghor.modelData
-                                    quickactions_top.mouseOver = true
-                                }
-                                onExited: {
-                                    resetMouseOver.leftIndex = -1*deleghor.modelData
-                                    resetMouseOver.restart()
-                                }
-                            }
+                    PQButtonIcon {
+                        id: iconver
+                        enableContextMenu: false
+                        overrideBaseColor: "transparent"
+                        width: sepver.visible ? 0 : sze
+                        height: sepver.visible ? 0 : sze
+                        visible: !sepver.visible && !unknownver.visible
+                        enabled: visible && (delegver.props[3] || PQCExtensionProperties.currentFileList.length>0)
+                        tooltip: settings["ExtPopout"] ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
+                        dragTarget: settings["ExtPopout"] ? undefined : element_top
+                        source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
+
+                        onClicked: {
+                            if(delegver.props[2].startsWith("__"))
+                                PQCExtensionMethods.executeInternalCommand(delegver.props[2])
+                            else
+                                PQCExtensionMethods.runExtension(delegver.props[2])
                         }
 
-                        PQButtonIcon {
-                            id: icnhor
-                            enableContextMenu: false
-                            overrideBaseColor: "transparent"
-                            width: sephor.visible ? 0 : sze
-                            height: sephor.visible ? 0 : sze
-                            visible: !sephor.visible && !unknownhor.visible
-                            enabled: visible && (deleghor.props[3] || PQCExtensionProperties.currentFileList.length>0)
-                            tooltip: settings["ExtPopout"] ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
-                            dragTarget: settings["ExtPopout"] ? undefined : element_top
-                            source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
-
-                            onClicked: {
-                                if(deleghor.props[2].startsWith("__"))
-                                    PQCExtensionMethods.executeInternalCommand(deleghor.props[2])
-                                else
-                                    PQCExtensionMethods.runExtension(deleghor.props[2])
-                            }
-
-                            onRightClicked: {
-                                if(!settings["ExtPopout"])
-                                    menu.item.popup()
-                            }
-
-                            onHoveredChanged: {
-                                if(hovered) {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = deleghor.modelData
-                                    quickactions_top.mouseOver = true
-                                } else {
-                                    resetMouseOver.leftIndex = deleghor.modelData
-                                    resetMouseOver.restart()
-                                }
-                            }
+                        onRightClicked: {
+                            if(!settings["ExtPopout"])
+                                menu.item.popup()
                         }
 
-                        Item {
-                            width: 2
-                            height: sze
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                drag.target: settings["ExtPopout"] ? undefined : element_top
-                                onEntered: {
-                                    resetMouseOver.stop()
-                                    quickactions_top.mouseOverIndex = deleghor.modelData
-                                    quickactions_top.mouseOver = true
-                                }
-                                onExited: {
-                                    resetMouseOver.leftIndex = deleghor.modelData
-                                    resetMouseOver.restart()
-                                }
+                        onHoveredChanged: {
+                            if(hovered) {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = delegver.modelData
+                                quickactions_top.mouseOver = true
+                            } else {
+                                resetMouseOver.leftIndex = delegver.modelData
+                                resetMouseOver.restart()
                             }
                         }
+                    }
 
+                    Item {
+                        width: sze
+                        height: 2
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag.target: settings["ExtPopout"] ? undefined : element_top
+                            onEntered: {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = -1*delegver.modelData
+                                quickactions_top.mouseOver = true
+                            }
+                            onExited: {
+                                resetMouseOver.leftIndex = -1*delegver.modelData
+                                resetMouseOver.restart()
+                            }
+                        }
                     }
 
                 }
@@ -411,7 +257,161 @@ PQTemplateExtension {
 
         }
 
-    ]
+        Row {
+
+            id: contentrow
+
+            height: childrenRect.height
+            spacing: 0
+
+            Repeater {
+
+                model: contentitem.orientation=="horizontal" ? quickactions_top.buttons.length : 0
+
+                Row {
+
+                    id: deleghor
+
+                    required property int modelData
+                    property string cat: quickactions_top.buttons[modelData]
+
+                    property list<var> props: (deleghor.cat in quickactions_top.mappings ?
+                    quickactions_top.mappings[deleghor.cat] :
+                    ["?", "?", "?", "?"])
+
+                    height: childrenRect.height
+
+                    Item {
+                        width: 2
+                        height: sze
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag.target: settings["ExtPopout"] ? undefined : element_top
+                            onEntered: {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = -1*deleghor.modelData
+                                quickactions_top.mouseOver = true
+                            }
+                            onExited: {
+                                resetMouseOver.leftIndex = -1*deleghor.modelData
+                                resetMouseOver.restart()
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        id: sephor
+                        visible: deleghor.props[0]==="|"
+                        width: 4
+                        height: sze
+                        color: pqtPalette.text
+                        opacity: 0.2
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag.target: settings["ExtPopout"] ? undefined : element_top
+                            onEntered: {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = deleghor.modelData
+                                quickactions_top.mouseOver = true
+                            }
+                            onExited: {
+                                resetMouseOver.leftIndex = deleghor.modelData
+                                resetMouseOver.restart()
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        id: unknownhor
+                        visible: deleghor.props[0]==="?"
+                        width: visible ? sze : 0
+                        height: visible ? sze : 0
+                        color: "red"
+                        PQText {
+                            anchors.centerIn: parent
+                            color: "white"
+                            text: "?"
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag.target: settings["ExtPopout"] ? undefined : element_top
+                            onEntered: {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = -1*deleghor.modelData
+                                quickactions_top.mouseOver = true
+                            }
+                            onExited: {
+                                resetMouseOver.leftIndex = -1*deleghor.modelData
+                                resetMouseOver.restart()
+                            }
+                        }
+                    }
+
+                    PQButtonIcon {
+                        id: icnhor
+                        enableContextMenu: false
+                        overrideBaseColor: "transparent"
+                        width: sephor.visible ? 0 : sze
+                        height: sephor.visible ? 0 : sze
+                        visible: !sephor.visible && !unknownhor.visible
+                        enabled: visible && (deleghor.props[3] || PQCExtensionProperties.currentFileList.length>0)
+                        tooltip: settings["ExtPopout"] ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
+                        dragTarget: settings["ExtPopout"] ? undefined : element_top
+                        source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
+
+                        onClicked: {
+                            if(deleghor.props[2].startsWith("__"))
+                                PQCExtensionMethods.executeInternalCommand(deleghor.props[2])
+                            else
+                                PQCExtensionMethods.runExtension(deleghor.props[2])
+                        }
+
+                        onRightClicked: {
+                            if(!settings["ExtPopout"])
+                                menu.item.popup()
+                        }
+
+                        onHoveredChanged: {
+                            if(hovered) {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = deleghor.modelData
+                                quickactions_top.mouseOver = true
+                            } else {
+                                resetMouseOver.leftIndex = deleghor.modelData
+                                resetMouseOver.restart()
+                            }
+                        }
+                    }
+
+                    Item {
+                        width: 2
+                        height: sze
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag.target: settings["ExtPopout"] ? undefined : element_top
+                            onEntered: {
+                                resetMouseOver.stop()
+                                quickactions_top.mouseOverIndex = deleghor.modelData
+                                quickactions_top.mouseOver = true
+                            }
+                            onExited: {
+                                resetMouseOver.leftIndex = deleghor.modelData
+                                resetMouseOver.restart()
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
 
     ButtonGroup { id: grp }
 

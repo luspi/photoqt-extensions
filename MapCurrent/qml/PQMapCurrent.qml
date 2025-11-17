@@ -37,6 +37,8 @@ PQTemplateExtension {
 
     SystemPalette { id: pqtPalette }
 
+    contentHeight: map.height
+
     Plugin {
 
         id: osmPlugin
@@ -68,109 +70,105 @@ PQTemplateExtension {
         drag.target: parent
     }
 
-    content: [
+    Map {
+        id: map
+        anchors.fill: parent
+        plugin: osmPlugin
+        center {
+            latitude: mapcurrent_top.latitude
+            longitude: mapcurrent_top.longitude
+        }
 
-        Map {
-            id: map
-            anchors.fill: parent
-            plugin: osmPlugin
-            center {
-                latitude: mapcurrent_top.latitude
-                longitude: mapcurrent_top.longitude
-            }
+        Behavior on center.latitude { NumberAnimation { duration: 200 } }
+        Behavior on center.longitude { NumberAnimation { duration: 200 } }
 
-            Behavior on center.latitude { NumberAnimation { duration: 200 } }
-            Behavior on center.longitude { NumberAnimation { duration: 200 } }
+        zoomLevel: 1
+        Behavior on zoomLevel { NumberAnimation { duration: 100 } }
 
-            zoomLevel: 1
-            Behavior on zoomLevel { NumberAnimation { duration: 100 } }
+        activeMapType: supportedMapTypes[supportedMapTypes.length > 5 ? 5 : (supportedMapTypes.length-1)]
 
-            activeMapType: supportedMapTypes[supportedMapTypes.length > 5 ? 5 : (supportedMapTypes.length-1)]
+        WheelHandler {
+            id: wheel
+            // workaround for QTBUG-87646 / QTBUG-112394 / QTBUG-112432:
+            // Magic Mouse pretends to be a trackpad but doesn't work with PinchHandler
+            // and we don't yet distinguish mice and trackpads on Wayland either
+            acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland" ?
+                                    PointerDevice.Mouse | PointerDevice.TouchPad :
+                                    PointerDevice.Mouse
+            rotationScale: 1/40
+            property: "zoomLevel"
+        }
 
-            WheelHandler {
-                id: wheel
-                // workaround for QTBUG-87646 / QTBUG-112394 / QTBUG-112432:
-                // Magic Mouse pretends to be a trackpad but doesn't work with PinchHandler
-                // and we don't yet distinguish mice and trackpads on Wayland either
-                acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland" ?
-                                     PointerDevice.Mouse | PointerDevice.TouchPad :
-                                     PointerDevice.Mouse
-                rotationScale: 1/40
-                property: "zoomLevel"
-            }
+        MapQuickItem {
 
-            MapQuickItem {
+            id: marker
 
-                id: marker
+            anchorPoint.x: container.width*(61/256)
+            anchorPoint.y: container.height*(198/201)
 
-                anchorPoint.x: container.width*(61/256)
-                anchorPoint.y: container.height*(198/201)
+            visible: true
 
-                visible: true
+            coordinate: QtPositioning.coordinate(mapcurrent_top.latitude, mapcurrent_top.longitude)
 
-                coordinate: QtPositioning.coordinate(mapcurrent_top.latitude, mapcurrent_top.longitude)
-
-                sourceItem:
-                    Image {
-                        id: container
-                        width: 64
-                        height: 50
-                        mipmap: true
-                        smooth: false
-                        source: "qrc:/" + PQCLook.iconShade + "/maplocation.png"
-                    }
-
-            }
-
-            Item {
-                id: noloc
-                anchors.fill: parent
-                opacity: (mapcurrent_top.noLocation&&PQCExtensionProperties.currentFileList.length>0) ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-                Rectangle {
-                    anchors.fill: parent
-                    color: pqtPalette.base
-                    opacity: 0.8
+            sourceItem:
+                Image {
+                    id: container
+                    width: 64
+                    height: 50
+                    mipmap: true
+                    smooth: false
+                    source: "qrc:/" + PQCLook.iconShade + "/maplocation.png"
                 }
-                PQText {
-                    font.weight: PQCLook.fontWeightBold
-                    anchors.centerIn: parent
-                    //: The location here is a GPS location
-                    text: qsTranslate("mapcurrent", "No location data")
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onWheel: (wheel) => {
-                        wheel.accepted = true
-                    }
-                }
-            }
-
-            Rectangle {
-                id: nofileloaded
-                anchors.fill: parent
-                color: pqtPalette.base
-                opacity: PQCExtensionProperties.currentFileList.length===0 ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-                PQText {
-                    font.weight: PQCLook.fontWeightBold
-                    anchors.centerIn: parent
-                    //: The location here is a GPS location
-                    text: qsTranslate("mapcurrent", "Current location")
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onWheel: (wheel) => {
-                        wheel.accepted = true
-                    }
-                }
-            }
 
         }
 
-    ]
+        Item {
+            id: noloc
+            anchors.fill: parent
+            opacity: (mapcurrent_top.noLocation&&PQCExtensionProperties.currentFileList.length>0) ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: opacity>0
+            Rectangle {
+                anchors.fill: parent
+                color: pqtPalette.base
+                opacity: 0.8
+            }
+            PQText {
+                font.weight: PQCLook.fontWeightBold
+                anchors.centerIn: parent
+                //: The location here is a GPS location
+                text: qsTranslate("mapcurrent", "No location data")
+            }
+            MouseArea {
+                anchors.fill: parent
+                onWheel: (wheel) => {
+                    wheel.accepted = true
+                }
+            }
+        }
+
+        Rectangle {
+            id: nofileloaded
+            anchors.fill: parent
+            color: pqtPalette.base
+            opacity: PQCExtensionProperties.currentFileList.length===0 ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: opacity>0
+            PQText {
+                font.weight: PQCLook.fontWeightBold
+                anchors.centerIn: parent
+                //: The location here is a GPS location
+                text: qsTranslate("mapcurrent", "Current location")
+            }
+            MouseArea {
+                anchors.fill: parent
+                onWheel: (wheel) => {
+                    wheel.accepted = true
+                }
+            }
+        }
+
+    }
 
     Connections {
 

@@ -36,447 +36,420 @@ PQTemplateExtension {
 
     property int formatId: -1
 
-    function modalButton2Action() {
-
-        formatId = PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)
-
-        errorlabel.hide()
-
-        PQCExtensionMethods.requestCallAction(crop_top.extensionId,
-                                                                 [PQCExtensionProperties.currentFile,
-                                                                  PQCImageFormats.getFormatName(formatId),
-                                                                  PQCImageFormats.getFormatEndings(formatId)],
-                                                                  false)
-
-    }
-
     // this is needed to not show the animation again when the window is resized
     property bool animShowed: false
 
     /***************************************************************/
 
-    content: [
+    Image {
+
+        id: theimage
+
+        width: parent.width
+        height: parent.height
+
+        sourceSize.width: width
+        sourceSize.height: height
+
+        fillMode: Image.PreserveAspectFit
+
+        source: PQCExtensionProperties.currentFile==="" ? "" : ("image://full/" + PQCExtensionProperties.currentFile) // qmllint disable unqualified
+
+        onStatusChanged: (status) => {
+            if(status === Image.Ready) {
+                updateStartEndPosBackupAndStart.restart()
+            }
+        }
+        // we add a slight delay to make sure the bindings are all properly updated before starting
+        Timer {
+            id: updateStartEndPosBackupAndStart
+            interval: 500
+            onTriggered: {
+                if(!crop_top.animShowed) {
+                    animateCropping.startPosBackup = resizerect.startPos
+                    animateCropping.endPosBackup = resizerect.endPos
+                    animateCropping.restart()
+                }
+            }
+        }
+
+        /******************************************/
+        // shaded region that will be cropped out
+
+        // left region
+        Rectangle {
+            color: "#aa000000"
+            x: resizerect.effectiveX
+            y: resizerect.effectiveY
+            width: resizerect.startPos.x*theimage.paintedWidth
+            height: resizerect.effectiveHeight
+        }
+
+        // right region
+        Rectangle {
+            color: "#aa000000"
+            x: resizerect.effectiveX+resizerect.endPos.x*theimage.paintedWidth
+            y: resizerect.effectiveY
+            width: resizerect.effectiveWidth-resizerect.endPos.x*theimage.paintedWidth
+            height: resizerect.effectiveHeight
+        }
+
+        // top region
+        Rectangle {
+            color: "#aa000000"
+            x: resizerect.effectiveX+resizerect.startPos.x*theimage.paintedWidth
+            y: resizerect.effectiveY
+            width: (resizerect.endPos.x-resizerect.startPos.x)*theimage.paintedWidth
+            height: resizerect.startPos.y*theimage.paintedHeight
+        }
+
+        // bottom region
+        Rectangle {
+            color: "#aa000000"
+            x: resizerect.effectiveX+resizerect.startPos.x*theimage.paintedWidth
+            y: resizerect.effectiveY+resizerect.endPos.y*theimage.paintedHeight
+            width: (resizerect.endPos.x-resizerect.startPos.x)*theimage.paintedWidth
+            height: resizerect.effectiveHeight-resizerect.endPos.y*theimage.paintedHeight
+        }
+
+        /******************************************/
 
         Item {
 
-            id: thecontent
+            id: resizerect
 
             width: parent.width
             height: parent.height
 
-            Image {
+            property int effectiveX: (theimage.width-theimage.paintedWidth)/2
+            property int effectiveY: (theimage.height-theimage.paintedHeight)/2
+            property int effectiveWidth: theimage.paintedWidth
+            property int effectiveHeight: theimage.paintedHeight
 
-                id: theimage
+            property point startPos: Qt.point(0.2,0.2)
+            property point endPos: Qt.point(0.4,0.4)
 
-                width: parent.width
-                height: parent.height
-
-                sourceSize.width: width
-                sourceSize.height: height
-
-                fillMode: Image.PreserveAspectFit
-
-                source: PQCExtensionProperties.currentFile==="" ? "" : ("image://full/" + PQCExtensionProperties.currentFile) // qmllint disable unqualified
-
-                onStatusChanged: (status) => {
-                    if(status === Image.Ready) {
-                        updateStartEndPosBackupAndStart.restart()
-                    }
-                }
-                // we add a slight delay to make sure the bindings are all properly updated before starting
-                Timer {
-                    id: updateStartEndPosBackupAndStart
-                    interval: 500
-                    onTriggered: {
-                        if(!crop_top.animShowed) {
-                            animateCropping.startPosBackup = resizerect.startPos
-                            animateCropping.endPosBackup = resizerect.endPos
-                            animateCropping.restart()
-                        }
-                    }
-                }
-
-                /******************************************/
-                // shaded region that will be cropped out
-
-                // left region
-                Rectangle {
-                    color: "#aa000000"
-                    x: resizerect.effectiveX
-                    y: resizerect.effectiveY
-                    width: resizerect.startPos.x*theimage.paintedWidth
-                    height: resizerect.effectiveHeight
-                }
-
-                // right region
-                Rectangle {
-                    color: "#aa000000"
-                    x: resizerect.effectiveX+resizerect.endPos.x*theimage.paintedWidth
-                    y: resizerect.effectiveY
-                    width: resizerect.effectiveWidth-resizerect.endPos.x*theimage.paintedWidth
-                    height: resizerect.effectiveHeight
-                }
-
-                // top region
-                Rectangle {
-                    color: "#aa000000"
-                    x: resizerect.effectiveX+resizerect.startPos.x*theimage.paintedWidth
-                    y: resizerect.effectiveY
-                    width: (resizerect.endPos.x-resizerect.startPos.x)*theimage.paintedWidth
-                    height: resizerect.startPos.y*theimage.paintedHeight
-                }
-
-                // bottom region
-                Rectangle {
-                    color: "#aa000000"
-                    x: resizerect.effectiveX+resizerect.startPos.x*theimage.paintedWidth
-                    y: resizerect.effectiveY+resizerect.endPos.y*theimage.paintedHeight
-                    width: (resizerect.endPos.x-resizerect.startPos.x)*theimage.paintedWidth
-                    height: resizerect.effectiveHeight-resizerect.endPos.y*theimage.paintedHeight
-                }
-
-                /******************************************/
-
-                Item {
-
-                    id: resizerect
-
-                    width: parent.width
-                    height: parent.height
-
-                    property int effectiveX: (theimage.width-theimage.paintedWidth)/2
-                    property int effectiveY: (theimage.height-theimage.paintedHeight)/2
-                    property int effectiveWidth: theimage.paintedWidth
-                    property int effectiveHeight: theimage.paintedHeight
-
-                    property point startPos: Qt.point(0.2,0.2)
-                    property point endPos: Qt.point(0.4,0.4)
-
-                    // region that is desired
-
-                    Rectangle {
-                        x: resizerect.effectiveX+resizerect.startPos.x*resizerect.effectiveWidth
-                        y: resizerect.effectiveY+resizerect.startPos.y*resizerect.effectiveHeight
-                        width: (resizerect.endPos.x-resizerect.startPos.x)*resizerect.effectiveWidth
-                        height: (resizerect.endPos.y-resizerect.startPos.y)*resizerect.effectiveHeight
-                        color: "transparent"
-                        border.width: 2
-                        border.color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeAllCursor
-                            property bool pressedDown: false
-                            property int startX
-                            property int startY
-                            onPressed: (mouse) => {
-                                startX = mouse.x
-                                startY = mouse.y
-                                pressedDown = true
-                            }
-                            onReleased:
-                            pressedDown = false
-                            onMouseXChanged: (mouse) => {
-                                if(pressedDown) {
-                                    var w = resizerect.endPos.x - resizerect.startPos.x
-                                    resizerect.startPos.x = Math.max(0, Math.min(1-w, resizerect.startPos.x+(mouse.x-startX)/resizerect.effectiveWidth))
-                                    resizerect.endPos.x = resizerect.startPos.x+w
-                                }
-                            }
-                            onMouseYChanged: (mouse) => {
-                                if(pressedDown) {
-                                    var h = resizerect.endPos.y - resizerect.startPos.y
-                                    resizerect.startPos.y = Math.max(0, Math.min(1-h, resizerect.startPos.y+(mouse.y-startY)/resizerect.effectiveHeight))
-                                    resizerect.endPos.y = resizerect.startPos.y+h
-                                }
-                            }
-                        }
-                    }
-
-                    /******************************************/
-                    // markers for resizing highlighted region
-
-                    property int markerSize: ((resizerect.endPos.x-resizerect.startPos.x)*effectiveWidth < 50 || (resizerect.endPos.y-resizerect.startPos.y)*effectiveHeight < 50 ? 10 : 20)
-                    Behavior on markerSize { NumberAnimation { duration: 200 } }
-
-                    // top
-                    Rectangle {
-                        x: resizerect.effectiveX + (resizerect.startPos.x +(resizerect.endPos.x-resizerect.startPos.x)/2)*resizerect.effectiveWidth -resizerect.markerSize/2
-                        y: resizerect.effectiveY + resizerect.startPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
-                        width: resizerect.markerSize
-                        height: resizerect.markerSize
-                        radius: resizerect.markerSize/2
-                        color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeVerCursor
-                            property bool pressedDown: false
-                            onPressed:
-                            pressedDown = true
-                            onReleased:
-                            pressedDown = false
-                            onMouseYChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.startPos.y = Math.max(0, Math.min(resizerect.endPos.y-0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
-                                }
-                            }
-                        }
-                    }
-
-                    // left
-                    Rectangle {
-                        x: resizerect.effectiveX + resizerect.startPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
-                        y: resizerect.effectiveY + (resizerect.startPos.y + (resizerect.endPos.y-resizerect.startPos.y)/2)*resizerect.effectiveHeight -resizerect.markerSize/2
-                        width: resizerect.markerSize
-                        height: resizerect.markerSize
-                        radius: resizerect.markerSize/2
-                        color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeHorCursor
-                            property bool pressedDown: false
-                            onPressed:
-                            pressedDown = true
-                            onReleased:
-                            pressedDown = false
-                            onMouseXChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.startPos.x = Math.max(0, Math.min(resizerect.endPos.x-0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
-                                }
-                            }
-                        }
-                    }
-
-                    // right
-                    Rectangle {
-                        x: resizerect.effectiveX + resizerect.endPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
-                        y: resizerect.effectiveY + (resizerect.startPos.y + (resizerect.endPos.y-resizerect.startPos.y)/2)*resizerect.effectiveHeight - resizerect.markerSize/2
-                        width: resizerect.markerSize
-                        height: resizerect.markerSize
-                        radius: resizerect.markerSize/2
-                        color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeHorCursor
-                            property bool pressedDown: false
-                            onPressed:
-                            pressedDown = true
-                            onReleased:
-                            pressedDown = false
-                            onMouseXChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.endPos.x = Math.min(1, Math.max(resizerect.startPos.x+0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
-                                }
-                            }
-                        }
-                    }
-
-                    // bottom
-                    Rectangle {
-                        x: resizerect.effectiveX + (resizerect.startPos.x +(resizerect.endPos.x-resizerect.startPos.x)/2)*resizerect.effectiveWidth -resizerect.markerSize/2
-                        y: resizerect.effectiveY + resizerect.endPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
-                        width: resizerect.markerSize
-                        height: resizerect.markerSize
-                        radius: resizerect.markerSize/2
-                        color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeVerCursor
-                            property bool pressedDown: false
-                            onPressed:
-                            pressedDown = true
-                            onReleased:
-                            pressedDown = false
-                            onMouseYChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.endPos.y = Math.min(1, Math.max(resizerect.startPos.y+0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
-                                }
-                            }
-                        }
-                    }
-
-                    // top left
-                    Rectangle {
-                        x: resizerect.effectiveX + resizerect.startPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
-                        y: resizerect.effectiveY + resizerect.startPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
-                        width: resizerect.markerSize
-                        height: resizerect.markerSize
-                        radius: resizerect.markerSize/2
-                        color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeFDiagCursor
-                            property bool pressedDown: false
-                            onPressed:
-                            pressedDown = true
-                            onReleased:
-                            pressedDown = false
-                            onMouseYChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.startPos.y = Math.max(0, Math.min(resizerect.endPos.y-0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
-                                }
-                            }
-                            onMouseXChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.startPos.x = Math.max(0, Math.min(resizerect.endPos.x-0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
-                                }
-                            }
-                        }
-                    }
-
-                    // top right
-                    Rectangle {
-                        x: resizerect.effectiveX + resizerect.endPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
-                        y: resizerect.effectiveY + resizerect.startPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
-                        width: resizerect.markerSize
-                        height: resizerect.markerSize
-                        radius: resizerect.markerSize/2
-                        color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeBDiagCursor
-                            property bool pressedDown: false
-                            onPressed:
-                            pressedDown = true
-                            onReleased:
-                            pressedDown = false
-                            onMouseYChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.startPos.y = Math.max(0, Math.min(resizerect.endPos.y-0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
-                                }
-                            }
-                            onMouseXChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.endPos.x = Math.min(1, Math.max(resizerect.startPos.x+0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
-                                }
-                            }
-                        }
-                    }
-
-                    // bottom left
-                    Rectangle {
-                        x: resizerect.effectiveX + resizerect.startPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
-                        y: resizerect.effectiveY + resizerect.endPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
-                        width: resizerect.markerSize
-                        height: resizerect.markerSize
-                        radius: resizerect.markerSize/2
-                        color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeBDiagCursor
-                            property bool pressedDown: false
-                            onPressed:
-                            pressedDown = true
-                            onReleased:
-                            pressedDown = false
-                            onMouseYChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.endPos.y = Math.min(1, Math.max(resizerect.startPos.y+0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
-                                }
-                            }
-                            onMouseXChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.startPos.x = Math.max(0, Math.min(resizerect.endPos.x-0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
-                                }
-                            }
-                        }
-                    }
-
-                    // bottom right
-                    Rectangle {
-                        x: resizerect.effectiveX + resizerect.endPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
-                        y: resizerect.effectiveY + resizerect.endPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
-                        width: resizerect.markerSize
-                        height: resizerect.markerSize
-                        radius: resizerect.markerSize/2
-                        color: "red"
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.SizeFDiagCursor
-                            property bool pressedDown: false
-                            onPressed:
-                            pressedDown = true
-                            onReleased:
-                            pressedDown = false
-                            onMouseYChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.endPos.y = Math.min(1, Math.max(resizerect.startPos.y+0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
-                                }
-                            }
-                            onMouseXChanged: (mouse) => {
-                                if(pressedDown) {
-                                    resizerect.endPos.x = Math.min(1, Math.max(resizerect.startPos.x+0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
-                                }
-                            }
-                        }
-                    }
-
-                }
-
-            }
+            // region that is desired
 
             Rectangle {
-
-                id: errorlabel
-
-                x: (parent.width-width)/2
-                y: (parent.height-height)/2
-
-                width: errorlabel_txt.width+30
-                height: errorlabel_txt.height+30
-
-                opacity: 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-
-                color: "#88ff0000"
-                radius: 10
-
-                border.width: 1
-                border.color: "white"
-
-                PQTextL {
-
-                    id: errorlabel_txt
-
-                    x: 15
-                    y: 15
-
-                    width: 300
-
-                    horizontalAlignment: Qt.AlignHCenter
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    text: qsTranslate("cropimage", "An error occured, file could not be cropped")
+                x: resizerect.effectiveX+resizerect.startPos.x*resizerect.effectiveWidth
+                y: resizerect.effectiveY+resizerect.startPos.y*resizerect.effectiveHeight
+                width: (resizerect.endPos.x-resizerect.startPos.x)*resizerect.effectiveWidth
+                height: (resizerect.endPos.y-resizerect.startPos.y)*resizerect.effectiveHeight
+                color: "transparent"
+                border.width: 2
+                border.color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeAllCursor
+                    property bool pressedDown: false
+                    property int startX
+                    property int startY
+                    onPressed: (mouse) => {
+                        startX = mouse.x
+                        startY = mouse.y
+                        pressedDown = true
+                    }
+                    onReleased:
+                    pressedDown = false
+                    onMouseXChanged: (mouse) => {
+                        if(pressedDown) {
+                            var w = resizerect.endPos.x - resizerect.startPos.x
+                            resizerect.startPos.x = Math.max(0, Math.min(1-w, resizerect.startPos.x+(mouse.x-startX)/resizerect.effectiveWidth))
+                            resizerect.endPos.x = resizerect.startPos.x+w
+                        }
+                    }
+                    onMouseYChanged: (mouse) => {
+                        if(pressedDown) {
+                            var h = resizerect.endPos.y - resizerect.startPos.y
+                            resizerect.startPos.y = Math.max(0, Math.min(1-h, resizerect.startPos.y+(mouse.y-startY)/resizerect.effectiveHeight))
+                            resizerect.endPos.y = resizerect.startPos.y+h
+                        }
+                    }
                 }
+            }
 
-                Timer {
-                    interval: 2500
-                    running: errorlabel.visible
-                    onTriggered:
-                    errorlabel.hide()
-                }
+            /******************************************/
+            // markers for resizing highlighted region
 
-                function show() {
-                    opacity = 1
-                }
-                function hide() {
-                    opacity = 0
-                }
+            property int markerSize: ((resizerect.endPos.x-resizerect.startPos.x)*effectiveWidth < 50 || (resizerect.endPos.y-resizerect.startPos.y)*effectiveHeight < 50 ? 10 : 20)
+            Behavior on markerSize { NumberAnimation { duration: 200 } }
 
+            // top
+            Rectangle {
+                x: resizerect.effectiveX + (resizerect.startPos.x +(resizerect.endPos.x-resizerect.startPos.x)/2)*resizerect.effectiveWidth -resizerect.markerSize/2
+                y: resizerect.effectiveY + resizerect.startPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
+                width: resizerect.markerSize
+                height: resizerect.markerSize
+                radius: resizerect.markerSize/2
+                color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeVerCursor
+                    property bool pressedDown: false
+                    onPressed:
+                    pressedDown = true
+                    onReleased:
+                    pressedDown = false
+                    onMouseYChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.startPos.y = Math.max(0, Math.min(resizerect.endPos.y-0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
+                        }
+                    }
+                }
+            }
+
+            // left
+            Rectangle {
+                x: resizerect.effectiveX + resizerect.startPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
+                y: resizerect.effectiveY + (resizerect.startPos.y + (resizerect.endPos.y-resizerect.startPos.y)/2)*resizerect.effectiveHeight -resizerect.markerSize/2
+                width: resizerect.markerSize
+                height: resizerect.markerSize
+                radius: resizerect.markerSize/2
+                color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeHorCursor
+                    property bool pressedDown: false
+                    onPressed:
+                    pressedDown = true
+                    onReleased:
+                    pressedDown = false
+                    onMouseXChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.startPos.x = Math.max(0, Math.min(resizerect.endPos.x-0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
+                        }
+                    }
+                }
+            }
+
+            // right
+            Rectangle {
+                x: resizerect.effectiveX + resizerect.endPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
+                y: resizerect.effectiveY + (resizerect.startPos.y + (resizerect.endPos.y-resizerect.startPos.y)/2)*resizerect.effectiveHeight - resizerect.markerSize/2
+                width: resizerect.markerSize
+                height: resizerect.markerSize
+                radius: resizerect.markerSize/2
+                color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeHorCursor
+                    property bool pressedDown: false
+                    onPressed:
+                    pressedDown = true
+                    onReleased:
+                    pressedDown = false
+                    onMouseXChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.endPos.x = Math.min(1, Math.max(resizerect.startPos.x+0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
+                        }
+                    }
+                }
+            }
+
+            // bottom
+            Rectangle {
+                x: resizerect.effectiveX + (resizerect.startPos.x +(resizerect.endPos.x-resizerect.startPos.x)/2)*resizerect.effectiveWidth -resizerect.markerSize/2
+                y: resizerect.effectiveY + resizerect.endPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
+                width: resizerect.markerSize
+                height: resizerect.markerSize
+                radius: resizerect.markerSize/2
+                color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeVerCursor
+                    property bool pressedDown: false
+                    onPressed:
+                    pressedDown = true
+                    onReleased:
+                    pressedDown = false
+                    onMouseYChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.endPos.y = Math.min(1, Math.max(resizerect.startPos.y+0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
+                        }
+                    }
+                }
+            }
+
+            // top left
+            Rectangle {
+                x: resizerect.effectiveX + resizerect.startPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
+                y: resizerect.effectiveY + resizerect.startPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
+                width: resizerect.markerSize
+                height: resizerect.markerSize
+                radius: resizerect.markerSize/2
+                color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeFDiagCursor
+                    property bool pressedDown: false
+                    onPressed:
+                    pressedDown = true
+                    onReleased:
+                    pressedDown = false
+                    onMouseYChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.startPos.y = Math.max(0, Math.min(resizerect.endPos.y-0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
+                        }
+                    }
+                    onMouseXChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.startPos.x = Math.max(0, Math.min(resizerect.endPos.x-0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
+                        }
+                    }
+                }
+            }
+
+            // top right
+            Rectangle {
+                x: resizerect.effectiveX + resizerect.endPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
+                y: resizerect.effectiveY + resizerect.startPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
+                width: resizerect.markerSize
+                height: resizerect.markerSize
+                radius: resizerect.markerSize/2
+                color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeBDiagCursor
+                    property bool pressedDown: false
+                    onPressed:
+                    pressedDown = true
+                    onReleased:
+                    pressedDown = false
+                    onMouseYChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.startPos.y = Math.max(0, Math.min(resizerect.endPos.y-0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
+                        }
+                    }
+                    onMouseXChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.endPos.x = Math.min(1, Math.max(resizerect.startPos.x+0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
+                        }
+                    }
+                }
+            }
+
+            // bottom left
+            Rectangle {
+                x: resizerect.effectiveX + resizerect.startPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
+                y: resizerect.effectiveY + resizerect.endPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
+                width: resizerect.markerSize
+                height: resizerect.markerSize
+                radius: resizerect.markerSize/2
+                color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeBDiagCursor
+                    property bool pressedDown: false
+                    onPressed:
+                    pressedDown = true
+                    onReleased:
+                    pressedDown = false
+                    onMouseYChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.endPos.y = Math.min(1, Math.max(resizerect.startPos.y+0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
+                        }
+                    }
+                    onMouseXChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.startPos.x = Math.max(0, Math.min(resizerect.endPos.x-0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
+                        }
+                    }
+                }
+            }
+
+            // bottom right
+            Rectangle {
+                x: resizerect.effectiveX + resizerect.endPos.x*resizerect.effectiveWidth - resizerect.markerSize/2
+                y: resizerect.effectiveY + resizerect.endPos.y*resizerect.effectiveHeight - resizerect.markerSize/2
+                width: resizerect.markerSize
+                height: resizerect.markerSize
+                radius: resizerect.markerSize/2
+                color: "red"
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeFDiagCursor
+                    property bool pressedDown: false
+                    onPressed:
+                    pressedDown = true
+                    onReleased:
+                    pressedDown = false
+                    onMouseYChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.endPos.y = Math.min(1, Math.max(resizerect.startPos.y+0.01, (mapToItem(theimage, mouse.x, mouse.y).y-resizerect.effectiveY)/resizerect.effectiveHeight))
+                        }
+                    }
+                    onMouseXChanged: (mouse) => {
+                        if(pressedDown) {
+                            resizerect.endPos.x = Math.min(1, Math.max(resizerect.startPos.x+0.01, (mapToItem(theimage, mouse.x, mouse.y).x-resizerect.effectiveX)/resizerect.effectiveWidth))
+                        }
+                    }
+                }
             }
 
         }
 
-    ]
+    }
+
+    Rectangle {
+
+        id: errorlabel
+
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+
+        width: errorlabel_txt.width+30
+        height: errorlabel_txt.height+30
+
+        opacity: 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        visible: opacity>0
+
+        color: "#88ff0000"
+        radius: 10
+
+        border.width: 1
+        border.color: "white"
+
+        PQTextL {
+
+            id: errorlabel_txt
+
+            x: 15
+            y: 15
+
+            width: 300
+
+            horizontalAlignment: Qt.AlignHCenter
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: qsTranslate("cropimage", "An error occured, file could not be cropped")
+        }
+
+        Timer {
+            interval: 2500
+            running: errorlabel.visible
+            onTriggered:
+            errorlabel.hide()
+        }
+
+        function show() {
+            opacity = 1
+        }
+        function hide() {
+            opacity = 0
+        }
+
+    }
 
     PQWorking {
         id: cropbusy
@@ -619,6 +592,20 @@ PQTemplateExtension {
                 errorlabel.show()
             }
         }
+
+    }
+
+    function modalButton2Action() {
+
+        formatId = PQCImageFormats.detectFormatId(PQCExtensionProperties.currentFile)
+
+            errorlabel.hide()
+
+            PQCExtensionMethods.requestCallAction(crop_top.extensionId,
+                                                  [PQCExtensionProperties.currentFile,
+                                                  PQCImageFormats.getFormatName(formatId),
+                                                  PQCImageFormats.getFormatEndings(formatId)],
+                                                  false)
 
     }
 
