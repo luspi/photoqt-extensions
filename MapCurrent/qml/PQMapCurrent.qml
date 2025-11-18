@@ -30,7 +30,6 @@ PQTemplateExtension {
 
     id: mapcurrent_top
 
-    property real noLocationZoomBefore: 12
     property bool noLocation: true
     property real latitude: 49.00937
     property real longitude: 8.40444
@@ -60,14 +59,6 @@ PQTemplateExtension {
 
     }
 
-    PQMouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.AllButtons
-        tooltip: "Click-and-drag to move"
-        drag.target: parent
-    }
-
     Map {
         id: map
         anchors.fill: parent
@@ -80,22 +71,10 @@ PQTemplateExtension {
         Behavior on center.latitude { NumberAnimation { duration: 200 } }
         Behavior on center.longitude { NumberAnimation { duration: 200 } }
 
-        zoomLevel: 1
+        zoomLevel: 12
         Behavior on zoomLevel { NumberAnimation { duration: 100 } }
 
         activeMapType: supportedMapTypes[supportedMapTypes.length > 5 ? 5 : (supportedMapTypes.length-1)]
-
-        WheelHandler {
-            id: wheel
-            // workaround for QTBUG-87646 / QTBUG-112394 / QTBUG-112432:
-            // Magic Mouse pretends to be a trackpad but doesn't work with PinchHandler
-            // and we don't yet distinguish mice and trackpads on Wayland either
-            acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland" ?
-                                    PointerDevice.Mouse | PointerDevice.TouchPad :
-                                    PointerDevice.Mouse
-            rotationScale: 1/40
-            property: "zoomLevel"
-        }
 
         MapQuickItem {
 
@@ -129,7 +108,7 @@ PQTemplateExtension {
             Rectangle {
                 anchors.fill: parent
                 color: pqtPalette.base
-                opacity: 0.8
+                opacity: 0.95
             }
             PQText {
                 font.weight: PQCLook.fontWeightBold
@@ -137,32 +116,37 @@ PQTemplateExtension {
                 //: The location here is a GPS location
                 text: qsTranslate("mapcurrent", "No location data")
             }
-            MouseArea {
-                anchors.fill: parent
-                onWheel: (wheel) => {
-                    wheel.accepted = true
-                }
-            }
         }
 
-        Rectangle {
+        Item {
             id: nofileloaded
             anchors.fill: parent
-            color: pqtPalette.base
             opacity: PQCExtensionProperties.currentFileList.length===0 ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
+            Rectangle {
+                anchors.fill: parent
+                color: pqtPalette.base
+                opacity: 0.95
+            }
             PQText {
                 font.weight: PQCLook.fontWeightBold
                 anchors.centerIn: parent
                 //: The location here is a GPS location
-                text: qsTranslate("mapcurrent", "Current location")
+                text: qsTranslate("mapcurrent", "No file loaded")
             }
-            MouseArea {
-                anchors.fill: parent
-                onWheel: (wheel) => {
-                    wheel.accepted = true
-                }
+        }
+
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            acceptedButtons: Qt.AllButtons
+            tooltip: qsTranslate("mapcurrent", "Click-and-drag to move")
+            drag.target: parent
+            onWheel: (wheel) => {
+                if(!nofileloaded.visible && !noloc.visible)
+                    map.zoomLevel = (map.zoomLevel + wheel.angleDelta.y*0.01)
+                wheel.accepted = true
             }
         }
 
@@ -188,17 +172,9 @@ PQTemplateExtension {
 
         // this value means: no gps data
         if(pos[0] === 9999 || pos[1] === 9999) {
-            if(PQCExtensionProperties.currentFileList.length > 0) {
-                noLocationZoomBefore = map.zoomLevel
-                map.zoomLevel = 1
-            }
             noLocation = true
             return
         }
-
-        if(noLocationZoomBefore > 0)
-            map.zoomLevel = noLocationZoomBefore
-        noLocationZoomBefore = 0
 
         latitude = pos[0]
         longitude = pos[1]
