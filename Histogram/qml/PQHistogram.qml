@@ -32,8 +32,6 @@ PQTemplateExtension {
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
-    contentHeight: chart.height
-
     ChartView {
 
         id: chart

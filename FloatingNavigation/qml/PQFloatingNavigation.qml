@@ -33,8 +33,10 @@ PQTemplateExtension {
 
     color: "transparent"
 
-    opacity: mouseOver||isPoppedOut ? 1 : 0.2
+    opacity: mouseOver||isPoppedOut ? 1 : 0.4
     Behavior on opacity { NumberAnimation { duration: 200 } }
+
+    SystemPalette { id: pqtPalette }
 
     Timer {
         id: resetMouseOver
@@ -44,6 +46,12 @@ PQTemplateExtension {
             if(oldId == nav_top.mouseOverId)
                 nav_top.mouseOver = false
         }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: pqtPalette.alternateBase
+        opacity: 0.1
     }
 
     Item {

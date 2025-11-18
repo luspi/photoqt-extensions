@@ -37,8 +37,6 @@ PQTemplateExtension {
 
     SystemPalette { id: pqtPalette }
 
-    contentHeight: map.height
-
     Plugin {
 
         id: osmPlugin

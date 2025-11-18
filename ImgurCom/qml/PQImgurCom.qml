@@ -127,6 +127,8 @@ PQTemplateExtension {
 
     state: "uploading"
 
+    contentHeight: insidecont.height>parent.height ? insidecont.height : parent.height
+
     Column {
 
         id: resultscol

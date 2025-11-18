@@ -38,7 +38,7 @@ PQTemplateExtension {
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
-    contentHeight: insidecont.height
+    contentHeight: insidecont.height>parent.height ? insidecont.height : parent.height
 
     Row {
 
@@ -307,13 +307,13 @@ PQTemplateExtension {
 
                 wallpaper_top.setWallpaper()
 
-            } else if(combo === "Ctrl+Down") {
+            } else if(combo === "Ctrl+Down" || combo === "Ctrl+Tab") {
 
                 if(PQCExtensionMethods.amIOnWindows()) return
 
                     wallpaper_top.curCat = (wallpaper_top.curCat+1)%wallpaper_top.categories.length
 
-            } else if(combo === "Ctrl+Up") {
+            } else if(combo === "Ctrl+Up" || combo === "Ctrl+Shift+Tab") {
 
                 if(PQCExtensionMethods.amIOnWindows()) return
 

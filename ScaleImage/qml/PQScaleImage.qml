@@ -35,13 +35,13 @@ PQTemplateExtension {
 
     property int formatId: -1
 
-    contentHeight: insidecont.height
+    contentHeight: insidecont.height>parent.height ? insidecont.height : parent.height
 
     Column {
 
         id: insidecont
 
-        x: ((parent.width-width)/2)
+        x: (parent.width-width)/2
         y: (parent.height-height)/2
 
         width: parent.width-10

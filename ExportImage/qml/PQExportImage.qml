@@ -42,13 +42,13 @@ PQTemplateExtension {
     // this is the selected format, both the first ending (for identification) and all endings for a format
     property string targetFormat: settings["LastUsed"]
 
-    contentHeight: insidecont.height
+    contentHeight: insidecont.height>parent.height ? insidecont.height : parent.height
 
     Column {
 
         id: insidecont
 
-        x: ((parent.width-width)/2)
+        x: (parent.width-width)/2
         y: (parent.height-height)/2
 
         width: parent.width-10
@@ -241,7 +241,7 @@ PQTemplateExtension {
 
             x: (parent.width-width)/2
             width: Math.min(600, export_top.width-100)
-            height: Math.min(400, export_top.parent.height-targettxt1.height-targettxt2.height-favs_item.height-120)
+            height: Math.max(200, Math.min(400, export_top.parent.height-targettxt1.height-targettxt2.height-favs_item.height-120))
 
             color: pqtPalette.base
             border.width: 1

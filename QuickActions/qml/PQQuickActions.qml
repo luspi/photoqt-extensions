@@ -77,7 +77,6 @@ PQTemplateExtension {
 
     property int sze: settings["ExtPopout"] ? 50 : 40
 
-    contentHeight: contentitem.height
     width: contentitem.width
     height: contentitem.height
 
