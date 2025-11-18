@@ -51,6 +51,8 @@ private:
     bool checkEnlightenmentRemote();
     QList<int> getEnlightenmentWorkspaceCount();
 
+    bool amIOnWindows();
+
     bool checkIfCommandExists(QString cmd, QStringList args, QString &out);
 
 Q_SIGNALS:

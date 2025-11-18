@@ -279,6 +279,7 @@ QVariant Methods::action(QString filepath, QVariant additional) {
     ret << checkEnlightenmentMsgbus();
     ret << checkFeh();
     ret << checkNitrogen();
+    ret << amIOnWindows();
 
     return ret;
 }
@@ -391,4 +392,11 @@ bool Methods::checkNitrogen() {
     checkIfCommandExists("nitrogen", QStringList() << "--version", out);
     return (out=="");
 
+}
+
+bool Methods::amIOnWindows() {
+#ifdef Q_OS_WIN
+    return true;
+#endif
+    return false;
 }

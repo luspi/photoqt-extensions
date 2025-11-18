@@ -32,13 +32,15 @@ PQTemplateExtension {
     modalButton2Text: "Set as wallpaper"
 
     property list<string> categories: ["plasma", "gnome", "xfce", "enlightenment", "other"]
-    property int curCat: PQCExtensionMethods.amIOnWindows() ? categories.length : 0
+    property int curCat: amIOnWindows ? categories.length : 0
     property int numDesktops: 0
 
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     contentHeight: insidecont.height>parent.height ? insidecont.height : parent.height
+
+    property bool amIOnWindows: false
 
     Row {
 
@@ -58,7 +60,7 @@ PQTemplateExtension {
             width: visible ? parent.width*0.375 : 0
             height: Math.min(600, wallpaper_top.height*0.8)
 
-            visible: !PQCExtensionMethods.amIOnWindows()
+            visible: !wallpaper_top.amIOnWindows
 
             Item {
                 width: parent.width
@@ -309,13 +311,13 @@ PQTemplateExtension {
 
             } else if(combo === "Ctrl+Down" || combo === "Ctrl+Tab") {
 
-                if(PQCExtensionMethods.amIOnWindows()) return
+                if(wallpaper_top.amIOnWindows) return
 
                     wallpaper_top.curCat = (wallpaper_top.curCat+1)%wallpaper_top.categories.length
 
             } else if(combo === "Ctrl+Up" || combo === "Ctrl+Shift+Tab") {
 
-                if(PQCExtensionMethods.amIOnWindows()) return
+                if(wallpaper_top.amIOnWindows) return
 
                 wallpaper_top.curCat = (wallpaper_top.curCat+wallpaper_top.categories.length-1)%wallpaper_top.categories.length
 
@@ -344,6 +346,7 @@ PQTemplateExtension {
             enlightenment.msgbusError = val[7]
             other.fehError = val[8]
             other.nitrogenError = val[9]
+            wallpaper_top.amIOnWindows = val[10]
 
         }
 
