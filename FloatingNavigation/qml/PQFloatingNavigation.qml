@@ -59,10 +59,11 @@ PQTemplateExtension {
         anchors.fill: parent
 
         Image {
-            width: parent.width/3
+            width: parent.width/(nav_top.isModernInterface ? 3 : 2)
             height: parent.height
             source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/leftarrow.svg"
-            sourceSize: Qt.size(width, height)
+            sourceSize: Qt.size(Math.min(width,height), Math.min(width,height))
+            fillMode: Image.PreserveAspectFit
             enabled: PQCExtensionProperties.currentFileList.length>0
             opacity: enabled ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -92,10 +93,11 @@ PQTemplateExtension {
 
         Image {
             x: width
-            width: parent.width/3
+            width: parent.width/(nav_top.isModernInterface ? 3 : 2)
             height: parent.height
             source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/rightarrow.svg"
-            sourceSize: Qt.size(width, height)
+            sourceSize: Qt.size(Math.min(width,height), Math.min(width,height))
+            fillMode: Image.PreserveAspectFit
             enabled: PQCExtensionProperties.currentFileList.length>0
             opacity: enabled ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -125,10 +127,12 @@ PQTemplateExtension {
 
         Image {
             x: 2*width
+            visible: nav_top.isModernInterface
             width: parent.width/3
             height: parent.height
             source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/menu.svg"
-            sourceSize: Qt.size(width, height)
+            sourceSize: Qt.size(Math.min(width,height), Math.min(width,height))
+            fillMode: Image.PreserveAspectFit
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
