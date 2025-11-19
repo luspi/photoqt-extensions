@@ -306,26 +306,6 @@ PQTemplateExtension {
             }
         }
 
-        function onReplyForAction(id, val) {
-
-            if(id !== scale_top.extensionId)
-                return
-
-            if(val === "")
-                return
-
-            var uniqueid = PQCExtensionMethods.getImageFormatId(val)
-            scalebusy.showBusy()
-            PQCExtensionMethods.requestCallActionWithImage(extensionId,
-                                                            [val,
-                                                            spin_w.value,
-                                                            spin_h.value,
-                                                            quality.value,
-                                                            PQCExtensionMethods.getImageFormatWriteStatus(uniqueid),
-                                                            PQCExtensionMethods.getImageFormatInfo(uniqueid)])
-
-        }
-
         function onReplyForActionWithImage(id, val) {
             if(id !== scale_top.extensionId)
                 return
@@ -345,13 +325,25 @@ PQTemplateExtension {
 
         formatId = PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)
 
-            errorlabel.visible = false
+        errorlabel.visible = false
 
-            PQCExtensionMethods.requestCallAction(scale_top.extensionId,
-                                                  [PQCExtensionProperties.currentFile,
-                                                  PQCExtensionMethods.getImageFormatName(formatId),
-                                                  PQCExtensionMethods.getImageFormatEndings(formatId)],
-                                                  false)
+        var val = PQCExtensionMethods.callAction(scale_top.extensionId,
+                                                    [PQCExtensionProperties.currentFile,
+                                                    PQCExtensionMethods.getImageFormatName(formatId),
+                                                    PQCExtensionMethods.getImageFormatEndings(formatId)])
+
+        if(val === "")
+            return
+
+        var uniqueid = PQCExtensionMethods.getImageFormatId(val)
+        scalebusy.showBusy()
+        PQCExtensionMethods.callActionWithImageNonBlocking(extensionId,
+                                                           [val,
+                                                            spin_w.value,
+                                                            spin_h.value,
+                                                            quality.value,
+                                                            PQCExtensionMethods.getImageFormatWriteStatus(uniqueid),
+                                                            PQCExtensionMethods.getImageFormatInfo(uniqueid)])
 
     }
 

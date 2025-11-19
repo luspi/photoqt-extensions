@@ -427,7 +427,7 @@ PQTemplateExtension {
                 text: qsTranslate("quickactions", "Reset position to default")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 onTriggered: {
-                    PQCExtensionMethods.requestResetGeometry(quickactions_top.extensionId)
+                    PQCExtensionMethods.resetGeometry(quickactions_top.extensionId)
                 }
             }
 

@@ -286,15 +286,30 @@ PQTemplateExtension {
 
         }
 
-        PQCExtensionMethods.requestCallActionWithImage(extensionId, args, false)
+        PQCExtensionMethods.callActionWithImage(extensionId, args)
 
         hide()
     }
 
     function showing() {
+
         if(PQCExtensionProperties.currentFile === "")
             return false
-        PQCExtensionMethods.requestCallAction(extensionId, ["checkWallpaper"])
+
+        var val = PQCExtensionMethods.callAction(extensionId, ["checkWallpaper"])
+
+        if(val.length < 10 || val[0] !== "wallpaper")
+            return
+
+        wallpaper_top.numDesktops = val[1]
+        xfce.xfconfQueryError = val[2]
+        gnome.gsettingsError = val[3]
+        enlightenment.numWorkspaces = [val[4], val[5]]
+        enlightenment.enlightenmentRemoteError = val[6]
+        enlightenment.msgbusError = val[7]
+        other.fehError = val[8]
+        other.nitrogenError = val[9]
+        wallpaper_top.amIOnWindows = val[10]
     }
 
     Connections {
@@ -327,26 +342,6 @@ PQTemplateExtension {
                     other.changeTool()
 
             }
-
-        }
-
-        function onReplyForAction(id, val) {
-
-            if(id !== wallpaper_top.extensionId && val !== undefined)
-                return
-
-            if(val.length < 10 || val[0] !== "wallpaper")
-                return
-
-            wallpaper_top.numDesktops = val[1]
-            xfce.xfconfQueryError = val[2]
-            gnome.gsettingsError = val[3]
-            enlightenment.numWorkspaces = [val[4], val[5]]
-            enlightenment.enlightenmentRemoteError = val[6]
-            enlightenment.msgbusError = val[7]
-            other.fehError = val[8]
-            other.nitrogenError = val[9]
-            wallpaper_top.amIOnWindows = val[10]
 
         }
 

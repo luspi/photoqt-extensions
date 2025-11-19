@@ -227,7 +227,7 @@ PQTemplateExtension {
             failed.opacity = 0
             nofileloaded.opacity = 0
             busy.opacity = 1
-            PQCExtensionMethods.requestCallActionWithImage(histogram_top.extensionId)
+            PQCExtensionMethods.callActionWithImageNonBlocking(histogram_top.extensionId)
         }
 
     }
@@ -296,7 +296,7 @@ PQTemplateExtension {
             failed.opacity = 0
             nofileloaded.opacity = 0
             busy.opacity = 1
-            PQCExtensionMethods.requestCallActionWithImage(histogram_top.extensionId)
+            PQCExtensionMethods.callActionWithImageNonBlocking(histogram_top.extensionId)
         }
 
     }

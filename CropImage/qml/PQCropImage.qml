@@ -564,23 +564,6 @@ PQTemplateExtension {
                 }
         }
 
-        function onReplyForAction(id, val) {
-
-            if(id !== crop_top.extensionId)
-                return
-
-            if(val === "")
-                return
-
-            cropbusy.showBusy()
-            PQCExtensionMethods.requestCallActionWithImage(crop_top.extensionId,
-                                                            [val,
-                                                            PQCExtensionMethods.getImageFormatInfo(formatId),
-                                                            PQCExtensionMethods.getImageFormatWriteStatus(formatId),
-                                                            resizerect.startPos,
-                                                            resizerect.endPos])
-        }
-
         function onReplyForActionWithImage(id, val) {
             if(id !== crop_top.extensionId)
                 return
@@ -599,13 +582,23 @@ PQTemplateExtension {
 
         formatId = PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)
 
-            errorlabel.hide()
+        errorlabel.hide()
 
-            PQCExtensionMethods.requestCallAction(crop_top.extensionId,
-                                                  [PQCExtensionProperties.currentFile,
+        var val = PQCExtensionMethods.callAction(crop_top.extensionId,
+                                                 [PQCExtensionProperties.currentFile,
                                                   PQCExtensionMethods.getImageFormatName(formatId),
-                                                  PQCExtensionMethods.getImageFormatEndings(formatId)],
-                                                  false)
+                                                  PQCExtensionMethods.getImageFormatEndings(formatId)])
+
+        if(val === "")
+            return
+
+        cropbusy.showBusy()
+        PQCExtensionMethods.callActionWithImageNonBlocking(crop_top.extensionId,
+                                                           [val,
+                                                            PQCExtensionMethods.getImageFormatInfo(formatId),
+                                                            PQCExtensionMethods.getImageFormatWriteStatus(formatId),
+                                                            resizerect.startPos,
+                                                            resizerect.endPos])
 
     }
 

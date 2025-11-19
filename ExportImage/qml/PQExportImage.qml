@@ -415,18 +415,6 @@ PQTemplateExtension {
                 export_top.modalButton2Action()
             }
         }
-        function onReplyForAction(id, val) {
-
-            if(id !== export_top.extensionId)
-                return
-
-            if(val === "")
-                return
-
-            exportbusy.showBusy()
-            PQCExtensionMethods.requestCallActionWithImage(extensionId, [val, PQCExtensionMethods.getImageFormatInfo(parseInt(export_top.targetFormat))])
-
-        }
 
         function onReplyForActionWithImage(id, val) {
             if(id !== export_top.extensionId)
@@ -448,11 +436,16 @@ PQTemplateExtension {
 
         errormessage.visible = false
 
-        PQCExtensionMethods.requestCallAction(export_top.extensionId,
-                                              [PQCExtensionProperties.currentFile,
-                                              PQCExtensionMethods.getImageFormatName(parseInt(targetFormat)),
-                                              PQCExtensionMethods.getImageFormatEndings(parseInt(targetFormat))],
-                                              false)
+        var val = PQCExtensionMethods.callAction(export_top.extensionId,
+                                                 [PQCExtensionProperties.currentFile,
+                                                  PQCExtensionMethods.getImageFormatName(parseInt(targetFormat)),
+                                                  PQCExtensionMethods.getImageFormatEndings(parseInt(targetFormat))])
+
+        if(val === "")
+            return
+
+        exportbusy.showBusy()
+        PQCExtensionMethods.callActionWithImageNonBlocking(extensionId, [val, PQCExtensionMethods.getImageFormatInfo(parseInt(export_top.targetFormat))])
 
     }
 

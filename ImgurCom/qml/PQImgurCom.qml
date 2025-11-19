@@ -127,7 +127,7 @@ PQTemplateExtension {
 
     state: "uploading"
 
-    contentHeight: insidecont.height>parent.height ? insidecont.height : parent.height
+    contentHeight: resultscol.height>parent.height ? resultscol.height : parent.height
 
     Column {
 
@@ -167,7 +167,7 @@ PQTemplateExtension {
                 width: result_access.height
                 height: width
                 source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
-                onClicked: PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageURL])
+                onClicked: PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageURL])
             }
 
         }
@@ -204,7 +204,7 @@ PQTemplateExtension {
                 width: result_delete.height
                 height: width
                 source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
-                onClicked: PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageDeleteHash])
+                onClicked: PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageDeleteHash])
             }
 
         }
@@ -316,7 +316,9 @@ PQTemplateExtension {
                             onEntered: parent.opacity = 1
                             onExited: parent.opacity = 0.5
                             onClicked: {
-                                PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["deletePastUploadEntry", deleg.curdata[0]])
+                                var val = PQCExtensionMethods.callAction(imgur_top.extensionId, ["deletePastUploadEntry", deleg.curdata[0]])
+                                if(val[0] === "deletedPastEntry")
+                                    PQCExtensionMethods.callActionNonBlocking(imgur_top.extensionId, ["getPastUploads"])
                             }
                         }
                     }
@@ -379,7 +381,7 @@ PQTemplateExtension {
                                         height: width
                                         source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
                                         onClicked:
-                                            PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[2]])
+                                            PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[2]])
                                     }
                                 }
 
@@ -412,7 +414,7 @@ PQTemplateExtension {
                                         height: width
                                         source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
                                         onClicked:
-                                        PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[3]])
+                                        PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[3]])
                                     }
                                 }
 
@@ -441,7 +443,7 @@ PQTemplateExtension {
                     //: Written on button, please keep short. Used as in: clear all entries
                     text: qsTranslate("imgurcom", "Clear all")
                     onClicked: {
-                        PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["deletePastUploadEntry", "xxx"])
+                        PQCExtensionMethods.callAction(imgur_top.extensionId, ["deletePastUploadEntry", "xxx"])
                     }
                 }
             }
@@ -450,7 +452,7 @@ PQTemplateExtension {
 
         function show() {
             opacity = 1
-            PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["getPastUploads"])
+            PQCExtensionMethods.callActionNonBlocking(imgur_top.extensionId, ["getPastUploads"])
         }
 
         function hide() {
@@ -476,27 +478,9 @@ PQTemplateExtension {
             if(extensionId !== imgur_top.extensionId)
                 return
 
-            console.log("args: val =", val);
-
-            if(val[0] === "noInternet") {
-
-                working.showFailure(true)
-                imgur_top.state = "nointernet"
-
-            } else if(val[0] === "setupError") {
-
-                working.showFailure(true)
-                showLongTimeMessage.stop()
-                imgur_top.errorCode = "Setup (" + val[1] + ")"
-                imgur_top.state = "error"
-
-            } else if(val[0] === "pastUploads") {
+            if(val[0] === "pastUploads") {
 
                 pastview.dat = val[1]
-
-            } else if(val[0] === "deletedPastEntry") {
-
-                PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["getPastUploads"])
 
             }
 
@@ -544,7 +528,7 @@ PQTemplateExtension {
                 if(imgur_top.errorCode == "") {
                     working.hide()
                     imgur_top.state = "result"
-                    PQCExtensionMethods.requestCallActionWithImage(imgur_top.extensionId, ["saveToHistory", imgur_top.imageURL, imgur_top.imageDeleteHash])
+                    PQCExtensionMethods.callActionWithImage(imgur_top.extensionId, ["saveToHistory", imgur_top.imageURL, imgur_top.imageDeleteHash])
                 }
 
             }
@@ -554,7 +538,8 @@ PQTemplateExtension {
     }
 
     function modalButton1Action() {
-
+        PQCExtensionMethods.callAction(imgur_top.extensionId, ["interruptUpload"])
+        hide()
     }
 
     function modalButton2Action() {
@@ -575,10 +560,23 @@ PQTemplateExtension {
         state = "uploading"
         working.showBusy()
 
-        PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["start",
-                                               settings["AccessToken"], settings["RefreshToken"], settings["AccountName"],
-                                               settings["AuthDateTime"]],
-                                               false);
+        var val = PQCExtensionMethods.callAction(imgur_top.extensionId, ["start",
+                                                 settings["AccessToken"], settings["RefreshToken"],
+                                                 settings["AccountName"], settings["AuthDateTime"]]);
+
+        if(val[0] === "noInternet") {
+
+            working.showFailure(true)
+            imgur_top.state = "nointernet"
+
+        } else if(val[0] === "setupError") {
+
+            working.showFailure(true)
+            showLongTimeMessage.stop()
+            imgur_top.errorCode = "Setup (" + val[1] + ")"
+            imgur_top.state = "error"
+
+        }
 
     }
 
@@ -589,7 +587,7 @@ PQTemplateExtension {
             return false
         }
 
-        PQCExtensionMethods.requestCallAction(imgur_top.extensionId, ["interruptUpload"])
+        PQCExtensionMethods.callAction(imgur_top.extensionId, ["interruptUpload"])
 
     }
 

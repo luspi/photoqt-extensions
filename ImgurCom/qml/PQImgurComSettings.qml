@@ -32,11 +32,11 @@ PQTemplateExtensionSettings {
             text: set_top.account==="" ? qsTranslate("imgurcom", "Authenticate") : qsTranslate("imgurcom", "Forget account")
             onClicked: {
                 if(set_top.account == "") {
-                    PQCExtensionMethods.requestCallAction("ImgurCom", ["getAuthorizeUrlForPin"], false)
+                    PQCExtensionMethods.callAction("ImgurCom", ["getAuthorizeUrlForPin"])
                     authcol.authshow = true
                     error.err = ""
                 } else {
-                    PQCExtensionMethods.requestCallAction("ImgurCom", ["forgetAccount"], false)
+                    PQCExtensionMethods.callAction("ImgurCom", ["forgetAccount"])
                 }
             }
         }
@@ -79,7 +79,7 @@ PQTemplateExtensionSettings {
                     cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
                     onClicked: {
                         authpinrow.enabled = false
-                        PQCExtensionMethods.requestCallAction("ImgurCom", ["doAuthorizeHandlePin"], false)
+                        PQCExtensionMethods.callAction("ImgurCom", ["doAuthorizeHandlePin"])
                     }
                 }
             }
