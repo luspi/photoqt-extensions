@@ -188,42 +188,42 @@ PQTemplateExtension {
 
             clip: true
 
-            PQPlasma {
+            Plasma {
                 id: plasma
                 numDesktops: wallpaper_top.numDesktops
                 extensionId: wallpaper_top.extensionId
                 visible: wallpaper_top.curCat==0
             }
 
-            PQGnome {
+            Gnome {
                 id: gnome
                 numDesktops: wallpaper_top.numDesktops
                 extensionId: wallpaper_top.extensionId
                 visible: wallpaper_top.curCat==1
             }
 
-            PQXfce {
+            Xfce {
                 id: xfce
                 numDesktops: wallpaper_top.numDesktops
                 extensionId: wallpaper_top.extensionId
                 visible: wallpaper_top.curCat==2
             }
 
-            PQEnlightenment {
+            Enlightenment {
                 id: enlightenment
                 numDesktops: wallpaper_top.numDesktops
                 extensionId: wallpaper_top.extensionId
                 visible: wallpaper_top.curCat==3
             }
 
-            PQOther {
+            Other {
                 id: other
                 numDesktops: wallpaper_top.numDesktops
                 extensionId: wallpaper_top.extensionId
                 visible: wallpaper_top.curCat==4
             }
 
-            PQWindows {
+            Windows {
                 id: windows
                 numDesktops: wallpaper_top.numDesktops
                 extensionId: wallpaper_top.extensionId
