@@ -198,7 +198,6 @@ PQTemplateExtension {
                     PQButtonIcon {
                         id: iconver
                         enableContextMenu: false
-                        overrideBaseColor: "transparent"
                         width: sepver.visible ? 0 : sze
                         height: sepver.visible ? 0 : sze
                         visible: !sepver.visible && !unknownver.visible
@@ -352,7 +351,6 @@ PQTemplateExtension {
                     PQButtonIcon {
                         id: icnhor
                         enableContextMenu: false
-                        overrideBaseColor: "transparent"
                         width: sephor.visible ? 0 : sze
                         height: sephor.visible ? 0 : sze
                         visible: !sephor.visible && !unknownhor.visible
