@@ -17,125 +17,21 @@ PQTemplateExtensionSettings {
 
         spacing: 10
 
-        PQText {
+        Item {
+            width: 1
+            height: 10
+        }
+
+        PQTextL {
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTranslate("imgurcom", "Below you can see either whether PhotoQt is connected to which user account, or you can initiate the authentication process by clicking on the button below.")
+            horizontalAlignment: Text.AlignHCenter
+            font.bold: true
+            enabled: false
+            text: qsTranslate("imgurcom", "Unfortunately it is currently only possible to upload images to imgur.com anonymously from within PhotoQt.")
         }
 
-        PQText {
-            visible: set_top.account !== ""
-            text: qsTranslate("imgurcom", "Authenticated with:") + " " + set_top.account
-        }
 
-        PQButton {
-            text: set_top.account==="" ? qsTranslate("imgurcom", "Authenticate") : qsTranslate("imgurcom", "Forget account")
-            onClicked: {
-                if(set_top.account == "") {
-                    PQCExtensionMethods.callAction("ImgurCom", ["getAuthorizeUrlForPin"])
-                    authcol.authshow = true
-                    error.err = ""
-                } else {
-                    PQCExtensionMethods.callAction("ImgurCom", ["forgetAccount"])
-                }
-            }
-        }
-
-        Column {
-
-            id: authcol
-            spacing: 10
-
-            clip: true
-            height: authshow ? (authinfotxt.height+authpinrow.height+authspacer.height+20) : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-
-            property bool authshow: false
-
-            Item {
-                id: authspacer
-                width: 1
-                height: 10
-            }
-
-            PQText {
-                id: authinfotxt
-                width: set_top.width
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: qsTranslate("imgurcom", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
-            }
-
-            Row {
-                id: authpinrow
-                spacing: 5
-
-                PQLineEdit {
-                    id: pinholder
-                    placeholderText: "PIN"
-                }
-                PQButton {
-                    id: butsave
-                    text: genericStringSave
-                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
-                    onClicked: {
-                        authpinrow.enabled = false
-                        PQCExtensionMethods.callAction("ImgurCom", ["doAuthorizeHandlePin"])
-                    }
-                }
-            }
-
-            PQText {
-                id: error
-                width: set_top.width
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                font.weight: PQCLook.fontWeightBold
-                color: "red"
-                property string err: ""
-                visible: err!=""
-                text: qsTranslate("imgurcom", "An error occured:") + " " + err
-            }
-
-        }
-
-    }
-
-    Connections {
-
-        target: PQCExtensionMethods
-
-        function onReplyForAction(extensionId : string, val : var) {
-
-            if(extensionId !== "ImgurCom")
-                return
-
-            if(val[0] === "authorizeUrlForPin") {
-
-                Qt.openUrlExternally(val[1])
-
-            } else if(val[0] === "accountForgotten") {
-
-                if(parseInt(val[1]) === 0) {
-                    set_top.account = ""
-                    error.err = ""
-                } else {
-                    error.err = val[1]
-                }
-
-            } else if(val[0] === "authorizeHandlePin") {
-
-                if(val[1] !== 0) {
-                    authpinrow.enabled = true
-                    error.err = val[1]
-                } else {
-                    authpinrow.enabled = true
-                    error.err = ""
-                    set_top.account = val[2]
-                    authcol.authshow = false
-                }
-
-            }
-
-        }
 
     }
 

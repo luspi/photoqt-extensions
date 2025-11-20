@@ -202,27 +202,6 @@ QVariant Methods::action(QString filepath, QVariant additional) {
 
         Q_EMIT abortUpload();
 
-    } else if(what == "getAuthorizeUrlForPin") {
-
-        if(m_networkManager == nullptr)
-            m_networkManager = new QNetworkAccessManager;
-
-        if(imgurClientID == "" || imgurClientSecret == "") {
-            QString ret = obtainClientIdSecret();
-            if(ret != "")
-                return "failed to obtain URL";
-        }
-
-        // return authorisation url
-        return QVariantList() << "authorizeUrlForPin" << QString("https://api.imgur.com/oauth2/authorize?client_id=%1&response_type=pin&state=requestaccess").arg(imgurClientID);
-
-    } else if(what == "forgetAccount") {
-
-        // TODO: accountForgotten
-
-    } else if(what == "doAuthorizeHandlePin") {
-
-        // TODO: authorizeHandlePin, ret, accountname
     } else if(what == "copyTextToClipboard") {
 
         qApp->clipboard()->setText(lst.at(1).toString(), QClipboard::Clipboard);
@@ -282,7 +261,6 @@ bool Methods::checkIfConnectedToInternet() {
 
 QString Methods::uploadImage(QString filename) {
 
-    qDebug() << "uploadImage()";
     qDebug() << "args: filename =" << filename;
 
     // Ensure that filename is not empty and that the file exists
@@ -294,6 +272,7 @@ QString Methods::uploadImage(QString filename) {
     if(!file->open(QIODevice::ReadOnly))
         return "IMGUR_FILE_OPEN_ERROR";
 
+
     // Setup network request (XML format)
     QNetworkRequest request(QUrl("https://api.imgur.com/3/image.xml"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/application/x-www-form-urlencoded");
@@ -301,11 +280,17 @@ QString Methods::uploadImage(QString filename) {
 
     // Send upload request and connect to feedback signals
     QNetworkReply *reply = m_networkManager->post(request, file);
-    file->setParent(m_networkManager);
     connect(reply, &QNetworkReply::finished, this, &Methods::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &Methods::uploadProgress);
     connect(reply, &QNetworkReply::errorOccurred, this, &Methods::uploadError);
+    connect(reply, &QNetworkReply::requestSent, this, [=]() { qWarning() << "REQUEST SENT"; });
     connect(this, &Methods::abortUpload, reply, &QNetworkReply::abort);
+
+    // This is IMPORTANT!
+    // Otherwise the image will never upload
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
 
     // Phew, no error occurred!
     return "";

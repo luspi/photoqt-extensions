@@ -493,7 +493,19 @@ PQTemplateExtension {
 
             console.log("args: val =", val);
 
-            if(val[0] === "uploadError") {
+            if(val[0] === "noInternet") {
+
+                working.showFailure(true)
+                imgur_top.state = "nointernet"
+
+            } else if(val[0] === "setupError") {
+
+                working.showFailure(true)
+                showLongTimeMessage.stop()
+                imgur_top.errorCode = "Setup (" + val[1] + ")"
+                imgur_top.state = "error"
+
+            } else if(val[0] === "uploadError") {
 
                 working.showFailure(true)
                 showLongTimeMessage.stop()
@@ -560,23 +572,11 @@ PQTemplateExtension {
         state = "uploading"
         working.showBusy()
 
-        var val = PQCExtensionMethods.callAction(imgur_top.extensionId, ["start",
-                                                 settings["AccessToken"], settings["RefreshToken"],
-                                                 settings["AccountName"], settings["AuthDateTime"]]);
-
-        if(val[0] === "noInternet") {
-
-            working.showFailure(true)
-            imgur_top.state = "nointernet"
-
-        } else if(val[0] === "setupError") {
-
-            working.showFailure(true)
-            showLongTimeMessage.stop()
-            imgur_top.errorCode = "Setup (" + val[1] + ")"
-            imgur_top.state = "error"
-
-        }
+        // This HAS to be non blocking with a blocking network requets inside
+        // otherwise the image will not upload
+        PQCExtensionMethods.callActionNonBlocking(imgur_top.extensionId, ["start",
+                                                  settings["AccessToken"], settings["RefreshToken"],
+                                                  settings["AccountName"], settings["AuthDateTime"]]);
 
     }
 
