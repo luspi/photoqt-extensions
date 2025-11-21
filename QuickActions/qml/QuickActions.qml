@@ -433,9 +433,7 @@ PQTemplateExtension {
                 text: qsTranslate("quickactions", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                 onTriggered: {
-                    // TODO 5.0
-                    console.warn("TODO TODO TODO")
-                    // PQCNotify.openSettingsManagerAt("settingsmanager", "quickactions")
+                    PQCExtensionMethods.showSettingsFor(quickactions_top.extensionId)
                 }
             }
 
