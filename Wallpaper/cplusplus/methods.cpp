@@ -31,6 +31,14 @@
 #include <Magick++/Image.h>
 #endif
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <wininet.h>
+#include <comdef.h>
+#include <shlobj.h>
+#include <shlguid.h>
+#endif
+
 // set as wallpaper
 QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 

@@ -22,12 +22,16 @@ qt_add_translations(${PROJECT_NAME} TS_FILES ${files} QM_FILES_OUTPUT_VARIABLE L
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
 install(FILES definition.yml DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
+install(FILES manifest.txt DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
+install(FILES manifest.txt.sig DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
 install(DIRECTORY qml DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
 install(DIRECTORY img DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
 install(FILES ${LANG_SRC} DESTINATION ${SUBFOLDER}${PROJECT_NAME}/lang/)
 
 if(BUILD_EXTENSIONS_AS_PART_OF_PHOTOQT)
     file(COPY_FILE definition.yml ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/definition.yml)
+    file(COPY_FILE manifest.txt ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/manifest.txt)
+    file(COPY_FILE manifest.txt.sig ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/manifest.txt.sig)
     file(COPY qml DESTINATION ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/)
     file(COPY img DESTINATION ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/)
     foreach(F ${LANG_SRC})
