@@ -3,7 +3,7 @@
 #########################################################
 
 cmake_minimum_required(VERSION 3.26)
-project(photoqt LANGUAGES C CXX)
+project(photoqt-extensions LANGUAGES C CXX)
 
 add_subdirectory("CropImage/")
 add_subdirectory("ExportImage/")
