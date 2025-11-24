@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.26)
 # MODIFY THIS NAME
 project(Histogram)
 
-set(SUBFOLDER "lib/PhotoQt/extensions/" CACHE STRING "What subfolder to move the installed files to.")
-
 find_package(Qt6 REQUIRED COMPONENTS Core Gui LinguistTools)
 
 qt_standard_project_setup()
@@ -21,13 +19,13 @@ file(GLOB files "lang/*.ts")
 qt_add_translations(${PROJECT_NAME} TS_FILES ${files} QM_FILES_OUTPUT_VARIABLE LANG_SRC)
 
 # Install the definitions and the library
-install(TARGETS ${PROJECT_NAME} DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(FILES manifest.yml DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(FILES verification.txt DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(FILES verification.txt.sig DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(DIRECTORY qml DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(DIRECTORY img DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(FILES ${LANG_SRC} DESTINATION ${SUBFOLDER}${PROJECT_NAME}/lang/)
+install(TARGETS ${PROJECT_NAME} DESTINATION ${PROJECT_NAME}/)
+install(FILES manifest.yml DESTINATION ${PROJECT_NAME}/)
+install(FILES verification.txt DESTINATION ${PROJECT_NAME}/)
+install(FILES verification.txt.sig DESTINATION ${PROJECT_NAME}/)
+install(DIRECTORY qml DESTINATION ${PROJECT_NAME}/)
+install(DIRECTORY img DESTINATION ${PROJECT_NAME}/)
+install(FILES ${LANG_SRC} DESTINATION ${PROJECT_NAME}/lang/)
 
 if(BUILD_EXTENSIONS_AS_PART_OF_PHOTOQT)
     file(COPY_FILE manifest.yml ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/manifest.yml)

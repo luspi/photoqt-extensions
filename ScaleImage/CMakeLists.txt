@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.26)
 # MODIFY THIS NAME
 project(ScaleImage)
 
-set(SUBFOLDER "lib/PhotoQt/extensions/" CACHE STRING "What subfolder to move the installed files to.")
-
 option(WITH_IMAGEMAGICK    "Configure with support for the ImageMagick library" ON)
 option(WITH_GRAPHICSMAGICK "Configure with support for the GraphicsMagick library" OFF)
 
@@ -61,13 +59,13 @@ else()
     message("** Graphicsmagick DISABLED")
 endif()
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(DIRECTORY img DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(DIRECTORY qml DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(FILES manifest.yml DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(FILES verification.txt DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(FILES verification.txt.sig DESTINATION ${SUBFOLDER}${PROJECT_NAME}/)
-install(FILES ${LANG_SRC} DESTINATION ${SUBFOLDER}${PROJECT_NAME}/lang/)
+install(TARGETS ${PROJECT_NAME} DESTINATION ${PROJECT_NAME}/)
+install(DIRECTORY img DESTINATION ${PROJECT_NAME}/)
+install(DIRECTORY qml DESTINATION ${PROJECT_NAME}/)
+install(FILES manifest.yml DESTINATION ${PROJECT_NAME}/)
+install(FILES verification.txt DESTINATION ${PROJECT_NAME}/)
+install(FILES verification.txt.sig DESTINATION ${PROJECT_NAME}/)
+install(FILES ${LANG_SRC} DESTINATION ${PROJECT_NAME}/lang/)
 
 if(BUILD_EXTENSIONS_AS_PART_OF_PHOTOQT)
     file(COPY_FILE manifest.yml ${CMAKE_BINARY_DIR}/extensions/${PROJECT_NAME}/manifest.yml)

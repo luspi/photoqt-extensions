@@ -18,8 +18,8 @@ do
     for l in "${langs[@]}"
     do
 
-        mkdir -p "$ext"/lang
-        cp photoqt-extensions-lang/localized/"$ext"_"$l".ts "$ext"/lang/
+        mkdir -p "../$ext"/lang
+        cp photoqt-extensions-lang/localized/"$ext"_"$l".ts "../$ext"/lang/
 
     done
 
@@ -32,8 +32,10 @@ do
     for l in "${langs[@]}"
     do
 
-        eval "$lrelexe $ext/lang/"$ext"_$l.ts"
+        eval "$lrelexe ../$ext/lang/"$ext"_$l.ts"
 
     done
 
 done
+
+rm -rf photoqt-extensions-lang

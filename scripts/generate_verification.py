@@ -1,8 +1,8 @@
 import os
+from pathlib import Path
 import hashlib
 
 def sha256_checksum(filepath, block_size=65536):
-    """Compute SHA-256 checksum of a file."""
     sha256 = hashlib.sha256()
     with open(filepath, "rb") as f:
         for block in iter(lambda: f.read(block_size), b""):
@@ -10,7 +10,7 @@ def sha256_checksum(filepath, block_size=65536):
     return sha256.hexdigest()
 
 def collect_all_checksums_to_first_subdir(root_dir):
-    """Compute checksums for all files and write them to a single file in the first subdirectory."""
+
     # Get all subdirectories
     subdirs = [os.path.join(root_dir, d) for d in sorted(os.listdir(root_dir))
                if os.path.isdir(os.path.join(root_dir, d))]
@@ -19,18 +19,16 @@ def collect_all_checksums_to_first_subdir(root_dir):
         print("No subdirectories found.")
         return
 
-    # First subdirectory (alphabetically)
     output_path = os.path.join(root_dir, "verification.txt")
 
     ignore_files = ["verification.txt", "verification.txt.sig", "CMakeLists.txt"]
-    ignore_dirs  = ["build", "cplusplus"]
+    ignore_dirs  = ["build", "cplusplus", ".git"]
 
     with open(output_path, "w", encoding="utf-8") as out_file:
-        # Walk through all directories recursively
         for dirpath, dirnames, filenames in os.walk(root_dir):
             for filename in filenames:
                 if filename in ignore_files or "/build" in dirpath or "/cplusplus" in dirpath:
-                    continue  # skip shared object files
+                    continue
                 print(dirpath)
 
                 filepath = os.path.join(dirpath, filename)
@@ -49,8 +47,9 @@ def collect_all_checksums_to_first_subdir(root_dir):
 
 if __name__ == "__main__":
 
-    subdirs = [os.path.join(os.getcwd(), d) for d in sorted(os.listdir(os.getcwd()))
-               if os.path.isdir(os.path.join(os.getcwd(), d))]
+    basepath = Path(os.getcwd()).parent.absolute()
+
+    subdirs = [os.path.join(basepath, d) for d in sorted(os.listdir(basepath)) if os.path.isdir(os.path.join(basepath, d))]
 
     for d in subdirs:
         collect_all_checksums_to_first_subdir(d)
