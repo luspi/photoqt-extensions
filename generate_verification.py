@@ -20,9 +20,9 @@ def collect_all_checksums_to_first_subdir(root_dir):
         return
 
     # First subdirectory (alphabetically)
-    output_path = os.path.join(root_dir, "manifest.txt")
+    output_path = os.path.join(root_dir, "verification.txt")
 
-    ignore_files = ["manifest.txt", "manifest.txt.sig", "CMakeLists.txt"]
+    ignore_files = ["verification.txt", "verification.txt.sig", "CMakeLists.txt"]
     ignore_dirs  = ["build", "cplusplus"]
 
     with open(output_path, "w", encoding="utf-8") as out_file:
