@@ -1,6 +1,7 @@
 about:
     version: 1
     name: "imgur.com"
+    longName: "Upload to imgur.com"
     description: "This extension allows uploading an image to imgur.com. If no account is connected, then the image will be uploaded anonymously."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
@@ -19,8 +20,8 @@ setup:
         allow: true
         defaultSize: [800,600]
         fixSizeToContent: false
-    contextmenu:
-        section: ""
+    contextmenu: ""
+    mainmenu: true
     modal: true
     defaultShortcut: "Ctrl+I"
     rememberGeometry: true

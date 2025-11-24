@@ -1,6 +1,7 @@
 about:
     version: 1
     name: "Quick Actions"
+    longName: "Show quick actions buttons"
     description: "This extension provides various actions that can be accessed with a single click."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
@@ -19,10 +20,7 @@ setup:
         allow: true
         defaultSize: [0,0]
         fixSizeToContent: true
-    contextmenu:
-        section: "other"
-        icon: "quickactions.svg"
-        title: "Quick actions"
+    contextmenu: "other"
     modal: false
     defaultShortcut: "Ctrl+Shift+A"
     rememberGeometry: false

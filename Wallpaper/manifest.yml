@@ -1,6 +1,7 @@
 about:
     version: 1
     name: "Wallpaper"
+    longName: "Set as Wallpaper"
     description: "This extension allows setting an image as wallpaper."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
@@ -19,10 +20,7 @@ setup:
         allow: true
         defaultSize: [800,600]
         fixSizeToContent: false
-    contextmenu:
-        section: "use"
-        icon: "wallpaper.svg"
-        title: "Set as wallpaper"
+    contextmenu: "use"
     modal: true
     defaultShortcut: "W"
     rememberGeometry: true

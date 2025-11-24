@@ -1,6 +1,7 @@
 about:
     version: 1
     name: "Histogram"
+    longName: "Show histogram"
     description: "This extension provides a histogram for any viewed image."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
@@ -19,10 +20,7 @@ setup:
         allow: true
         defaultSize: [300,200]
         fixSizeToContent: false
-    contextmenu:
-        section: "about"
-        icon: "histogram.svg"
-        title: "Histogram"
+    contextmenu: "about"
     modal: false
     defaultShortcut: "H"
     defaultSize: [300,200]

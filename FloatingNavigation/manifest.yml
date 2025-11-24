@@ -1,6 +1,7 @@
 about:
     version: 1
     name: "Floating Navigation"
+    longName: "Show floating navigation buttons"
     description: "This extension provides floating buttons to navigate between images and to show/hide the main menu."
     author: "Lukas Spies"
     contact: "Lukas@photoqt.org"
@@ -19,10 +20,7 @@ setup:
         allow: true
         defaultSize: [300,100]
         fixSizeToContent: false
-    contextmenu:
-        section: "other"
-        icon: "floatingnavigation.svg"
-        title: "Floating navigation"
+    contextmenu: "other"
     modal: false
     defaultShortcut: "Shift+F"
     rememberGeometry: false
