@@ -19,7 +19,7 @@ setup:
         allow: true
         defaultSize: [800,600]
         fixSizeToContent: false
-    contextmenu: "use"
+    contextmenu: "manipulate"
     modal: true
     defaultShortcut: "Ctrl+S"
     rememberGeometry: true

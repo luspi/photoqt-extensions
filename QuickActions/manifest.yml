@@ -24,6 +24,7 @@ setup:
     modal: false
     defaultShortcut: "Ctrl+Shift+A"
     rememberGeometry: false
+    customMouseHandling: true
     haveCPPActions: false
     settings:
         - ["Items", "list", "rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close"]
