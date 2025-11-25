@@ -28,7 +28,14 @@ def collect_all_checksums_to_first_subdir(root_dir):
     with open(output_path, "w", encoding="utf-8") as out_file:
         for dirpath, dirnames, filenames in os.walk(root_dir):
             for filename in filenames:
-                if filename in ignore_files or "/build" in dirpath or "/cplusplus" in dirpath:
+                if filename in ignore_files:
+                    continue
+                skip = False
+                for d in ignore_dirs:
+                    if d in dirpath:
+                        skip = True
+                        break
+                if skip:
                     continue
                 suffix = filename.split(".")[-1].lower()
                 if suffix not in consider_these_file_endings:
@@ -54,5 +61,9 @@ if __name__ == "__main__":
 
     subdirs = [os.path.join(basepath, d) for d in sorted(os.listdir(basepath)) if os.path.isdir(os.path.join(basepath, d))]
 
+    ignore_dirs  = ["build", "cplusplus", ".git"]
+
     for d in subdirs:
+        if d.split("/")[-1] in ignore_dirs:
+            continue
         collect_all_checksums_to_first_subdir(d)
