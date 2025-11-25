@@ -25,5 +25,4 @@ setup:
     defaultShortcut: "G"
     defaultSize: [300,200]
     rememberGeometry: true
-    letMeHandleMouseEvents: true
     haveCPPActions: false

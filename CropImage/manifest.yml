@@ -23,5 +23,4 @@ setup:
     modal: true
     defaultShortcut: "Shift+C"
     rememberGeometry: true
-    letMeHandleMouseEvents: true
     haveCPPActions: true

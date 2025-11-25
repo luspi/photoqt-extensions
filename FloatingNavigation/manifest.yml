@@ -24,5 +24,4 @@ setup:
     modal: false
     defaultShortcut: "Shift+F"
     rememberGeometry: false
-    letMeHandleMouseEvents: true
     haveCPPActions: false

@@ -24,5 +24,4 @@ setup:
     modal: true
     defaultShortcut: "W"
     rememberGeometry: true
-    letMeHandleMouseEvents: true
     haveCPPActions: true

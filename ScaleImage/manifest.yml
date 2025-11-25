@@ -25,6 +25,5 @@ setup:
     modal: true
     defaultShortcut: "Ctrl+X"
     rememberGeometry: true
-    letMeHandleMouseEvents: true
     haveCPPActions: true
     settings: []

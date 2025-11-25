@@ -23,7 +23,6 @@ setup:
     modal: true
     defaultShortcut: "Ctrl+S"
     rememberGeometry: true
-    letMeHandleMouseEvents: true
     haveCPPActions: true
     settings:
         - ["Favorites", "list", "11485:://::46215:://::28282:://::44462"]

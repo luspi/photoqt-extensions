@@ -137,19 +137,6 @@ PQTemplateExtension {
             }
         }
 
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            acceptedButtons: Qt.AllButtons
-            tooltip: qsTranslate("mapcurrent", "Click-and-drag to move")
-            drag.target: mapcurrent_top.parent.parent
-            onWheel: (wheel) => {
-                if(!nofileloaded.visible && !noloc.visible)
-                    map.zoomLevel = (map.zoomLevel + wheel.angleDelta.y*0.01)
-                wheel.accepted = true
-            }
-        }
-
     }
 
     Connections {

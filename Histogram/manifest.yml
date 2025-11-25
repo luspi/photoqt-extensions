@@ -25,7 +25,6 @@ setup:
     defaultShortcut: "H"
     defaultSize: [300,200]
     rememberGeometry: true
-    letMeHandleMouseEvents: false
     haveCPPActions: true
     settings:
         - ["Version", "string", "color"]

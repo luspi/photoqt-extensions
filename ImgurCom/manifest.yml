@@ -25,7 +25,6 @@ setup:
     modal: true
     defaultShortcut: "Ctrl+I"
     rememberGeometry: true
-    letMeHandleMouseEvents: true
     haveCPPActions: true
     settings:
         - ["AccessToken", "string", ""]
