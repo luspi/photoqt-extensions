@@ -21,6 +21,7 @@ def collect_all_checksums_to_first_subdir(root_dir):
 
     output_path = os.path.join(root_dir, "verification.txt")
 
+    consider_these_file_endings = ["qml", "txt", "yml"]
     ignore_files = ["verification.txt", "verification.txt.sig", "CMakeLists.txt"]
     ignore_dirs  = ["build", "cplusplus", ".git"]
 
@@ -29,7 +30,9 @@ def collect_all_checksums_to_first_subdir(root_dir):
             for filename in filenames:
                 if filename in ignore_files or "/build" in dirpath or "/cplusplus" in dirpath:
                     continue
-                print(dirpath)
+                suffix = filename.split(".")[-1].lower()
+                if suffix not in consider_these_file_endings:
+                    continue
 
                 filepath = os.path.join(dirpath, filename)
                 try:
