@@ -25,8 +25,9 @@ def collect_all_checksums_to_first_subdir(root_dir):
     ignore_files = ["verification.txt", "verification.txt.sig", "CMakeLists.txt"]
     ignore_dirs  = ["build", "cplusplus", ".git"]
 
-    with open(output_path, "w", encoding="utf-8") as out_file:
-        for dirpath, dirnames, filenames in os.walk(root_dir):
+    # we first create a map of everything to always have the same sorting
+    mapOfAll = dict()
+    for dirpath, dirnames, filenames in os.walk(root_dir):
             for filename in filenames:
                 if filename in ignore_files:
                     continue
@@ -44,10 +45,17 @@ def collect_all_checksums_to_first_subdir(root_dir):
                 filepath = os.path.join(dirpath, filename)
                 try:
                     checksum = sha256_checksum(filepath)
-                    rel_path = os.path.relpath(filepath, root_dir)
-                    out_file.write(f"{rel_path}:{checksum}\n")
+                    rel_path = os.path.relpath(filepath, root_dir).replace("\\", "/")   # the replace is needed when run on Windows
+                    mapOfAll[rel_path] = checksum
                 except (OSError, PermissionError) as e:
                     print(f"Skipping {filepath}: {e}")
+
+    listFiles = list(mapOfAll.keys())
+    listFiles.sort()
+
+    with open(output_path, "w", encoding="utf-8") as out_file:
+        for f in listFiles:
+            out_file.write(f"{f}:{mapOfAll[f]}\n")
 
     # sign manifest
     command = f"openssl dgst -sha256 -sign private_rsa.pem -out {output_path}.sig {output_path}"
