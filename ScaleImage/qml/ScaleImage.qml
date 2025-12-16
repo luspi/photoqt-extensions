@@ -97,7 +97,7 @@ PQTemplateExtension {
                 id: spincol
                 spacing: 5
 
-                PQSliderSpinBox {
+                PQAdvancedSlider {
                     id: spin_w
                     enabled: scale_top.visible
                     minval: 1
@@ -116,7 +116,7 @@ PQTemplateExtension {
                                 reactToValueChanged = true
                     }
                 }
-                PQSliderSpinBox {
+                PQAdvancedSlider {
                     id: spin_h
                     enabled: scale_top.visible
                     minval: 1
