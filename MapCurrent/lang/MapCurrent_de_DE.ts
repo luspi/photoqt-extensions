@@ -4,26 +4,26 @@
   <context>
     <name>mapcurrent</name>
     <message>
-      <location filename="../MapCurrent/qml/PQMapCurrent.qml" line="142"/>
+      <location filename="../MapCurrent/qml/MapCurrent.qml" line="117"/>
       <source>No location data</source>
       <extracomment>The location here is a GPS location</extracomment>
-      <translation type="unfinished">No location data</translation>
+      <translation>Keine Standortdaten</translation>
     </message>
     <message>
-      <location filename="../MapCurrent/qml/PQMapCurrent.qml" line="163"/>
-      <source>Current location</source>
+      <location filename="../MapCurrent/qml/MapCurrent.qml" line="136"/>
+      <source>No file loaded</source>
       <extracomment>The location here is a GPS location</extracomment>
-      <translation type="unfinished">Current location</translation>
+      <translation>Keine Datei geladen</translation>
     </message>
     <message>
-      <location filename="../MapCurrent/qml/PQMapCurrentSettings.qml" line="30"/>
+      <location filename="../MapCurrent/qml/MapCurrentSettings.qml" line="27"/>
       <source>show small floating map</source>
-      <translation type="unfinished">show small floating map</translation>
+      <translation>kleine schwebende Karte anzeigen</translation>
     </message>
     <message>
-      <location filename="../MapCurrent/qml/PQMapCurrentSettings.qml" line="48"/>
+      <location filename="../MapCurrent/qml/MapCurrentSettings.qml" line="45"/>
       <source>There are currently no other settings here.</source>
-      <translation type="unfinished">There are currently no other settings here.</translation>
+      <translation>Es gibt derzeit keine anderen Einstellungen hier.</translation>
     </message>
   </context>
 </TS>

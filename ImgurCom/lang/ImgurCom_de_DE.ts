@@ -4,125 +4,100 @@
   <context>
     <name>imgurcom</name>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="36"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="33"/>
       <source>Show past uploads</source>
-      <translation type="unfinished">Show past uploads</translation>
+      <translation>Vorherige Uploads anzeigen</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="52"/>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="64"/>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="77"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="49"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="61"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="74"/>
       <source>Cancel</source>
-      <translation type="unfinished">Cancel</translation>
+      <translation>Abbrechen</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="71"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="68"/>
       <source>This seems to take a long time...</source>
-      <translation type="unfinished">This seems to take a long time...</translation>
+      <translation>Dies scheint eine lange Zeit zu dauern...</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="71"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="68"/>
       <source>There might be a problem with your internet connection or the imgur.com servers.</source>
-      <translation type="unfinished">There might be a problem with your internet connection or the imgur.com servers.</translation>
+      <translation>Es könnte ein Problem mit deiner Internetverbindung oder den Servern von imgur.com geben.</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="84"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="81"/>
       <source>An Error occurred while uploading image!</source>
-      <translation type="unfinished">An Error occurred while uploading image!</translation>
+      <translation>Beim Hochladen des Bildes ist ein Fehler aufgetreten!</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="84"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="81"/>
       <source>Error code:</source>
-      <translation type="unfinished">Error code:</translation>
+      <translation>Fehlercode:</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="93"/>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="109"/>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="124"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="90"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="106"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="121"/>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>Schließen</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="100"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="97"/>
       <source>You do not seem to be connected to the internet...</source>
-      <translation type="unfinished">You do not seem to be connected to the internet...</translation>
+      <translation>Du scheinst nicht mit dem Internet verbunden zu sein...</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="100"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="97"/>
       <source>Unable to upload!</source>
-      <translation type="unfinished">Unable to upload!</translation>
+      <translation>Hochladen nicht möglich!</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="151"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="143"/>
       <source>Access Image</source>
-      <translation type="unfinished">Access Image</translation>
+      <translation>Bild aufrufen</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="166"/>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="204"/>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="380"/>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="413"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="158"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="195"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="368"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="401"/>
       <source>Click to open in browser</source>
-      <translation type="unfinished">Click to open in browser</translation>
+      <translation>Zum Öffnen im Browser klicken</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="189"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="180"/>
       <source>Delete Image</source>
-      <translation type="unfinished">Delete Image</translation>
+      <translation>Bild löschen</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="274"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="260"/>
       <source>No past uploads found</source>
       <extracomment>The uploads are uploads to imgur.com</extracomment>
-      <translation type="unfinished">No past uploads found</translation>
+      <translation>Keine vorherigen Uploads gefunden</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="371"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="359"/>
       <source>Access:</source>
       <extracomment>Used as in: access this image</extracomment>
-      <translation type="unfinished">Access:</translation>
+      <translation>Zugriff:</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="404"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="392"/>
       <source>Delete:</source>
       <extracomment>Used as in: delete this image</extracomment>
-      <translation type="unfinished">Delete:</translation>
+      <translation>Löschen:</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurCom.qml" line="455"/>
+      <location filename="../ImgurCom/qml/ImgurCom.qml" line="443"/>
       <source>Clear all</source>
       <extracomment>Written on button, please keep short. Used as in: clear all entries</extracomment>
-      <translation type="unfinished">Clear all</translation>
+      <translation>Alles löschen</translation>
     </message>
     <message>
-      <location filename="../ImgurCom/qml/PQImgurComSettings.qml" line="26"/>
-      <source>Below you can see either whether PhotoQt is connected to which user account, or you can initiate the authentication process by clicking on the button below.</source>
-      <translation type="unfinished">Below you can see either whether PhotoQt is connected to which user account, or you can initiate the authentication process by clicking on the button below.</translation>
-    </message>
-    <message>
-      <location filename="../ImgurCom/qml/PQImgurComSettings.qml" line="31"/>
-      <source>Authenticated with:</source>
-      <translation type="unfinished">Authenticated with:</translation>
-    </message>
-    <message>
-      <location filename="../ImgurCom/qml/PQImgurComSettings.qml" line="35"/>
-      <source>Authenticate</source>
-      <translation type="unfinished">Authenticate</translation>
-    </message>
-    <message>
-      <location filename="../ImgurCom/qml/PQImgurComSettings.qml" line="35"/>
-      <source>Forget account</source>
-      <translation type="unfinished">Forget account</translation>
-    </message>
-    <message>
-      <location filename="../ImgurCom/qml/PQImgurComSettings.qml" line="68"/>
-      <source>Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.</source>
-      <translation type="unfinished">Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.</translation>
-    </message>
-    <message>
-      <location filename="../ImgurCom/qml/PQImgurComSettings.qml" line="98"/>
-      <source>An error occured:</source>
-      <translation type="unfinished">An error occured:</translation>
+      <location filename="../ImgurCom/qml/ImgurComSettings.qml" line="31"/>
+      <source>Unfortunately it is currently only possible to upload images to imgur.com anonymously from within PhotoQt.</source>
+      <translation>Leider ist es derzeit nur möglich, Bilder anonym auf imgur.com hochzuladen.</translation>
     </message>
   </context>
 </TS>

@@ -4,23 +4,22 @@
   <context>
     <name>cropimage</name>
     <message>
-      <location filename="../CropImage/qml/PQCropImage.qml" line="34"/>
-      <location filename="../CropImage/qml/PQCropImage.qml" line="46"/>
+      <location filename="../CropImage/qml/CropImage.qml" line="31"/>
       <source>Crop</source>
       <translation type="unfinished">Crop</translation>
     </message>
     <message>
-      <location filename="../CropImage/qml/PQCropImage.qml" line="465"/>
+      <location filename="../CropImage/qml/CropImage.qml" line="434"/>
       <source>An error occured, file could not be cropped</source>
       <translation type="unfinished">An error occured, file could not be cropped</translation>
     </message>
     <message>
-      <location filename="../CropImage/qml/PQCropImage.qml" line="621"/>
+      <location filename="../CropImage/qml/CropImage.qml" line="610"/>
       <source>Cropping not supported</source>
       <translation type="unfinished">Cropping not supported</translation>
     </message>
     <message>
-      <location filename="../CropImage/qml/PQCropImage.qml" line="622"/>
+      <location filename="../CropImage/qml/CropImage.qml" line="611"/>
       <source>Cropping of this image format is currently not supported.</source>
       <translation type="unfinished">Cropping of this image format is currently not supported.</translation>
     </message>

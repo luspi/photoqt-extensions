@@ -4,29 +4,29 @@
   <context>
     <name>floatingnavigation</name>
     <message>
-      <location filename="../FloatingNavigation/qml/PQFloatingNavigation.qml" line="75"/>
+      <location filename="../FloatingNavigation/qml/FloatingNavigation.qml" line="79"/>
       <source>Navigate to previous image in folder</source>
-      <translation type="unfinished">Navigate to previous image in folder</translation>
+      <translation>Vorhergehendes Bild im Ordner anzeigen</translation>
     </message>
     <message>
-      <location filename="../FloatingNavigation/qml/PQFloatingNavigation.qml" line="108"/>
+      <location filename="../FloatingNavigation/qml/FloatingNavigation.qml" line="113"/>
       <source>Navigate to next image in folder</source>
-      <translation type="unfinished">Navigate to next image in folder</translation>
+      <translation>Nächstes Bild im Ordner anzeigen</translation>
     </message>
     <message>
-      <location filename="../FloatingNavigation/qml/PQFloatingNavigation.qml" line="138"/>
+      <location filename="../FloatingNavigation/qml/FloatingNavigation.qml" line="145"/>
       <source>Show main menu</source>
-      <translation type="unfinished">Show main menu</translation>
+      <translation>Hauptmenü anzeigen</translation>
     </message>
     <message>
-      <location filename="../FloatingNavigation/qml/PQFloatingNavigationSettings.qml" line="30"/>
+      <location filename="../FloatingNavigation/qml/FloatingNavigationSettings.qml" line="27"/>
       <source>show floating navigation</source>
-      <translation type="unfinished">show floating navigation</translation>
+      <translation>schwebende Navigation anzeigen</translation>
     </message>
     <message>
-      <location filename="../FloatingNavigation/qml/PQFloatingNavigationSettings.qml" line="48"/>
+      <location filename="../FloatingNavigation/qml/FloatingNavigationSettings.qml" line="45"/>
       <source>There are currently no other settings here.</source>
-      <translation type="unfinished">There are currently no other settings here.</translation>
+      <translation>Es gibt derzeit keine anderen Einstellungen hier.</translation>
     </message>
   </context>
 </TS>
