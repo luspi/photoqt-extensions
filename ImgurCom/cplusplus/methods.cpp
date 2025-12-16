@@ -92,8 +92,9 @@ QVariant Methods::action(QString filepath, QVariant additional) {
 
     if(what == "start") {
 
-        if(m_networkManager == nullptr)
-            m_networkManager = new QNetworkAccessManager;
+        if(m_networkManager != nullptr)
+            delete m_networkManager;
+        m_networkManager = new QNetworkAccessManager;
 
         extensionConfigLocation = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
         extensionCacheLocation = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
@@ -280,17 +281,19 @@ QString Methods::uploadImage(QString filename) {
 
     // Send upload request and connect to feedback signals
     QNetworkReply *reply = m_networkManager->post(request, file);
-    connect(reply, &QNetworkReply::finished, this, &Methods::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &Methods::uploadProgress);
     connect(reply, &QNetworkReply::errorOccurred, this, &Methods::uploadError);
-    connect(reply, &QNetworkReply::requestSent, this, [=]() { qWarning() << "REQUEST SENT"; });
     connect(this, &Methods::abortUpload, reply, &QNetworkReply::abort);
 
     // This is IMPORTANT!
     // Otherwise the image will never upload
-    QEventLoop loop;
-    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-    loop.exec();
+    // We need to call processEvents() regularly otherwise no signals will be emitted/processed
+    // and the user will receive no feedback whatsoever
+    bool amDone = false;
+    connect(reply, &QNetworkReply::finished, [&]() { uploadFinished(reply); amDone = true; });
+    while(!amDone) {
+        qApp->processEvents();
+    }
 
     // Phew, no error occurred!
     return "";
@@ -374,12 +377,14 @@ void Methods::uploadError(QNetworkReply::NetworkError err) {
 }
 
 // Finished uploading an image
-void Methods::uploadFinished() {
+void Methods::uploadFinished(QNetworkReply *reply) {
 
     qDebug() << "uploadFinished()";
 
-    // The sending network reply
-    QNetworkReply *reply = (QNetworkReply*)(sender());
+    if(reply == nullptr) {
+        Q_EMIT PQCExtensionActions::sendMessage(QVariantList() << "uploadError" << "NetworkReply is nullptr");
+        return;
+    }
 
     // The reply is not open when operation was aborted
     if(!reply->isOpen()) {

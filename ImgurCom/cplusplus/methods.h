@@ -95,7 +95,7 @@ private Q_SLOTS:
     // receive feedback from the upload/connecting handler
     void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
     void uploadError(QNetworkReply::NetworkError err);
-    void uploadFinished();
+    void uploadFinished(QNetworkReply *reply);
 
 Q_SIGNALS:
     void sendMessage(QVariant val);
