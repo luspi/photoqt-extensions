@@ -2,7 +2,7 @@
 # CMakeLists for PhotoQt Extensions: http://photoqt.org #
 #########################################################
 
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.16)
 project(photoqt-extensions LANGUAGES C CXX)
 
 add_subdirectory("CropImage/")
