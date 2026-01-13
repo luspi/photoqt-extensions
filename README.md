@@ -4,7 +4,9 @@ This repository provides a set of official extensions for PhotoQt. They provide 
 
 Some of the extensions can simply be put into the right place and will be picked up by PhotoQt automatically. Others need to some C++ code to be compiled before everything is put into the right place. More detailed instructions can be found in the `INSTALL` file.
 
-Often, installing PhotoQt will automatically also install these official extensions.
+Certain packages/installers for PhotoQt also automatically install the relevant extensions.
+
+Visit its official website at https://photoqt.org/extensions
 
 ## Installing an extension
 

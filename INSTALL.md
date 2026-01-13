@@ -14,13 +14,15 @@ On **Windows** the search paths are:
 
 The order of search paths is important, because if an extension with the same id exists in both search paths, then only the first one will be loaded and the second will be ignored. Thus it is possible to "override" an extension with an updated/modified version.
 
-## Installing all extensions
+## Building all extensions
 
 In order to install all the extensions, you can do so by following these steps:
 
 1. *mkdir build && cd build/*
 
 2. *cmake -DCMAKE\_INSTALL\_PREFIX=/usr/lib/PhotoQt/extensions ..*
+
+    \# You can disable individual extensions by specifying `-DBUILD_<extension_id>=OFF`
 
     \# On windows, replace the path above with `C:/Users/\[username\]/AppData/Roaming/PhotoQt/extensions`
 
@@ -31,10 +33,6 @@ In order to install all the extensions, you can do so by following these steps:
 4. *make install*
 
 Now, (re)-start PhotoQt and it should automatically find and load the extensions. By default, all official extensions are enabled and ready to be used.
-
-## Installing a single extension
-
-If you want to install only a specific extension, follow the same steps as above, but instead of working from the `build/` directory from the root folder, descend into the folder of the respective extension to continue.
 
 ---
 

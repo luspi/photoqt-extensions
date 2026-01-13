@@ -9,17 +9,22 @@
  automatically. Others need to some C++ code to be compiled before everything is put into the
  right place. More detailed instructions can be found in the INSTALL file.
 
- Often, installing PhotoQt will automatically also install these official extensions.
+ Certain packages/installers for PhotoQt also automatically install the relevant extensions.
+
+ Visit its official website at: https://photoqt.org/extensions
+
 
  INSTALLING AN EXTENSION
 -------------------------
 
  See the INSTALL.md file for instruction on how to install an extension.
 
+
  HOW TO CONTRIBUTE AN EXTENSION
 --------------------------------
 
-Contributing an extensions is not difficult, and detailed instructions will follow shortly.
+ Contributing an extensions is not difficult, and detailed instructions will follow shortly.
+
 
  LICENSE
 ---------

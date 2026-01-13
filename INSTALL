@@ -21,7 +21,7 @@
  Thus it is possible to "override" an extension with an updated/modified version.
 
 
- INSTALLING ALL EXTENSIONS
+ BUILDING ALL EXTENSIONS
 ---------------------------
 
  In order to install all the extensions, you can do so by following these steps:
@@ -29,6 +29,8 @@
  1. mkdir build && cd build/
 
  2. cmake -DCMAKE_INSTALL_PREFIX=/usr/lib/PhotoQt/extensions ..
+
+     # You can disable individual extensions by specifying -DBUILD_<extension_id>=OFF
 
      # On windows, replace the path above with
      # C:/Users/[username]/AppData/Roaming/PhotoQt/extensions
@@ -42,13 +44,6 @@
  Now, (re)-start PhotoQt and it should automatically find and load the extensions. By default,
  all official extensions are enabled and ready to be used.
 
-
- INSTALLING A SINGLE EXTENSION
--------------------------------
-
- If you want to install only a specific extension, follow the same steps as above, but instead
- of working from the 'build/' directory from the root folder, descend into the folder of the
- respective extension to continue.
 
 ---------------------------------------------------------------------------------------------
 
