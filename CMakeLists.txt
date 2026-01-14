@@ -5,6 +5,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(photoqt-extensions LANGUAGES C CXX)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+
 option(BUILD_CROPIMAGE          "Build extension: Crop images"            ON)
 option(BUILD_EXPORTIMAGE        "Build extension: Export images"          ON)
 option(BUILD_FLOATINGNAVIGATION "Build extension: Floating navigation"    ON)
