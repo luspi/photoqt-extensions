@@ -1,0 +1,12 @@
+Changelog PhotoQt Extensions - Copyright (C) 2011-2026, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+----------------------------------------------------------------------------------------------------------
+
+Release 5.1 - 2026-01-16
+----------------------------
+- add: cmake options to disable individual extensions during build
+- improve: install instructions
+- fix: building with GraphicsMagick
+
+Release 5.0 - 2025-12-23
+----------------------------
+- first release of extensions, extracted from code previously integrated in PhotoQt
