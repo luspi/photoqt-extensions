@@ -20,6 +20,14 @@ option(BUILD_WALLPAPER          "Build extension: Set as wallpaper"       ON)
 SET(STATUS_ENABLED "")
 SET(STATUS_DISABLED "")
 
+# This avoids hardcoding 'lib' as subdir for the shared libraries
+include(GNUInstallDirs)
+SET(PQEPREFIX "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/PhotoQt/extensions" CACHE STRING "Set target folder for where to install the extensions")
+if(PQEPREFIX MATCHES "^$")
+    message("** found empty PQEPREFIX, resetting to default value")
+    set(PQEPREFIX "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/PhotoQt/extensions")
+endif()
+
 if(BUILD_CROPIMAGE)
     list(APPEND STATUS_ENABLED "CropImage")
     add_subdirectory("CropImage/")
