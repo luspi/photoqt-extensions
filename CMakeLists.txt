@@ -103,3 +103,12 @@ if(NUM_DISABLED GREATER 0)
     endforeach()
     message("")
 endif()
+
+
+if(UNIX)
+    include(GNUInstallDirs)
+    install(
+        FILES org.photoqt.Extensions.metainfo.xml
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo/
+    )
+endif()
