@@ -184,8 +184,8 @@ PQTemplateExtension {
             PQButton {
                 id: but025
                 text: "0.25x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                fontPointSize: PQCLook.fontSize
+                fontWeight: PQCLook.fontWeightNormal
                 extraSmall: true
                 onClicked: {
                     spin_w.reactToValueChanged = false
@@ -198,8 +198,8 @@ PQTemplateExtension {
             PQButton {
                 id: but050
                 text: "0.5x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                fontPointSize: PQCLook.fontSize
+                fontWeight: PQCLook.fontWeightNormal
                 extraSmall: true
                 onClicked: {
                     spin_w.reactToValueChanged = false
@@ -212,8 +212,8 @@ PQTemplateExtension {
             PQButton {
                 id: but075
                 text: "0.75x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                fontPointSize: PQCLook.fontSize
+                fontWeight: PQCLook.fontWeightNormal
                 extraSmall: true
                 onClicked: {
                     spin_w.reactToValueChanged = false
@@ -226,8 +226,8 @@ PQTemplateExtension {
             PQButton {
                 id: but100
                 text: "1x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                fontPointSize: PQCLook.fontSize
+                fontWeight: PQCLook.fontWeightNormal
                 extraSmall: true
                 onClicked: {
                     spin_w.reactToValueChanged = false
@@ -240,8 +240,8 @@ PQTemplateExtension {
             PQButton {
                 id: but150
                 text: "1.5x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                fontPointSize: PQCLook.fontSize
+                fontWeight: PQCLook.fontWeightNormal
                 extraSmall: true
                 onClicked: {
                     spin_w.reactToValueChanged = false
