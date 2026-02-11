@@ -431,6 +431,8 @@ PQTemplateExtension {
 
     function modalButton2Action() {
 
+        if(targetFormat === "") return
+
         settings["LastUsed"] = targetFormat
 
         errormessage.visible = false
