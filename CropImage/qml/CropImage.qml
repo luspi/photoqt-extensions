@@ -591,10 +591,12 @@ PQTemplateExtension {
         if(val === "")
             return
 
+        var info = PQCExtensionMethods.getImageFormatInfo(formatId)
+
         cropbusy.showBusy()
         PQCExtensionMethods.callActionWithImageNonBlocking(crop_top.extensionId,
                                                            [val,
-                                                            PQCExtensionMethods.getImageFormatInfo(formatId),
+                                                            info["endings"], info["qt_formatname"], info["imagemagick"], info["graphicsmagick"], info["im_gm_magick"],
                                                             PQCExtensionMethods.getImageFormatWriteStatus(formatId),
                                                             resizerect.startPos,
                                                             resizerect.endPos])

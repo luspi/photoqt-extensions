@@ -24,12 +24,16 @@
 
 QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 
-    const QVariantList lst = additional.toList();
+    QVariantList lst = additional.toList();
     const QString targetFilename = lst.at(0).toString();
-    const QVariantMap databaseinfo = lst.at(1).toMap();
-    const int writeStatus = lst.at(2).toInt();
-    const QPointF topLeft = lst.at(3).toPointF();
-    const QPointF botRight = lst.at(4).toPointF();
+    const QStringList infoEndings = lst.at(1).toStringList();
+    const QString infoQtFormatname = lst.at(2).toString();
+    const int infoImagemagick = lst.at(3).toInt();
+    const int infoGraphicsmagick = lst.at(4).toInt();
+    const QString infoImGmMagick = lst.at(5).toString();
+    const int writeStatus = lst.at(6).toInt();
+    const QPointF topLeft = lst.at(7).toPointF();
+    const QPointF botRight = lst.at(8).toPointF();
 
     if(writeStatus == 0) {
         qWarning() << "ERROR: file not supported for cropping:" << filepath;
@@ -43,7 +47,7 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
     if(writeStatus == 1 || writeStatus == 2) {
 
         // we don't stop if this fails as we might be able to try again with Magick
-        if(croppedImg.save(targetFilename, databaseinfo.value("qt_formatname").toString().toStdString().c_str(), -1))
+        if(croppedImg.save(targetFilename, infoQtFormatname.toStdString().c_str(), -1))
             return true;
         else
             qWarning() << "Cropping image with Qt failed";
@@ -55,16 +59,15 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
         // imagemagick/graphicsmagick might support it
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
     #ifdef PQMIMAGEMAGICK
-        if(databaseinfo.value("imagemagick").toInt() == 1) {
+        if(infoImagemagick == 1) {
     #else
-        if(databaseinfo.value("graphicsmagick").toInt() == 1) {
+        if(infoGraphicsmagick == 1) {
     #endif
 
             // first check whether ImageMagick/GraphicsMagick supports writing this filetype
             bool canproceed = false;
             try {
-                QString magick = databaseinfo.value("im_gm_magick").toString();
-                Magick::CoderInfo magickCoderInfo(magick.toStdString());
+                Magick::CoderInfo magickCoderInfo(infoImGmMagick.toStdString());
                 if(magickCoderInfo.isWritable())
                     canproceed = true;
             } catch(...) {
@@ -79,7 +82,7 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
 
                 // we scale the image to this tmeporary file and then copy it to the right location
                 // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-                QString tmpImagePath = tmpDir + "/temporaryfileforcrop" + "." + databaseinfo.value("endings").toString().split(",")[0];
+                QString tmpImagePath = tmpDir + "/temporaryfileforcrop" + "." + infoEndings[0];
                 if(QFile::exists(tmpImagePath))
                     QFile::remove(tmpImagePath);
 
@@ -100,7 +103,7 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
                     image.magick("PPM");
                     image.read(tmppath.toStdString());
 
-                    image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
+                    image.magick(infoImGmMagick.toStdString());
                     image.write(tmpImagePath.toStdString());
 
                     // remove temporary file
