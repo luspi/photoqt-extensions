@@ -445,8 +445,10 @@ PQTemplateExtension {
         if(val === "")
             return
 
+        var info = PQCExtensionMethods.getImageFormatInfo(parseInt(export_top.targetFormat))
+
         exportbusy.showBusy()
-        PQCExtensionMethods.callActionWithImageNonBlocking(extensionId, [val, PQCExtensionMethods.getImageFormatInfo(parseInt(export_top.targetFormat))])
+        PQCExtensionMethods.callActionWithImageNonBlocking(extensionId, [val, info["ëndings"], info["qt"], info["qt_formatname"], info["imagemagick"], info["graphicsmagick"], info["im_gm_magick"]])
 
     }
 

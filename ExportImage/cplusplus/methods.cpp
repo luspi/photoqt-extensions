@@ -34,9 +34,15 @@
 
 QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additional) {
 
-    // get info about new file format and source file
-    QString targetFilename = additional.toList()[0].toString();
-    QVariantMap databaseinfo = additional.toList()[1].toMap();
+    // get some info about this operation
+    QVariantList addLst = additional.toList();
+    const QString targetFilename = addLst[0].toString();
+    const QStringList infoEndings = addLst[1].toString().split(",");
+    const int infoQt = addLst[2].toInt();
+    const QString infoQtFormatName = addLst[3].toString();
+    const int infoImagemagick = addLst[4].toInt();
+    const int infoGraphicsmagick = addLst[5].toInt();
+    const QString infoImGmMagick = addLst[6].toString();
 
     // we convert the image to this tmeporary file and then copy it to the right location
     // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
@@ -44,21 +50,21 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
     QDir dir(tmpImageFolder);
     dir.mkpath(tmpImageFolder);
 
-    QString tmpImagePath = tmpImageFolder + "/temporaryfileforexport" + "." + databaseinfo.value("endings").toString().split(",")[0];
+    QString tmpImagePath = tmpImageFolder + "/temporaryfileforexport" + "." + infoEndings[0];
     if(QFile::exists(tmpImagePath))
         QFile::remove(tmpImagePath);
 
     // qt might support it
-    if(databaseinfo.value("qt").toInt() == 1) {
+    if(infoQt == 1) {
 
         QImageWriter writer;
 
         // if the QImageWriter supports the format then we're good to go
-        if(writer.supportedImageFormats().contains(databaseinfo.value("qt_formatname").toString())) {
+        if(writer.supportedImageFormats().contains(infoQtFormatName)) {
 
             // ... and then we write it into the new format
             writer.setFileName(tmpImagePath);
-            writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
+            writer.setFormat(infoQtFormatName.toUtf8());
 
             // if the actual writing succeeds we're done now
             if(!writer.write(img))
@@ -77,15 +83,15 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
     // imagemagick/graphicsmagick might support it
 #if defined(PQEIMAGEMAGICK) || defined(PQEGRAPHICSMAGICK)
 #ifdef PQEIMAGEMAGICK
-    if(databaseinfo.value("imagemagick").toInt() == 1) {
+    if(infoImagemagick == 1) {
 #else
-    if(databaseinfo.value("graphicsmagick").toInt() == 1) {
+    if(infoGraphicsmagick == 1) {
 #endif
 
         // first check whether ImageMagick/GraphicsMagick supports writing this filetype
         bool canproceed = false;
         try {
-            QString magick = databaseinfo.value("im_gm_magick").toString();
+            QString magick = infoImGmMagick;
             Magick::CoderInfo magickCoderInfo(magick.toStdString());
             if(magickCoderInfo.isWritable())
                 canproceed = true;
@@ -113,7 +119,7 @@ QVariant Methods::actionWithImage(QString filepath, QImage &img, QVariant additi
                 image.magick("PPM");
                 image.read(tmppath.toStdString());
 
-                image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
+                image.magick(infoImGmMagick.toStdString());
                 image.write(tmpImagePath.toStdString());
 
                 // remove temporary file
