@@ -58,6 +58,19 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="5.2" date="2026-02-20">
+            <description>
+                <ul>
+                    <li>CropImage: harden how info between QML and CPP is passed</li>
+                    <li>ExportImage: don't attemp exporting with no format selected to avoid crash</li>
+                    <li>ExportImage: harden how info between QML and CPP is passed</li>
+                    <li>ScaleImage: fix setting font properties for buttons</li>
+                </ul>
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-5.2
+            </url>
+        </release>
         <release version="5.1" date="2026-01-16">
             <description>
                 <ul>
