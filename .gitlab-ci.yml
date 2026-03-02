@@ -7,7 +7,7 @@ localization:
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools openssh-client git wget
+    - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools openssh-client git wget python3-minimal
     - git config --global user.email "Lukas@photoqt.org"
     - git config --global user.name "Lukas Spies"
     - git clone https://luspi:${LANG_ACCESS_TOKEN}@gitlab.com/lspies/photoqt-extensions-lang.git && cd photoqt-extensions-lang
@@ -20,7 +20,7 @@ localization:
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../QuickActions -ts QuickActions.ts
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../ScaleImage -ts ScaleImage.ts
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../Wallpaper -ts Wallpaper.ts
-    - python generate_manifests_for_translation.py
+    - python3 generate_manifests_for_translation.py
     - git add CropImage.ts CropImage_manifest.yml
     - git add ExportImage.ts ExportImage_manifest.yml
     - git add FloatingNavigation.ts FloatingNavigation_manifest.yml
