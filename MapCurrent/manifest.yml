@@ -1,28 +1,27 @@
 about:
     version: 1
-    name: "Current Map"
-    longName: "Show location on map"
-    description: "This extension show the GPS location of the current image on a small floating map."
-    author: "Lukas Spies"
-    contact: "Lukas@photoqt.org"
-    website: "https://gitlab.com/lspies/photoqt-extensions"
+    name: Current Map
+    longName: Show location on map
+    description: This extension show the GPS location of the current image on a small floating map.
+    author: Lukas Spies
+    contact: Lukas@photoqt.org
+    website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 1
-
 setup:
     integrated:
         allow: true
-        minimumRequiredWindowSize: [0,0]
-        defaultPosition: "TopLeft"
+        minimumRequiredWindowSize: [0, 0]
+        defaultPosition: TopLeft
         defaultDistanceFromEdge: 100
-        defaultSize: [300,200]
+        defaultSize: [300, 200]
         fixSizeToContent: false
     popout:
         allow: true
-        defaultSize: [300,200]
+        defaultSize: [300, 200]
         fixSizeToContent: false
-    contextmenu: "about"
+    contextmenu: about
     modal: false
-    defaultShortcut: "G"
-    defaultSize: [300,200]
+    defaultShortcut: G
+    defaultSize: [300, 200]
     rememberGeometry: true
     haveCPPActions: false

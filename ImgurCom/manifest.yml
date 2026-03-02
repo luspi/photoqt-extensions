@@ -1,33 +1,32 @@
 about:
     version: 1
-    name: "imgur.com"
-    longName: "Upload to imgur.com"
-    description: "This extension allows uploading an image to imgur.com. If no account is connected, then the image will be uploaded anonymously."
-    author: "Lukas Spies"
-    contact: "Lukas@photoqt.org"
-    website: "https://gitlab.com/lspies/photoqt-extensions"
+    name: imgur.com
+    longName: Upload to imgur.com
+    description: This extension allows uploading an image to imgur.com. If no account is connected, then the image will be uploaded anonymously.
+    author: Lukas Spies
+    contact: Lukas@photoqt.org
+    website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 1
-
 setup:
     integrated:
         allow: true
-        minimumRequiredWindowSize: [600,400]
-        defaultPosition: ""
+        minimumRequiredWindowSize: [600, 400]
+        defaultPosition: ''
         defaultDistanceFromEdge: 100
-        defaultSize: [0,0]
+        defaultSize: [0, 0]
         fixSizeToContent: false
     popout:
         allow: true
-        defaultSize: [800,600]
+        defaultSize: [800, 600]
         fixSizeToContent: false
-    contextmenu: ""
+    contextmenu: ''
     mainmenu: true
     modal: true
-    defaultShortcut: "Ctrl+I"
+    defaultShortcut: Ctrl+I
     rememberGeometry: true
     haveCPPActions: true
     settings:
-        - ["AccessToken", "string", ""]
-        - ["RefreshToken", "string", ""]
-        - ["AccountName", "string", ""]
-        - ["AuthDateTime", "string", ""]
+        - [AccessToken, string, '']
+        - [RefreshToken, string, '']
+        - [AccountName, string, '']
+        - [AuthDateTime, string, '']

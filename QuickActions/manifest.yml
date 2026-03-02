@@ -1,30 +1,29 @@
 about:
     version: 1
-    name: "Quick Actions"
-    longName: "Show quick actions buttons"
-    description: "This extension provides various actions that can be accessed with a single click."
-    author: "Lukas Spies"
-    contact: "Lukas@photoqt.org"
-    website: "https://gitlab.com/lspies/photoqt-extensions"
+    name: Quick Actions
+    longName: Show quick actions buttons
+    description: This extension provides various actions that can be accessed with a single click.
+    author: Lukas Spies
+    contact: Lukas@photoqt.org
+    website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 1
-
 setup:
     integrated:
         allow: true
-        minimumRequiredWindowSize: [0,0]
-        defaultPosition: "Top"
+        minimumRequiredWindowSize: [0, 0]
+        defaultPosition: Top
         defaultDistanceFromEdge: 20
-        defaultSize: [0,0]
+        defaultSize: [0, 0]
         fixSizeToContent: true
     popout:
         allow: true
-        defaultSize: [0,0]
+        defaultSize: [0, 0]
         fixSizeToContent: true
-    contextmenu: "other"
+    contextmenu: other
     modal: false
-    defaultShortcut: "Ctrl+Shift+A"
+    defaultShortcut: Ctrl+Shift+A
     rememberGeometry: false
     customMouseHandling: true
     haveCPPActions: false
     settings:
-        - ["Items", "list", "rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close"]
+        - [Items, list, rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close]

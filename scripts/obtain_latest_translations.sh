@@ -38,4 +38,7 @@ do
 
 done
 
+# read in and adapt the translations
+python3 compose_manifests.py
+
 rm -rf photoqt-extensions-lang

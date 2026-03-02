@@ -1,26 +1,27 @@
 about:
     version: 1
-    name: "Crop Image"
-    description: "This extension allows cropping an image."
-    author: "Lukas Spies"
-    contact: "Lukas@photoqt.org"
-    website: "https://gitlab.com/lspies/photoqt-extensions"
+    name: Crop Image
+    description: This extension allows cropping an image.
+    author: Lukas Spies
+    contact: Lukas@photoqt.org
+    website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 1
-
+    name[de]: Bild zuschneiden
+    description[de]: Diese Erweiterung ermöglicht das Zuschneiden eines Bildes.
 setup:
     integrated:
         allow: true
-        minimumRequiredWindowSize: [600,400]
-        defaultPosition: ""
+        minimumRequiredWindowSize: [600, 400]
+        defaultPosition: ''
         defaultDistanceFromEdge: 100
-        defaultSize: [0,0]
+        defaultSize: [0, 0]
         fixSizeToContent: false
     popout:
         allow: true
-        defaultSize: [800,600]
+        defaultSize: [800, 600]
         fixSizeToContent: false
-    contextmenu: "manipulate"
+    contextmenu: manipulate
     modal: true
-    defaultShortcut: "Shift+C"
+    defaultShortcut: Shift+C
     rememberGeometry: true
     haveCPPActions: true

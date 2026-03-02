@@ -1,28 +1,27 @@
 about:
     version: 1
-    name: "Floating Navigation"
-    longName: "Show floating navigation buttons"
-    description: "This extension provides floating buttons to navigate between images and to show/hide the main menu."
-    author: "Lukas Spies"
-    contact: "Lukas@photoqt.org"
-    website: "https://gitlab.com/lspies/photoqt-extensions"
+    name: Floating Navigation
+    longName: Show floating navigation buttons
+    description: This extension provides floating buttons to navigate between images and to show/hide the main menu.
+    author: Lukas Spies
+    contact: Lukas@photoqt.org
+    website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 1
-
 setup:
     integrated:
         allow: true
-        minimumRequiredWindowSize: [0,0]
-        defaultPosition: "Bottom"
+        minimumRequiredWindowSize: [0, 0]
+        defaultPosition: Bottom
         defaultDistanceFromEdge: 100
-        defaultSize: [300,100]
+        defaultSize: [300, 100]
         fixSizeToContent: false
     popout:
         allow: true
-        defaultSize: [300,100]
+        defaultSize: [300, 100]
         fixSizeToContent: false
-    contextmenu: "other"
+    contextmenu: other
     modal: false
-    defaultShortcut: "Shift+F"
+    defaultShortcut: Shift+F
     rememberGeometry: false
     customMouseHandling: true
     haveCPPActions: false

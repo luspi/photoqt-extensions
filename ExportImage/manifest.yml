@@ -1,29 +1,28 @@
 about:
     version: 1
-    name: "Export Image"
-    description: "This extension allows exporting an image to another format."
-    author: "Lukas Spies"
-    contact: "Lukas@photoqt.org"
-    website: "https://gitlab.com/lspies/photoqt-extensions"
+    name: Export Image
+    description: This extension allows exporting an image to another format.
+    author: Lukas Spies
+    contact: Lukas@photoqt.org
+    website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 1
-
 setup:
     integrated:
         allow: true
-        minimumRequiredWindowSize: [600,400]
-        defaultPosition: ""
+        minimumRequiredWindowSize: [600, 400]
+        defaultPosition: ''
         defaultDistanceFromEdge: 100
-        defaultSize: [0,0]
+        defaultSize: [0, 0]
         fixSizeToContent: false
     popout:
         allow: true
-        defaultSize: [800,600]
+        defaultSize: [800, 600]
         fixSizeToContent: false
-    contextmenu: "manipulate"
+    contextmenu: manipulate
     modal: true
-    defaultShortcut: "Ctrl+S"
+    defaultShortcut: Ctrl+S
     rememberGeometry: true
     haveCPPActions: true
     settings:
-        - ["Favorites", "list", "11485:://::46215:://::28282:://::44462"]
-        - ["LastUsed", "string", ""]
+        - [Favorites, list, 11485:://::46215:://::28282:://::44462]
+        - [LastUsed, string, '']
