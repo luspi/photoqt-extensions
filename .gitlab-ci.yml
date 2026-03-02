@@ -20,14 +20,15 @@ localization:
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../QuickActions -ts QuickActions.ts
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../ScaleImage -ts ScaleImage.ts
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../Wallpaper -ts Wallpaper.ts
-    - git add CropImage.ts
-    - git add ExportImage.ts
-    - git add FloatingNavigation.ts
-    - git add Histogram.ts
-    - git add ImgurCom.ts
-    - git add MapCurrent.ts
-    - git add QuickActions.ts
-    - git add ScaleImage.ts
-    - git add Wallpaper.ts
+    - python generate_manifests_for_translation.py
+    - git add CropImage.ts CropImage_manifest.yml
+    - git add ExportImage.ts ExportImage_manifest.yml
+    - git add FloatingNavigation.ts FloatingNavigation_manifest.yml
+    - git add Histogram.ts Histogram_manifest.yml
+    - git add ImgurCom.ts ImgurCom_manifest.yml
+    - git add MapCurrent.ts MapCurrent_manifest.yml
+    - git add QuickActions.ts QuickActions_manifest.yml
+    - git add ScaleImage.ts ScaleImage_manifest.yml
+    - git add Wallpaper.ts Wallpaper_manifest.yml
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI"
     - git push
