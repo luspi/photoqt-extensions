@@ -7,7 +7,7 @@ localization:
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools openssh-client git wget python3-minimal
+    - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools openssh-client git wget python3-minimal python3-yaml
     - git config --global user.email "Lukas@photoqt.org"
     - git config --global user.name "Lukas Spies"
     - git clone https://luspi:${LANG_ACCESS_TOKEN}@gitlab.com/lspies/photoqt-extensions-lang.git && cd photoqt-extensions-lang
