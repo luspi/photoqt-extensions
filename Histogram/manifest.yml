@@ -2,7 +2,7 @@ about:
     version: 1
     name: Histogram
     longName: Show histogram
-    description: This extension provides a histogram for any viewed image.
+    description: This extension provides a histogram for the currently viewed image.
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
