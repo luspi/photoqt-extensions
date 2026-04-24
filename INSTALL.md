@@ -34,6 +34,30 @@ In order to install all the extensions, you can do so by following these steps:
 
 Now, (re)-start PhotoQt and it should automatically find and load the extensions. By default, all official extensions are enabled and ready to be used.
 
+## Distribute a custom build of extensions
+
+PhotoQt verifies any found extension using a cryptographic signature. For this purpose, pre-built extensions are provided that are signed with the project's private ed25519 key. The corresponding public key is included in PhotoQt.
+
+If the extensions are built independently and to be distributed, then there are two possible solutions for obtaining verified extensions:
+
+1. The recommended way is to sign the verification files after the extensions have been built. To this end, a Python script is provided that simplifies that process. It is called `generate_verification.py` and is located in the `scripts/` subfolder. It takes two possible command line arguments:
+
+      ```
+      --private-key [filename]   
+      --ext-dir [directory]  
+      ```
+The first one specifies the custom private key (required to be specified), and the second one is the location of the extensions directory (parent directory by default).
+
+2. Another solution, but not recommended, is to disable the verification of the built shared library files in PhotoQt (`-DWITH_EXTENSIONS_LIBRARY_VERIFICATION=OFF`). The remaining files that are validated are text files and do not change in the build process of the extensions.
+
+The public/private key pair needs to be generated with the RSA algorithm (SHA256). You can generate such a key pair using `openssl` by executing the following two commands:
+
+```
+$ openssl genrsa -out private.key 4096
+$ openssl rsa -in private.key -pubout -out public.key
+```
+
+
 ---
 
 ### PhotoQt doesn't find an extension, what should I do?

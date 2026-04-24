@@ -12,6 +12,9 @@ Visit its official website at https://photoqt.org/extensions
 
 See the INSTALL.md file for instruction on how to install an extension.
 
+## Distributing the extensions
+
+See the relevant section in the INSTALL.md file for more details.
 
 ## How to contribute an extension
 
