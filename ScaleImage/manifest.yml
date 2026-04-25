@@ -5,7 +5,7 @@ about:
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
-    targetAPI: 1
+    targetAPI: 2
 setup:
     integrated:
         allow: true
@@ -21,6 +21,7 @@ setup:
         defaultSize: [800, 600]
         fixSizeToContent: false
     contextmenu: manipulate
+    floating: false
     modal: true
     defaultShortcut: Ctrl+X
     rememberGeometry: true
