@@ -62,11 +62,14 @@
       --private-key [filename]
       --ext-dir [directory]
     The first one specifies the custom private key (required to be specified), and the second
-    one is the location of the extensions directory (parent directory by default).
+    one is the location of the extensions directory (parent directory by default). The
+    corresponding public key then needs to be specified when configuring PhotoQt
+    (-DEXTENSIONS_CUSTOM_PUBLIC_KEY=<public_key>) which will add that key in addition to the
+    project's public key.
 
- 2. Another solution, but not recommended, is to disable the verification of the built shared
-    library files in PhotoQt. The remaining files that are validated are text files and do not
-    change in the build process of the extensions.
+ 2. Another solution (not recommended) is to disable the verification of the built shared
+    library files in PhotoQt (-DWITH_EXTENSIONS_LIBRARY_VERIFICATION=OFF). The remaining files
+    that are validated are text files and do not change in the build process.
 
 The public/private key pair needs to be generated with the RSA algorithm (SHA256). You can generate such a key pair using openssl by executing the following two commands:
 
