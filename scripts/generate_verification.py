@@ -22,6 +22,9 @@ parser.add_argument('--private-key',
 parser.add_argument('--ext-dir',
                     default="..",
                     help="The base dir of where to look for the extensions.")
+parser.add_argument('--skip-libraries',
+                    action="store_true",
+                    help="Don't include the generated shared library in the verification process.")
 
 args = parser.parse_args()
 
@@ -49,9 +52,12 @@ def collect_checksums(root_dir):
 
     output_path = os.path.join(root_dir, "verification.txt")
 
-    consider_these_file_endings = ["qml", "txt", "yml", "so", "dll"]
+    consider_these_file_endings = ["qml", "txt", "yml"]
+    if not args.skip_libraries:
+        consider_these_file_endings.append("so")
+        consider_these_file_endings.append("dll")
     ignore_files = ["verification.txt", "verification.txt.sig", "CMakeLists.txt"]
-    ignore_dirs  = ["build", "cplusplus", ".git"]
+    ignore_dirs  = ["build", "cplusplus", ".git", ".qtcreator"]
 
     # we first create a map of everything to always have the same sorting
     mapOfAll = dict()

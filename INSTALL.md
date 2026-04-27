@@ -34,38 +34,12 @@ In order to install all the extensions, you can do so by following these steps:
 
 Now, (re)-start PhotoQt and it should automatically find and load the extensions. By default, all official extensions are enabled and ready to be used.
 
-## Distribute a custom build of extensions
-
-PhotoQt verifies any found extension using a cryptographic signature. For this purpose, pre-built extensions are provided that are signed with the project's private RSA key. The corresponding public key is included in PhotoQt.
-
-If the extensions are built independently and to be distributed, then there are two possible solutions for obtaining verified extensions:
-
-1. The recommended way is to sign the verification files after the extensions have been built. To this end, a Python script is provided that simplifies that process. It is called `generate_verification.py` and is located in the `scripts/` subfolder. It takes two possible command line arguments:
-
-      ```
-      --private-key [filename]
-      --ext-dir [directory]
-      ```
-The first one specifies the custom private key (required to be specified), and the second one is the location of the extensions directory (parent directory by default). The corresponding public key then needs to be specified when configuring PhotoQt (`-DEXTENSIONS_CUSTOM_PUBLIC_KEY=<public_key>`) which will add that key in addition to the project's public key.
-
-2. Another solution (not recommended) is to disable the verification of the built shared library files in PhotoQt (`-DWITH_EXTENSIONS_LIBRARY_VERIFICATION=OFF`). The remaining files that are validated are text files and do not change in the build process.
-
-The public/private key pair needs to be generated with the RSA algorithm (SHA256). You can generate such a key pair using `openssl` by executing the following two commands:
-
-```
-$ openssl genrsa -out private.key 4096
-$ openssl rsa -in private.key -pubout -out public.key
-```
-
-
----
-
 ### PhotoQt doesn't find an extension, what should I do?
 
 If PhotoQt is not able to find an extension, there are a few possible reasons why this might be the case:
 
 **The extension does not pass the verification check**  
-PhotoQt by default verifies all extensions to help make sure no unknown/untrusted/random code is run by PhotoQt. All official releases of the extension come with the right signature file. If you are either building the latest code snapshot or have modified the extension files, you will need to **disable the verification check** in order for your extension to be loaded. You might have to then also enable the extension from within the settings manager or (if using the integrated interface) from the `Extensions` menu in the menubar.
+PhotoQt by default verifies all extensions to help make sure no unknown/untrusted/random code is run by PhotoQt. All official releases of the extension come with the right signature file. If you are either building the latest code snapshot or have modified the extension files, you likely will need to manually trust an extension from within the settings manager.
 
 If PhotoQt still doesn't load the extension, you can try installing the extension through the PhotoQt interface, which will make PhotoQt automatically move the extension to the right location in the filesystem. To do this, follow these steps:
 
@@ -75,13 +49,14 @@ If PhotoQt still doesn't load the extension, you can try installing the extensio
 4. Run PhotoQt, open the settings manager and go to the `Extensions` tab.
 5. Click on `Install extension` and select the zip file created above. PhotoQt will by default only list the files with the `pqe` ending, but you can change the file filter to show all files if it doesn't show up.
 6. Confirm that you want to install the extension.
-7. Make sure the extension is enabled.
+7. If it fails the verification check but you trust the source, you can manually grant the "trusted" status to the extension.
+8. Enable the extension.
 
 If you are still unable to run the extension, please don't hesitate to (get in touch)[https://gitlab.com/lspies/photoqt/-/issues].
 
 ### Can I install some extension without having to compile anything?
 
-It is possible to use QML-only extensions with PhotoQt that do not require for anything to be compiled. To install such an extension, simply copy the extension folder to the location listed at the top of this file. Make sure that the extension is enabled (this can be done from within the settings manager or (if using the integrated interface) from the `Extensions` menu in the menubar.).
+It is possible to use QML-only extensions with PhotoQt that do not require for anything to be compiled. To install such an extension, simply copy the extension folder to the location listed at the top of this file. If the extension is not signed or has changed since, grant it the "trusted" status in the settings manager before enabling it.
 
 Note, this **does not** work with extensions that rely on compiled C++ code!
 
