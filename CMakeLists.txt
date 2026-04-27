@@ -17,15 +17,18 @@ option(BUILD_QUICKACTIONS       "Build extension: Quick actions"          ON)
 option(BUILD_SCALEIMAGE         "Build extension: Scale images"           ON)
 option(BUILD_WALLPAPER          "Build extension: Set as wallpaper"       ON)
 
+option(INSTALL_INTO_LIB_SUBDIR  "This installs the extensions into the lib/PhotoQt/extensions subdirectory of the install prefix" ON)
+
 SET(STATUS_ENABLED "")
 SET(STATUS_DISABLED "")
 
 # This avoids hardcoding 'lib' as subdir for the shared libraries
 include(GNUInstallDirs)
-SET(PQEPREFIX "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/PhotoQt/extensions" CACHE STRING "Set target folder for where to install the extensions")
-if(PQEPREFIX MATCHES "^$")
-    message("** found empty PQEPREFIX, resetting to default value")
-    set(PQEPREFIX "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/PhotoQt/extensions")
+if(INSTALL_INTO_LIB_SUBDIR)
+    SET(PQESUBDIR "${CMAKE_INSTALL_LIBDIR}/PhotoQt/extensions")
+    message("** Extensions will be installed into ${PQESUBDIR}")
+else()
+    set(PQESUBDIR "")
 endif()
 
 if(BUILD_CROPIMAGE)
