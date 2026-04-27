@@ -19,9 +19,9 @@ PhotoQt verifies any found extension and its files using a cryptographic signatu
 To help with signing the extensions, a Python script is provided that simplifies that process. It is called `generate_verification.py` and is located in the `scripts/` subfolder. It accepts the following command line arguments:
 
 ```
-    --private-key [filename]
-    --ext-dir [directory]
-    --skip-libraries
+--private-key [filename]
+--ext-dir [directory]
+--skip-libraries
 ```
 
 The first one specifies the custom private key (required to be specified), and the second one is the location of the extensions directory (parent directory by default). The corresponding public key then needs to be specified when configuring PhotoQt (`-DEXTENSIONS_CUSTOM_PUBLIC_KEY=<public_key>`) which will add that key in addition to the project's public key. The last flag instructs the Python script to not include any library file object in the verification process.
@@ -31,8 +31,8 @@ If it is not possible to sign the extensions after they have been built, it is a
 The public/private key pair needs to be generated with the RSA algorithm (SHA256). You can generate such a key pair using `openssl` by executing the following two commands:
 
 ```
-    $ openssl genrsa -out private.key 4096
-    $ openssl rsa -in private.key -pubout -out public.key
+$ openssl genrsa -out private.key 4096
+$ openssl rsa -in private.key -pubout -out public.key
 ```
 
 Note that it is always possible to manually trust an extensions that failed the verification check by granting it the "trusted" status in the settings manager.
