@@ -43,10 +43,11 @@
  public key. The last flag instructs the Python script to not include any library file object in
  the verification process.
 
- If it is not possible to sign the extensions after they have been built, it is also possible to
- exclude the shared libraries from the verification process in PhotoQt. This is not recommended
- though, as there then would be no security guarantees possible for such a shared library. To
- achieve this, configure PhotoQt with the -DWITH_EXTENSIONS_LIBRARY_VERIFICATION=OFF flag.
+ IF IT IS NOT POSSIBLE TO SIGN THE EXTENSIONS AFTER THEY HAVE BEEN BUILT, it is also possible to
+ exclude the shared libraries from the verification process in PhotoQt altogether. This is not
+ recommended though, as there then would be no security guarantees possible for such a shared
+ library. To achieve this, configure PhotoQt with the -DWITH_EXTENSIONS_LIBRARY_VERIFICATION=OFF
+ flag.
 
  The public/private key pair needs to be generated with the RSA algorithm (SHA256). You can
  generate such a key pair using openssl by executing the following two commands:

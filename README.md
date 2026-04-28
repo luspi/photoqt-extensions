@@ -26,7 +26,7 @@ To help with signing the extensions, a Python script is provided that simplifies
 
 The first one specifies the custom private key (required to be specified), and the second one is the location of the extensions directory (parent directory by default). The corresponding public key then needs to be specified when configuring PhotoQt (`-DEXTENSIONS_CUSTOM_PUBLIC_KEY=<public_key>`) which will add that key in addition to the project's public key. The last flag instructs the Python script to not include any library file object in the verification process.
 
-If it is not possible to sign the extensions after they have been built, it is also possible to exclude the shared libraries from the verification process in PhotoQt. This is not recommended though, as there then would be no security guarantees possible for such a shared library. To achieve this, configure PhotoQt with the `-DWITH_EXTENSIONS_LIBRARY_VERIFICATION=OFF` flag.
+**If it is not possible to sign the extensions after they have been built**, it is also possible to exclude the shared libraries from the verification process in PhotoQt altogether. This is not recommended though, as there then would be no security guarantees possible for such a shared library. Nonetheless, to achieve this, configure PhotoQt with the `-DWITH_EXTENSIONS_LIBRARY_VERIFICATION=OFF` flag.
 
 The public/private key pair needs to be generated with the RSA algorithm (SHA256). You can generate such a key pair using `openssl` by executing the following two commands:
 

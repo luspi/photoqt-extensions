@@ -1,0 +1,21 @@
+about:
+    version: 1
+    name: Thumbnail Generator
+    description: Generates thumbnails for a folder and its subfolders and stores them in the thumbnail cache.
+    author: Lukas Spies
+    contact: Lukas@photoqt.org
+    website: https://gitlab.com/lspies/photoqt-extensions
+    targetAPI: 2
+setup:
+    integrated:
+        allow: false
+    popout:
+        allow: true
+        defaultSize: [600, 400]
+        fixSizeToContent: false
+    contextmenu: other
+    floating: false
+    modal: false
+    defaultShortcut: Ctrl+T
+    rememberGeometry: false
+    haveCPPActions: true
