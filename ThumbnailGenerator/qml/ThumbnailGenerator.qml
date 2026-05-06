@@ -28,7 +28,7 @@ PQTemplateExtension {
 
     id: gen_top
 
-    modalButton2Text: qsTranslate("scaleimage", "Start generating")
+    modalButton2Text: qsTranslate("thumbnailgenerator", "Start generating")
 
     property string rootfolder: ""
     property string rootfolder_name: ""
@@ -64,14 +64,14 @@ PQTemplateExtension {
 
         PQText {
             width: parent.width
-            text: "Select a folder and click on the start button. PhotoQt will then generate thumbnails of all files in that folder including its subfolders."
+            text: qsTranslate("thumbnailgenerator", "Select a folder and click on the start button. PhotoQt then generates thumbnails of all files in that folder, including all subfolders.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQButton {
             x: (parent.width-width)/2
             extraSmall: true
-            text: "Change folder"
+            text: qsTranslate("thumbnailgenerator", "Change folder")
             onClicked: {
                 var ret = PQCExtensionMethods.callAction(extensionId, ["selectFolder", gen_top.rootfolder])
                 gen_top.rootfolder = ret[0]
@@ -80,7 +80,7 @@ PQTemplateExtension {
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                text: rootfolder
+                text: gen_top.rootfolder
             }
         }
 
@@ -95,7 +95,7 @@ PQTemplateExtension {
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                text: rootfolder
+                text: qsTranslate("thumbnailgenerator", "Selected folder:") + " " + gen_top.rootfolder
             }
         }
 
@@ -103,15 +103,18 @@ PQTemplateExtension {
 
         Row {
             x: 10
-            spacing: 10
+            spacing: 15
             PQText {
                 y: (threads.height-height)/2
-                text: "Parallel threads:"
+                text: qsTranslate("thumbnailgenerator", "Parallel threads:")
             }
             PQSpinBox {
                 id: threads
                 from: 1
                 to: 20
+                value: settings["Threads"]
+                onValueChanged:
+                    settings["Threads"] = value
             }
         }
 
@@ -140,11 +143,17 @@ PQTemplateExtension {
             y: (parent.height-height)/2
             width: parent.width
 
+            spacing: 20
+
             PQTextL {
                 visible: gen_top.processingRunning||gen_top.processingPaused||gen_top.customStatus!==""
                 x: (parent.width-width)/2
                 font.weight: PQCLook.fontWeightBold
-                text: gen_top.customStatus!=="" ? gen_top.customStatus : (gen_top.totalfiles===0 ? "loading file list..." : ("processed " + gen_top.processedfiles + " of " + gen_top.totalfiles + " files"))
+                text: gen_top.customStatus!=="" ?
+                            gen_top.customStatus :
+                            (gen_top.totalfiles===0 ?
+                                    qsTranslate("thumbnailgenerator", "loading file list...") :
+                                    qsTranslate("thumbnailgenerator", "processed %1 of %2 files").arg(gen_top.processedfiles).arg(gen_top.totalfiles))
             }
 
             Image {
@@ -220,10 +229,10 @@ PQTemplateExtension {
             generator.itemAt(index).source = "image://thumb/" + allfiles[nextIndex]
 
         if(processedfiles == totalfiles) {
-            gen_top.customStatus = "Successfully generated " + processedfiles + " thumbnails."
+            gen_top.customStatus = qsTranslate("thumbnailgenerator", "Successfully generated %1 thumbnails.").arg(processedfiles)
             processingRunning = false
             processingPaused = false
-            modalButton2Text = "Start generating"
+            modalButton2Text = qsTranslate("thumbnailgenerator", "Start generating")
         }
 
     }
@@ -241,10 +250,10 @@ PQTemplateExtension {
             }
 
             if(lst.length == 0) {
-                gen_top.customStatus = "No files found."
+                gen_top.customStatus = qsTranslate("thumbnailgenerator", "No files found.")
                 processingRunning = false
                 processingPaused = false
-                modalButton2Text = "Start generating"
+                modalButton2Text = qsTranslate("thumbnailgenerator", "Start generating")
             } else {
                 gen_top.allfiles = lst
                 gen_top.totalfiles = allfiles.length
@@ -258,21 +267,21 @@ PQTemplateExtension {
 
         if(processingRunning) {
 
-            modalButton2Text = "Continue"
+            modalButton2Text = qsTranslate("thumbnailgenerator", "Continue")
             processingPaused = true
             processingRunning = false
             customStatus = ""
 
         } else if(processingPaused) {
 
-            modalButton2Text = "Pause"
+            modalButton2Text = qsTranslate("thumbnailgenerator", "Pause")
             processingPaused = false
             processingRunning = true
             customStatus = ""
 
         } else {
 
-            modalButton2Text = "Pause"
+            modalButton2Text = qsTranslate("thumbnailgenerator", "Pause")
             processingPaused = false
             processingRunning = true
             customStatus = ""
@@ -290,13 +299,20 @@ PQTemplateExtension {
 
         processingPaused = false
         processingRunning = false
+        modalButton2Text = qsTranslate("thumbnailgenerator", "Start generating")
 
 
     }
 
+    function hiding() {
+        processingPaused = false
+        processingRunning = false
+        modalButton2Text = qsTranslate("thumbnailgenerator", "Start generating")
+    }
+
     function showing() {
-        modalButton2Text = "Start generating"
-        modalButton3Text = "Abort"
+        modalButton2Text = qsTranslate("thumbnailgenerator", "Start generating")
+        modalButton3Text = qsTranslate("thumbnailgenerator", "Abort")
         rootfolder = PQCExtensionProperties.currentFolder
         if(rootfolder == "") {
             var ret = PQCExtensionMethods.callAction(extensionId, ["getHomeFolder"])

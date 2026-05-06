@@ -19,3 +19,5 @@ setup:
     defaultShortcut: Ctrl+T
     rememberGeometry: false
     haveCPPActions: true
+    settings:
+        - [Threads, int, 4]

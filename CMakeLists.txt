@@ -16,6 +16,7 @@ option(BUILD_MAPCURRENT         "Build extension: Map (current location)" ON)
 option(BUILD_QUICKACTIONS       "Build extension: Quick actions"          ON)
 option(BUILD_SCALEIMAGE         "Build extension: Scale images"           ON)
 option(BUILD_WALLPAPER          "Build extension: Set as wallpaper"       ON)
+option(BUILD_THUMBNAILGENERATOR "Build extension: Generate thumbnails"    ON)
 
 option(INSTALL_INTO_LIB_SUBDIR  "This installs the extensions into the lib/PhotoQt/extensions subdirectory of the install prefix" ON)
 
@@ -92,6 +93,13 @@ if(BUILD_WALLPAPER)
     add_subdirectory("Wallpaper/")
 else()
     list(APPEND STATUS_DISABLED "Wallpaper")
+endif()
+
+if(BUILD_THUMBNAILGENERATOR)
+    list(APPEND STATUS_ENABLED "ThumbnailGenerator")
+    add_subdirectory("ThumbnailGenerator/")
+else()
+    list(APPEND STATUS_DISABLED "ThumbnailGenerator")
 endif()
 
 set(NUM_DISABLED 0)
