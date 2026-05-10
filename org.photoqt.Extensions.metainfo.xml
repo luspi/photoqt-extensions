@@ -58,6 +58,21 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="5.3" date="2026-05-11">
+            <description>
+                <ul>
+                    <li>add: ThumbnailGenerator extension</li>
+                    <li>improve: extend verification process to also include libraries (see README)</li>
+                    <li>improve: reworked python script for generating verifications</li>
+                    <li>improve: better handling of install prefix, including configure options for subfolder</li>
+                    <li>improve: localize also entries in manifest</li>
+                    <li>change: bump target API level to 2, requires PhotoQt 5.3 or later</li>
+                </ul>
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-5.3
+            </url>
+        </release>
         <release version="5.2" date="2026-02-20">
             <description>
                 <ul>

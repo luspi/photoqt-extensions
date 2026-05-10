@@ -1,6 +1,16 @@
 Changelog PhotoQt Extensions - Copyright (C) 2011-2026, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 5.3
+----------------------------
+- add: ThumbnailGenerator extension
+- improve: extend verification process to also include libraries (see README)
+- improve: reworked python script for generating verifications
+- improve: better handling of install prefix, including configure options for subfolder
+- improve: localize also entries in manifest
+- change: bump target API level to 2, requires PhotoQt 5.3 or later
+
+
 Release 5.2 - 2026-02-20
 ----------------------------
 - CropImage: harden how info between QML and CPP is passed
