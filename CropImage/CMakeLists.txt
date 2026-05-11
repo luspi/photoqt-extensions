@@ -26,7 +26,7 @@ endif()
 
 qt_standard_project_setup()
 
-qt_add_library(${PROJECT_NAME} SHARED
+qt_add_library(${PROJECT_NAME} MODULE
     cplusplus/methods.cpp
     cplusplus/methods.h
     cplusplus/pqc_extensionactions.h
