@@ -7,6 +7,18 @@ about:
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 2
+    name[de]: Hintergrundbild
+    longName[de]: Als Hintergrund setzen
+    description[de]: Diese Erweiterung ermöglicht es, ein Bild als Hintergrund zu setzen.
+    name[es]: Fondo de escritorio
+    longName[es]: Establecer como fondo de escritorio
+    description[es]: Esta extensión permite establecer una imagen como fondo de pantalla.
+    name[lt]: Darbalaukio fonas
+    longName[lt]: Nustatyti kaip darbalaukio foną
+    description[lt]: Šis plėtinys leidžia nustatyti paveikslėlį darbalaukio fonu.
+    name[uk]: Шпалери
+    longName[uk]: Встановити як Шпалери
+    description[uk]: Це розширення дозволяє встановлювати зображення як шпалери.
 setup:
     integrated:
         allow: true

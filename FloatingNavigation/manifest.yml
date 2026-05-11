@@ -7,6 +7,18 @@ about:
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 2
+    name[de]: Schwebende Navigation
+    longName[de]: Schwebende Knöpfe zur Navigation anzeigen
+    description[de]: Diese Erweiterung stellt schwebende Knöpfe bereit zum Navigieren zwischen den Bildern und zum Ein-/Ausblenden des Hauptmenüs.
+    name[es]: Botones de navegación flotantes
+    longName[es]: Mostrar botones de navegación flotantes
+    description[es]: Esta extensión proporciona botones flotantes para navegar entre imágenes y para mostrar/ocultar el menú principal.
+    name[lt]: Slankiojančioji navigacija
+    longName[lt]: Rodyti slankiojančiosios navigacijos mygtukus
+    description[lt]: Šis plėtinys įgalina slankiojančiuosius mygtukus, skirtus naršyti tarp vaizdų ir rodyti/slėpti pagrindinį meniu.
+    name[uk]: Плаваюча Навігація
+    longName[uk]: Показувати плаваючі кнопки навігації
+    description[uk]: Це розширення забезпечує плаваючі кнопки для навігації між зображеннями і для того щоб показати/приховати головне меню.
 setup:
     integrated:
         allow: true

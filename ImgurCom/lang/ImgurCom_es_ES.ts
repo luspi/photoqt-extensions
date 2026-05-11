@@ -6,56 +6,56 @@
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="33"/>
       <source>Show past uploads</source>
-      <translation type="unfinished">Show past uploads</translation>
+      <translation>Mostrar archivos subidos anteriormente</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="49"/>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="61"/>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="74"/>
       <source>Cancel</source>
-      <translation type="unfinished">Cancel</translation>
+      <translation>Cancelar</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="68"/>
       <source>This seems to take a long time...</source>
-      <translation type="unfinished">This seems to take a long time...</translation>
+      <translation>Esto parece que tomará tiempo...</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="68"/>
       <source>There might be a problem with your internet connection or the imgur.com servers.</source>
-      <translation type="unfinished">There might be a problem with your internet connection or the imgur.com servers.</translation>
+      <translation>Puede que haya un problema con su conexión a internet o con los servidores de imgur.com.</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="81"/>
       <source>An Error occurred while uploading image!</source>
-      <translation type="unfinished">An Error occurred while uploading image!</translation>
+      <translation>¡Ha ocurrido un error mientras se subía la imagen!</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="81"/>
       <source>Error code:</source>
-      <translation type="unfinished">Error code:</translation>
+      <translation>Código de error:</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="90"/>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="106"/>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="121"/>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>Cerrar</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="97"/>
       <source>You do not seem to be connected to the internet...</source>
-      <translation type="unfinished">You do not seem to be connected to the internet...</translation>
+      <translation>No parece estar conectado a internet...</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="97"/>
       <source>Unable to upload!</source>
-      <translation type="unfinished">Unable to upload!</translation>
+      <translation>¡No se puede subir el archivo!</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="143"/>
       <source>Access Image</source>
-      <translation type="unfinished">Access Image</translation>
+      <translation>Ver imagen</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="158"/>
@@ -63,18 +63,18 @@
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="368"/>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="401"/>
       <source>Click to open in browser</source>
-      <translation type="unfinished">Click to open in browser</translation>
+      <translation>Clic para abrir en el navegador</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="180"/>
       <source>Delete Image</source>
-      <translation type="unfinished">Delete Image</translation>
+      <translation>Eliminar imagen</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="260"/>
       <source>No past uploads found</source>
       <extracomment>The uploads are uploads to imgur.com</extracomment>
-      <translation type="unfinished">No past uploads found</translation>
+      <translation>No se encontraron subidas anteriores</translation>
     </message>
     <message>
       <location filename="../ImgurCom/qml/ImgurCom.qml" line="359"/>
@@ -97,7 +97,7 @@
     <message>
       <location filename="../ImgurCom/qml/ImgurComSettings.qml" line="31"/>
       <source>Unfortunately it is currently only possible to upload images to imgur.com anonymously from within PhotoQt.</source>
-      <translation type="unfinished">Unfortunately it is currently only possible to upload images to imgur.com anonymously from within PhotoQt.</translation>
+      <translation>Lamentablemente, de momento solo es posible subir imágenes a imgur.com anónimamente desde PhotoQt.</translation>
     </message>
   </context>
 </TS>

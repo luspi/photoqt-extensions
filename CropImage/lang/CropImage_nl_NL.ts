@@ -14,12 +14,12 @@
       <translation type="unfinished">An error occured, file could not be cropped</translation>
     </message>
     <message>
-      <location filename="../CropImage/qml/CropImage.qml" line="610"/>
+      <location filename="../CropImage/qml/CropImage.qml" line="612"/>
       <source>Cropping not supported</source>
       <translation type="unfinished">Cropping not supported</translation>
     </message>
     <message>
-      <location filename="../CropImage/qml/CropImage.qml" line="611"/>
+      <location filename="../CropImage/qml/CropImage.qml" line="613"/>
       <source>Cropping of this image format is currently not supported.</source>
       <translation type="unfinished">Cropping of this image format is currently not supported.</translation>
     </message>

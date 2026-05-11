@@ -6,50 +6,50 @@
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="31"/>
       <source>Scale</source>
-      <translation type="unfinished">Scale</translation>
+      <translation>Mastelis</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="66"/>
       <source>An error occured, file could not be scaled</source>
-      <translation type="unfinished">An error occured, file could not be scaled</translation>
+      <translation>Įvyko klaida, nepavyko pakeisti failo mastelio</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="85"/>
       <source>Width:</source>
       <extracomment>The number of horizontal pixels of the image</extracomment>
-      <translation type="unfinished">Width:</translation>
+      <translation>Plotis:</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="91"/>
       <source>Height:</source>
       <extracomment>The number of vertical pixels of the image</extracomment>
-      <translation type="unfinished">Height:</translation>
+      <translation>Aukštis:</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="167"/>
       <source>New size:</source>
-      <translation type="unfinished">New size:</translation>
+      <translation>Naujas dydis:</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="170"/>
       <source>pixels</source>
       <extracomment>This is used as in: 100x100 pixels</extracomment>
-      <translation type="unfinished">pixels</translation>
+      <translation>pikseliai</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="268"/>
       <source>Quality:</source>
-      <translation type="unfinished">Quality:</translation>
+      <translation>Kokybė:</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="355"/>
       <source>Scaling not supported</source>
-      <translation type="unfinished">Scaling not supported</translation>
+      <translation>Mastelio keitimas nepalaikomas</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="356"/>
       <source>Scaling of this image format is currently not supported.</source>
-      <translation type="unfinished">Scaling of this image format is currently not supported.</translation>
+      <translation>Šio vaizdo formato mastelio keitimas nepalaikomas.</translation>
     </message>
   </context>
 </TS>

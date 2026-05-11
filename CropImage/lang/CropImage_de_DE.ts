@@ -14,12 +14,12 @@
       <translation>Ein Fehler ist aufgetreten, die Datei konnte nicht zugeschnitten werden</translation>
     </message>
     <message>
-      <location filename="../CropImage/qml/CropImage.qml" line="610"/>
+      <location filename="../CropImage/qml/CropImage.qml" line="612"/>
       <source>Cropping not supported</source>
       <translation>Zuschneiden wird nicht unterstützt</translation>
     </message>
     <message>
-      <location filename="../CropImage/qml/CropImage.qml" line="611"/>
+      <location filename="../CropImage/qml/CropImage.qml" line="613"/>
       <source>Cropping of this image format is currently not supported.</source>
       <translation>Das Zuschneiden dieses Bildformats wird derzeit nicht unterstützt.</translation>
     </message>

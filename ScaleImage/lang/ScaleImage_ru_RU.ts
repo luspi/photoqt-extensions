@@ -6,50 +6,50 @@
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="31"/>
       <source>Scale</source>
-      <translation type="unfinished">Scale</translation>
+      <translation>Масштаб</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="66"/>
       <source>An error occured, file could not be scaled</source>
-      <translation type="unfinished">An error occured, file could not be scaled</translation>
+      <translation>Произошла ошибка, файл не удалось масштабировать.</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="85"/>
       <source>Width:</source>
       <extracomment>The number of horizontal pixels of the image</extracomment>
-      <translation type="unfinished">Width:</translation>
+      <translation>Ширина:</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="91"/>
       <source>Height:</source>
       <extracomment>The number of vertical pixels of the image</extracomment>
-      <translation type="unfinished">Height:</translation>
+      <translation>Высота:</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="167"/>
       <source>New size:</source>
-      <translation type="unfinished">New size:</translation>
+      <translation>Новый размер: </translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="170"/>
       <source>pixels</source>
       <extracomment>This is used as in: 100x100 pixels</extracomment>
-      <translation type="unfinished">pixels</translation>
+      <translation>пикселей</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="268"/>
       <source>Quality:</source>
-      <translation type="unfinished">Quality:</translation>
+      <translation>Качество:</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="355"/>
       <source>Scaling not supported</source>
-      <translation type="unfinished">Scaling not supported</translation>
+      <translation>Масштабирование не поддерживается</translation>
     </message>
     <message>
       <location filename="../ScaleImage/qml/ScaleImage.qml" line="356"/>
       <source>Scaling of this image format is currently not supported.</source>
-      <translation type="unfinished">Scaling of this image format is currently not supported.</translation>
+      <translation>Масштабирование этого формата изображения в данный момент не поддерживается.</translation>
     </message>
   </context>
 </TS>

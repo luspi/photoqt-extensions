@@ -7,6 +7,15 @@ about:
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 2
+    name[de]: Schnellaktionen
+    longName[de]: Zeige Knöpfe für verschiedene Aktionen
+    description[de]: Diese Erweiterung bietet Knöpfe für verschiedene Aktionen, die mit einem einzigen Klick ausgeführt werden können.
+    name[es]: Acciones rápidas
+    longName[es]: Mostrar botones de acciones rápidas
+    description[es]: Esta extensión proporciona diversas acciones a las que se puede acceder con un solo clic.
+    name[uk]: Швидкі Дії
+    longName[uk]: Показати кнопки швидких дій
+    description[uk]: Це розширення надає різні дії, які можна виконати одним кліком.
 setup:
     integrated:
         allow: true

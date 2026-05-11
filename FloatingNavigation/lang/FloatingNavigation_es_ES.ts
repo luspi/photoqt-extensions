@@ -6,27 +6,27 @@
     <message>
       <location filename="../FloatingNavigation/qml/FloatingNavigation.qml" line="79"/>
       <source>Navigate to previous image in folder</source>
-      <translation type="unfinished">Navigate to previous image in folder</translation>
+      <translation>Navegar a la imagen anterior en la carpeta</translation>
     </message>
     <message>
       <location filename="../FloatingNavigation/qml/FloatingNavigation.qml" line="113"/>
       <source>Navigate to next image in folder</source>
-      <translation type="unfinished">Navigate to next image in folder</translation>
+      <translation>Navegar a la siguiente imagen en la carpeta</translation>
     </message>
     <message>
       <location filename="../FloatingNavigation/qml/FloatingNavigation.qml" line="145"/>
       <source>Show main menu</source>
-      <translation type="unfinished">Show main menu</translation>
+      <translation>Mostrar el menú principal</translation>
     </message>
     <message>
       <location filename="../FloatingNavigation/qml/FloatingNavigationSettings.qml" line="27"/>
       <source>show floating navigation</source>
-      <translation type="unfinished">show floating navigation</translation>
+      <translation>Mostrar botones de navegación flotantes</translation>
     </message>
     <message>
       <location filename="../FloatingNavigation/qml/FloatingNavigationSettings.qml" line="45"/>
       <source>There are currently no other settings here.</source>
-      <translation type="unfinished">There are currently no other settings here.</translation>
+      <translation>Actualmente no hay más configuraciones aquí.</translation>
     </message>
   </context>
 </TS>

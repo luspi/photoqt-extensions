@@ -6,6 +6,14 @@ about:
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 2
+    name[de]: Bild zuschneiden
+    description[de]: Diese Erweiterung ermöglicht das Zuschneiden eines Bildes.
+    name[es]: Recortar imagen
+    description[es]: Esta extensión permite recortar una imagen.
+    name[lt]: Kirpti vaizdą
+    description[lt]: Šis plėtinys leidžia apkarpyti vaizdą.
+    name[uk]: Обрізати Зображення
+    description[uk]: Це розширення дозволяє обрізати зображення.
 setup:
     integrated:
         allow: true

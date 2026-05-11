@@ -6,6 +6,14 @@ about:
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 2
+    name[de]: Bild skalieren
+    description[de]: Diese Erweiterung ermöglicht es, ein Bild in eine andere Auflösung zu skalieren.
+    name[es]: Escalar imagen
+    description[es]: Esta extensión permite escalar una imagen a otra resolución.
+    name[lt]: Keisti vaizdo mastelį
+    description[lt]: Šis plėtinys leidžia pakeisti vaizdo skiriamąją gebą.
+    name[uk]: Масштабувати Зображення
+    description[uk]: Це розширення дозволяє змінювати роздільну здатність зображення.
 setup:
     integrated:
         allow: true

@@ -6,47 +6,47 @@
     <message>
       <location filename="../ExportImage/qml/ExportImage.qml" line="31"/>
       <source>Export</source>
-      <translation type="unfinished">Export</translation>
+      <translation>Exportar</translation>
     </message>
     <message>
       <location filename="../ExportImage/qml/ExportImage.qml" line="73"/>
       <source>Something went wrong during export to the selected format...</source>
-      <translation type="unfinished">Something went wrong during export to the selected format...</translation>
+      <translation>Se produjo un problema al exportar al formato seleccionado...</translation>
     </message>
     <message>
       <location filename="../ExportImage/qml/ExportImage.qml" line="104"/>
       <source>Favorites:</source>
       <extracomment>These are the favorite image formats for exporting images to</extracomment>
-      <translation type="unfinished">Favorites:</translation>
+      <translation>Favoritos:</translation>
     </message>
     <message>
       <location filename="../ExportImage/qml/ExportImage.qml" line="117"/>
       <source>no favorites set</source>
       <extracomment>the favorites are image formats for exporting images to</extracomment>
-      <translation type="unfinished">no favorites set</translation>
+      <translation>No hay favoritos establecidos</translation>
     </message>
     <message>
       <location filename="../ExportImage/qml/ExportImage.qml" line="196"/>
       <location filename="../ExportImage/qml/ExportImage.qml" line="335"/>
       <source>Click to select this image format</source>
-      <translation type="unfinished">Click to select this image format</translation>
+      <translation>Clic para seleccionar este formato de imagen</translation>
     </message>
     <message>
       <location filename="../ExportImage/qml/ExportImage.qml" line="218"/>
       <location filename="../ExportImage/qml/ExportImage.qml" line="357"/>
       <source>Click to remove this image format from your favorites</source>
-      <translation type="unfinished">Click to remove this image format from your favorites</translation>
+      <translation>Clic para eliminar este formato de imagen de tus favoritos</translation>
     </message>
     <message>
       <location filename="../ExportImage/qml/ExportImage.qml" line="358"/>
       <source>Click to add this image format to your favorites</source>
-      <translation type="unfinished">Click to add this image format to your favorites</translation>
+      <translation>Clic para agregar este formato de imagen a tus favoritos</translation>
     </message>
     <message>
       <location filename="../ExportImage/qml/ExportImage.qml" line="384"/>
       <source>Selected target format:</source>
       <extracomment>The target format is the format the image is about to be exported to</extracomment>
-      <translation type="unfinished">Selected target format:</translation>
+      <translation>Seleccione el formato deseado:</translation>
     </message>
   </context>
 </TS>

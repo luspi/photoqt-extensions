@@ -7,6 +7,18 @@ about:
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 2
+    name[de]: Histogramm
+    longName[de]: Histogramm anzeigen
+    description[de]: Diese Erweiterung zeigt ein Histogramm für das aktuell angezeigte Bild an.
+    name[es]: Histograma
+    longName[es]: Mostrar histograma
+    description[es]: Esta extensión muestra un histograma de la imagen mostrada.
+    name[lt]: Histograma
+    longName[lt]: Rodyti histogramą
+    description[lt]: Šis plėtinys parodo peržiūrimo vaizdo histogramą.
+    name[uk]: Гістограма
+    longName[uk]: Показати гістограму
+    description[uk]: Це розширення надає гістограму для зображення, яке наразі переглядається.
 setup:
     integrated:
         allow: true
