@@ -177,16 +177,16 @@ PQTemplateExtension {
         var one = gps.split(", ")[0]
         var two = gps.split(", ")[1]
 
-        if(!one.includes("°") || !one.includes("'") || !one.includes("''"))
+        if(!one.includes("°") || !one.includes("'") || !one.includes("\""))
             return [9999,9999]
-        if(!two.includes("°") || !two.includes("'") || !two.includes("''"))
+        if(!two.includes("°") || !two.includes("'") || !two.includes("\""))
             return [9999,9999]
 
-        var one_dec = parseFloat(one.split("°")[0]) + parseFloat(one.split("°")[1].split("'")[0])/60.0 + parseFloat(one.split("'")[1].split("''")[0])/3600.0;
+        var one_dec = parseFloat(one.split("°")[0]) + parseFloat(one.split("°")[1].split("'")[0])/60.0 + parseFloat(one.split("'")[1].split("\"")[0])/3600.0;
         if(one.includes("S"))
             one_dec *= -1
 
-        var two_dec = parseFloat(two.split("°")[0]) + parseFloat(two.split("°")[1].split("'")[0])/60.0 + parseFloat(two.split("'")[1].split("''")[0])/3600.0;
+        var two_dec = parseFloat(two.split("°")[0]) + parseFloat(two.split("°")[1].split("'")[0])/60.0 + parseFloat(two.split("'")[1].split("\"")[0])/3600.0;
         if(two.includes("W"))
             two_dec *= -1
 
