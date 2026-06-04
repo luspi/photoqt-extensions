@@ -556,7 +556,6 @@ PQTemplateExtension {
 
         function onReceivedShortcut(combo : string) {
             if(!crop_top.visible || !crop_top.modalButton2Enabled) return
-                console.warn(">>> combo =", combo)
                 if(combo === "Enter" || combo === "Return" || combo === "Keypad+Enter") {
                     crop_top.modalButton2Action()
                 }

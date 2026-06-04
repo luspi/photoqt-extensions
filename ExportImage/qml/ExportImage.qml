@@ -408,8 +408,8 @@ PQTemplateExtension {
         target: PQCExtensionMethods
 
         function onReceivedShortcut(combo : string) {
-            if(!export_top.visible) return
-            if(combo === "Enter" || combo === "Return") {
+            if(!export_top.visible || !export_top.modalButton2Enabled) return
+            if(combo === "Enter" || combo === "Return" || combo === "Keypad+Enter") {
                 export_top.modalButton2Action()
             }
         }
