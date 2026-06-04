@@ -33,8 +33,6 @@ PQTemplateExtension {
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
-    property int formatId: -1
-
     // this is needed to not show the animation again when the window is resized
     property bool animShowed: false
 
@@ -52,7 +50,7 @@ PQTemplateExtension {
 
         fillMode: Image.PreserveAspectFit
 
-        source: PQCExtensionProperties.currentFile==="" ? "" : ("image://full/" + PQCExtensionProperties.currentFile) // qmllint disable unqualified
+        source: PQCExtensionMethods.path2ImageProvider(PQCExtensionProperties.currentFile)
 
         onStatusChanged: (status) => {
             if(status === Image.Ready) {
@@ -557,50 +555,43 @@ PQTemplateExtension {
         target: PQCExtensionMethods
 
         function onReceivedShortcut(combo : string) {
-            if(!crop_top.visible) return
+            if(!crop_top.visible || !crop_top.modalButton2Enabled) return
                 if(combo === "Enter" || combo === "Return") {
                     crop_top.modalButton2Action()
                 }
-        }
-
-        function onReplyForActionWithImage(id, val) {
-            if(id !== crop_top.extensionId)
-                return
-            if(val) {
-                errorlabel.hide()
-                cropbusy.showSuccess()
-            } else {
-                cropbusy.hide()
-                errorlabel.show()
-            }
         }
 
     }
 
     function modalButton2Action() {
 
-        formatId = PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)
-
         errorlabel.hide()
+        modalButton2Enabled = false
+
+        const format = PQCExtensionMethods.getFormatOfFile(PQCExtensionProperties.currentFile)
 
         var val = PQCExtensionMethods.callAction(crop_top.extensionId,
-                                                 [PQCExtensionProperties.currentFile,
-                                                  PQCExtensionMethods.getImageFormatName(formatId),
-                                                  PQCExtensionMethods.getImageFormatEndings(formatId)])
+                                                 [format,PQCExtensionMethods.getSuffixesForFormat(format)])
 
         if(val === "")
             return
 
-        var info = PQCExtensionMethods.getImageFormatInfo(formatId)
-
         cropbusy.showBusy()
-        PQCExtensionMethods.callActionWithImageNonBlocking(crop_top.extensionId,
-                                                           [val,
-                                                            info["endings"], info["qt_formatname"], info["imagemagick"], info["graphicsmagick"], info["im_gm_magick"],
-                                                            PQCExtensionMethods.getImageFormatWriteStatus(formatId),
-                                                            resizerect.startPos,
-                                                            resizerect.endPos])
 
+        const sze = PQCExtensionMethods.getSizeOfImage(PQCExtensionProperties.currentFile)
+
+        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile, val,
+            Qt.rect(resizerect.startPos.x*sze.width,
+                    resizerect.startPos.y*sze.height,
+                    (resizerect.endPos.x-resizerect.startPos.x)*sze.width,
+                    (resizerect.endPos.y-resizerect.startPos.y)*sze.height), Qt.size(0,0))) {
+            cropbusy.hide()
+            errorlabel.show()
+            modalButton2Enabled = true
+        } else {
+            errorlabel.hide()
+            cropbusy.showSuccess()
+        }
     }
 
     function showing() {
@@ -608,14 +599,16 @@ PQTemplateExtension {
         if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(PQCExtensionMethods.getImageFormatWriteStatus(PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)) <= 0) {
+        if(!PQCExtensionMethods.getWritableSuffixes().includes(PQCExtensionProperties.currentFile.split('.').pop().toLowerCase())) {
             PQCExtensionMethods.showNotification(qsTranslate("cropimage", "Cropping not supported"),
-                                                  qsTranslate("cropimage", "Cropping of this image format is currently not supported."))
+                                                 qsTranslate("cropimage", "Cropping of this image format is currently not supported."))
             return false
         }
 
+
         cropbusy.hide()
         errorlabel.hide()
+        modalButton2Enabled = true
 
         resizerect.startPos = Qt.point(PQCExtensionProperties.currentVisibleArea.x,
                                        PQCExtensionProperties.currentVisibleArea.y)
