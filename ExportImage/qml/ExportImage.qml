@@ -36,7 +36,7 @@ PQTemplateExtension {
     /***************************************************************/
 
     // the favs are shown on a label and are used to identify the respective entry in the listview
-    property list<string> favs: settings["Favorites"]
+    property list<string> favs: []
 
     // this is the selected format, both the first ending (for identification) and all endings for a format
     property string targetFormat: settings["LastUsed"]
@@ -152,14 +152,14 @@ PQTemplateExtension {
 
                             required property int modelData
 
-                            property string myid: export_top.favs[modelData]
+                            property string myFormat: export_top.favs[modelData]
 
                             width: favcol.width
                             height: favsrow.height+10
                             radius: 5
 
                             property bool hovered: favcol.currentHover===modelData
-                            property bool isActive: export_top.targetFormat===favdeleg.myid
+                            property bool isActive: export_top.targetFormat===favdeleg.myFormat
 
                             color: isActive ? PQCLook.baseBorder : (hovered ? pqtPalette.alternateBase : pqtPalette.button)
 
@@ -169,12 +169,12 @@ PQTemplateExtension {
                                 y: 5
                                 spacing: 10
                                 PQText {
-                                    text: "*." + PQCExtensionMethods.getImageFormatEndings(favdeleg.myid).join(", *.")
+                                    text: favdeleg.myFormat
                                 }
                                 PQTextS {
                                     y: (parent.height-height)/2
                                     font.italic: true
-                                    text: "(" + PQCExtensionMethods.getImageFormatName(favdeleg.myid) + ")"
+                                    text: "(*." + PQCExtensionMethods.getSuffixesForFormat(favdeleg.myFormat).join(", *.") + ")"
                                 }
                             }
                             Image {
@@ -257,7 +257,7 @@ PQTemplateExtension {
 
                 ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
 
-                property list<var> thedata: PQCExtensionMethods.getImageFormatsThatAreWriteable()
+                property list<string> thedata: []
                 model: thedata.length
 
                 clip: true
@@ -287,12 +287,11 @@ PQTemplateExtension {
 
                     required property int modelData
 
-                    property list<var> curData: formatsview.thedata[modelData]
-                    property string curUniqueid: curData[1]
-                    property list<string> curEndings: curData[2].split(",")
-                    property bool isFav: export_top.favs.indexOf(curUniqueid)!==-1
+                    property string curFormat: formatsview.thedata[modelData]
+                    property list<string> curEndings: PQCExtensionMethods.getSuffixesForFormat(curFormat)
+                    property bool isFav: export_top.favs.indexOf(curFormat)!==-1
 
-                    property bool isActive: curUniqueid===export_top.targetFormat
+                    property bool isActive: curFormat===export_top.targetFormat
                     property bool isHover: formatsview.currentHover===modelData
 
                     width: formatsview.width
@@ -308,12 +307,12 @@ PQTemplateExtension {
                         y: 5
                         spacing: 10
                         PQText {
-                            text: "*." + deleg.curEndings.join(", *.")
+                            text: deleg.curFormat
                         }
                         PQTextS {
                             y: (parent.height-height)/2
                             font.italic: true
-                            text: "(" + deleg.curData[3] + ")"
+                            text: "(*." + deleg.curEndings.join(", *.") + ")"
                         }
                     }
 
@@ -332,7 +331,7 @@ PQTemplateExtension {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        text: "<b>" + deleg.curData[3] + "</b><br>*." + deleg.curEndings.join(", *.") + "<br><br>" + qsTranslate("export", "Click to select this image format")
+                        text: "<b>" + deleg.curFormat + "</b><br>*." + deleg.curEndings.join(", *.") + "<br><br>" + qsTranslate("export", "Click to select this image format")
                         onEntered: {
                             resetCurrentHover.stop()
                             formatsview.currentHover = deleg.modelData
@@ -345,7 +344,7 @@ PQTemplateExtension {
                         onClicked: {
                             formatsview.currentIndex = deleg.modelData
                                 if(deleg.modelData !== -1)
-                                    export_top.targetFormat = deleg.curUniqueid
+                                    export_top.targetFormat = deleg.curFormat
                         }
                     }
 
@@ -359,9 +358,9 @@ PQTemplateExtension {
                         onClicked: {
                             var tmp = export_top.settings["Favorites"]
                             if(isFav)
-                                tmp.splice(tmp.indexOf(deleg.curUniqueid), 1)
+                                tmp.splice(tmp.indexOf(deleg.curFormat), 1)
                                 else
-                                    tmp.push(deleg.curUniqueid)
+                                    tmp.push(deleg.curFormat)
                                     export_top.settings["Favorites"] = tmp
                         }
                     }
@@ -387,7 +386,7 @@ PQTemplateExtension {
         PQText {
             id: targettxt2
             x: (parent.width-width)/2
-            text: (export_top.targetFormat==="" ? "---" : PQCExtensionMethods.getImageFormatName(export_top.targetFormat))
+            text: (export_top.targetFormat==="" ? "---" : export_top.targetFormat)
             font.weight: PQCLook.fontWeightBold
         }
 
@@ -415,47 +414,56 @@ PQTemplateExtension {
             }
         }
 
-        function onReplyForActionWithImage(id, val) {
-            if(id !== export_top.extensionId)
-                return
-            if(val) {
-                errormessage.visible = false
-                exportbusy.showSuccess()
-            } else {
-                exportbusy.hide()
-                errormessage.visible = true
-            }
-        }
-
     }
 
     function modalButton2Action() {
 
-        if(targetFormat === "") return
+        if(targetFormat === "")
+            return
+
+        modalButton2Enabled = false
 
         settings["LastUsed"] = targetFormat
 
         errormessage.visible = false
 
-        var val = PQCExtensionMethods.callAction(export_top.extensionId,
-                                                 [PQCExtensionProperties.currentFile,
-                                                  PQCExtensionMethods.getImageFormatName(parseInt(targetFormat)),
-                                                  PQCExtensionMethods.getImageFormatEndings(parseInt(targetFormat))])
+        var targetFile = PQCExtensionMethods.getSaveFileName("Export file to",
+                                                             PQCExtensionProperties.currentFile,
+                                                             targetFormat + " (*." + PQCExtensionMethods.getSuffixesForFormat(targetFormat).join(" *.") + ");;All files (*.*)")
 
-        if(val === "")
+        if(targetFile === "")
             return
 
-        var info = PQCExtensionMethods.getImageFormatInfo(parseInt(export_top.targetFormat))
-
         exportbusy.showBusy()
-        PQCExtensionMethods.callActionWithImageNonBlocking(extensionId, [val, info["ëndings"], info["qt"], info["qt_formatname"], info["imagemagick"], info["graphicsmagick"], info["im_gm_magick"]])
+
+        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile, targetFile)) {
+            exportbusy.hide()
+            errormessage.visible = true
+            modalButton2Enabled = true
+        } else {
+            errormessage.visible = false
+            exportbusy.showSuccess()
+        }
 
     }
 
     function showing() {
         if(PQCExtensionProperties.currentFile === "")
             return false
+
+        var fav = settings["Favorites"]
+        if(fav.every(s => /^\d{5}$/.test(s))) {
+            // old stuff, reset to defaults
+            fav = settings.getDefaultFor("Favorites")
+        }
+        export_top.favs = fav
+
+        var lst = PQCExtensionMethods.getWritableFormats()
+        lst.sort()
+        formatsview.thedata = lst
+
         exportbusy.hide()
+        modalButton2Enabled = true
         errormessage.visible = false
     }
 
