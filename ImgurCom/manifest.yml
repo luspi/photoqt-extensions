@@ -6,7 +6,7 @@ about:
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
-    targetAPI: 2
+    targetAPI: 3
     longName[de]: Hochladen auf imgur.com
     description[de]: Diese Erweiterung ermöglicht das Hochladen eines Bildes auf imgur.com. Wenn kein Konto verbunden ist, wird das Bild anonym hochgeladen.
     longName[es]: Subir a imgur.com

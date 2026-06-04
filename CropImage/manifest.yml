@@ -1,5 +1,5 @@
 about:
-    version: 1
+    version: 2
     name: Crop Image
     description: This extension allows cropping an image.
     author: Lukas Spies

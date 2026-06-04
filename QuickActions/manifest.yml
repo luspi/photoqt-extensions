@@ -6,7 +6,7 @@ about:
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
-    targetAPI: 2
+    targetAPI: 3
     name[de]: Schnellaktionen
     longName[de]: Zeige Knöpfe für verschiedene Aktionen
     description[de]: Diese Erweiterung bietet Knöpfe für verschiedene Aktionen, die mit einem einzigen Klick ausgeführt werden können.

@@ -6,7 +6,7 @@ about:
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
-    targetAPI: 2
+    targetAPI: 3
     name[de]: Hintergrundbild
     longName[de]: Als Hintergrund setzen
     description[de]: Diese Erweiterung ermöglicht es, ein Bild als Hintergrund zu setzen.

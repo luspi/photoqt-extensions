@@ -6,7 +6,7 @@ about:
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
-    targetAPI: 2
+    targetAPI: 3
     name[de]: Histogramm
     longName[de]: Histogramm anzeigen
     description[de]: Diese Erweiterung zeigt ein Histogramm für das aktuell angezeigte Bild an.

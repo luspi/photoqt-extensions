@@ -1,11 +1,11 @@
 about:
-    version: 1
+    version: 2
     name: Export Image
     description: This extension allows exporting an image to another format.
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
-    targetAPI: 2
+    targetAPI: 3
     name[de]: Bild exportieren
     description[de]: Diese Erweiterung ermöglicht das Exportieren eines Bildes in ein anderes Format.
     name[es]: Exportar imagen

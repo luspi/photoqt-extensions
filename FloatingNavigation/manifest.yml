@@ -6,7 +6,7 @@ about:
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
-    targetAPI: 2
+    targetAPI: 3
     name[de]: Schwebende Navigation
     longName[de]: Schwebende Knöpfe zur Navigation anzeigen
     description[de]: Diese Erweiterung stellt schwebende Knöpfe bereit zum Navigieren zwischen den Bildern und zum Ein-/Ausblenden des Hauptmenüs.

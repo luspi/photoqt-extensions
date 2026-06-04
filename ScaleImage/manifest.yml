@@ -1,11 +1,11 @@
 about:
-    version: 1
+    version: 2
     name: Scale Image
     description: This extension allows scaling an image to a different resolution.
     author: Lukas Spies
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
-    targetAPI: 2
+    targetAPI: 3
     name[de]: Bild skalieren
     description[de]: Diese Erweiterung ermöglicht es, ein Bild in eine andere Auflösung zu skalieren.
     name[es]: Escalar imagen
