@@ -32,9 +32,9 @@ PQTemplateExtension {
 
     property bool keepAspectRatio: true
 
-    property int formatId: -1
-
     contentHeight: insidecont.height>parent.height ? insidecont.height : parent.height
+
+    property real aspectRatio: 1.0
 
     Column {
 
@@ -106,14 +106,14 @@ PQTemplateExtension {
                     property bool reactToValueChanged: true
                     onValueChanged: {
                         if(scale_top.opacity < 1) return
-                            if(scale_top.keepAspectRatio && reactToValueChanged) {
-                                var h = value/scale_top.aspectRatio
-                                if(h !== spin_h.value) {
-                                    spin_h.reactToValueChanged = false
-                                    spin_h.value = Math.round(h)
-                                }
-                            } else
-                                reactToValueChanged = true
+                        if(scale_top.keepAspectRatio && reactToValueChanged) {
+                            var h = value/scale_top.aspectRatio
+                            if(h !== spin_h.value) {
+                                spin_h.reactToValueChanged = false
+                                spin_h.setValue(Math.round(h))
+                            }
+                        } else
+                            reactToValueChanged = true
                     }
                 }
                 PQAdvancedSlider {
@@ -125,21 +125,21 @@ PQTemplateExtension {
                     property bool reactToValueChanged: true
                     onValueChanged: {
                         if(scale_top.opacity < 1) return
-                            if(scale_top.keepAspectRatio && reactToValueChanged) {
-                                var w = value*scale_top.aspectRatio
-                                if(w !== spin_w.value) {
-                                    spin_w.reactToValueChanged = false
-                                    spin_w.value = Math.round(w)
-                                }
-                            } else
-                                reactToValueChanged = true
+                        if(scale_top.keepAspectRatio && reactToValueChanged) {
+                            var w = value*scale_top.aspectRatio
+                            if(w !== spin_w.value) {
+                                spin_w.reactToValueChanged = false
+                                spin_w.setValue(Math.round(w))
+                            }
+                        } else
+                            reactToValueChanged = true
                     }
                 }
 
             }
 
             Image {
-                source: "image://svg/" + scale_top.baseDir + "/img/" + PQCLook.iconShade + "/" + (scale_top.keepAspectRatio ? "aspectratiokeep.svg" : "aspectratioignore.svg")
+                source: PQCExtensionMethods.path2ImageProvider(scale_top.baseDir + "/img/" + PQCLook.iconShade + "/" + (scale_top.keepAspectRatio ? "aspectratiokeep.svg" : "aspectratioignore.svg"))
                 y: (spincol.height-height)/2
                 width: height/3
                 height: spincol.height*0.8
@@ -190,8 +190,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCExtensionProperties.currentImageResolution.width*0.25
-                    spin_h.value = PQCExtensionProperties.currentImageResolution.height*0.25
+                    spin_w.setValue(PQCExtensionProperties.currentImageResolution.width*0.25)
+                    spin_h.setValue(PQCExtensionProperties.currentImageResolution.height*0.25)
                 }
             }
 
@@ -204,8 +204,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCExtensionProperties.currentImageResolution.width*0.5
-                    spin_h.value = PQCExtensionProperties.currentImageResolution.height*0.5
+                    spin_w.setValue(PQCExtensionProperties.currentImageResolution.width*0.5)
+                    spin_h.setValue(PQCExtensionProperties.currentImageResolution.height*0.5)
                 }
             }
 
@@ -218,8 +218,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCExtensionProperties.currentImageResolution.width*0.75
-                    spin_h.value = PQCExtensionProperties.currentImageResolution.height*0.75
+                    spin_w.setValue(PQCExtensionProperties.currentImageResolution.width*0.75)
+                    spin_h.setValue(PQCExtensionProperties.currentImageResolution.height*0.75)
                 }
             }
 
@@ -232,8 +232,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCExtensionProperties.currentImageResolution.width
-                    spin_h.value = PQCExtensionProperties.currentImageResolution.height
+                    spin_w.setValue(PQCExtensionProperties.currentImageResolution.width)
+                    spin_h.setValue(PQCExtensionProperties.currentImageResolution.height)
                 }
             }
 
@@ -246,8 +246,8 @@ PQTemplateExtension {
                 onClicked: {
                     spin_w.reactToValueChanged = false
                     spin_h.reactToValueChanged = false
-                    spin_w.value = PQCExtensionProperties.currentImageResolution.width*1.5
-                    spin_h.value = PQCExtensionProperties.currentImageResolution.height*1.5
+                    spin_w.setValue(PQCExtensionProperties.currentImageResolution.width*1.5)
+                    spin_h.setValue(PQCExtensionProperties.currentImageResolution.height*1.5)
                 }
             }
 
@@ -299,22 +299,9 @@ PQTemplateExtension {
         target: PQCExtensionMethods
 
         function onReceivedShortcut(combo : string) {
-            if(!scale_top.visible) return
-            if(combo === "Enter" || combo === "Return") {
+            if(!scale_top.visible || !scale_top.modalButton2Enabled) return
+            if(combo === "Enter" || combo === "Return" || combo === "Keypad+Enter") {
                 scale_top.modalButton2Action()
-            }
-        }
-
-        function onReplyForActionWithImage(id, val) {
-            if(id !== scale_top.extensionId)
-                return
-            if(val) {
-                errorlabel.visible = false
-                scalebusy.showSuccess()
-                hideAfterDelay.restart()
-            } else {
-                scalebusy.hide()
-                errorlabel.visible = true
             }
         }
 
@@ -322,27 +309,31 @@ PQTemplateExtension {
 
     function modalButton2Action() {
 
-        formatId = PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)
-
         errorlabel.visible = false
+        modalButton2Enabled = false
 
-        var val = PQCExtensionMethods.callAction(scale_top.extensionId,
-                                                    [PQCExtensionProperties.currentFile,
-                                                    PQCExtensionMethods.getImageFormatName(formatId),
-                                                    PQCExtensionMethods.getImageFormatEndings(formatId)])
+        const format = PQCExtensionMethods.getFormatOfFile(PQCExtensionProperties.currentFile)
 
-        if(val === "")
+        var targetFile = PQCExtensionMethods.getSaveFileName("Save file as",
+                                                             PQCExtensionProperties.currentFile,
+                                                             format + " (*." + PQCExtensionMethods.getSuffixesForFormat(format).join(" *.") + ");;All files (*.*)")
+
+        if(targetFile === "")
             return
 
-        var uniqueid = PQCExtensionMethods.getImageFormatId(val)
         scalebusy.showBusy()
-        PQCExtensionMethods.callActionWithImageNonBlocking(extensionId,
-                                                           [val,
-                                                            spin_w.value,
-                                                            spin_h.value,
-                                                            quality.value,
-                                                            PQCExtensionMethods.getImageFormatWriteStatus(uniqueid),
-                                                            PQCExtensionMethods.getImageFormatInfo(uniqueid)])
+
+        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile,
+                                           targetFile,
+                                           Qt.rect(0,0,0,0),
+                                           Qt.size(spin_w.value,spin_h.value))) {
+            scalebusy.hide()
+            errorlabel.visible = true
+            modalButton2Enabled = true
+        } else {
+            errorlabel.visible = false
+            scalebusy.showSuccess()
+        }
 
     }
 
@@ -351,7 +342,7 @@ PQTemplateExtension {
         if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(PQCExtensionMethods.getImageFormatWriteStatus(PQCExtensionMethods.getImageFormatId(PQCExtensionProperties.currentFile)) <= 0) {
+        if(!PQCExtensionMethods.getWritableSuffixes().includes(PQCExtensionProperties.currentFile.split('.').pop().toLowerCase())) {
             PQCExtensionMethods.showNotification(qsTranslate("scaleimage", "Scaling not supported"),
                                                   qsTranslate("scaleimage", "Scaling of this image format is currently not supported."))
             return false
@@ -359,10 +350,12 @@ PQTemplateExtension {
 
         scalebusy.hide()
         errorlabel.visible = false
+        modalButton2Enabled = true
         spin_w.reactToValueChanged = false
         spin_h.reactToValueChanged = false
-        spin_w.value = PQCExtensionProperties.currentImageResolution.width
-        spin_h.value = PQCExtensionProperties.currentImageResolution.height
+        aspectRatio = PQCExtensionProperties.currentImageResolution.width/PQCExtensionProperties.currentImageResolution.height
+        spin_w.setValue(PQCExtensionProperties.currentImageResolution.width)
+        spin_h.setValue(PQCExtensionProperties.currentImageResolution.height)
 
     }
 
