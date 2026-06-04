@@ -556,7 +556,8 @@ PQTemplateExtension {
 
         function onReceivedShortcut(combo : string) {
             if(!crop_top.visible || !crop_top.modalButton2Enabled) return
-                if(combo === "Enter" || combo === "Return") {
+                console.warn(">>> combo =", combo)
+                if(combo === "Enter" || combo === "Return" || combo === "Keypad+Enter") {
                     crop_top.modalButton2Action()
                 }
         }
@@ -570,21 +571,24 @@ PQTemplateExtension {
 
         const format = PQCExtensionMethods.getFormatOfFile(PQCExtensionProperties.currentFile)
 
-        var val = PQCExtensionMethods.callAction(crop_top.extensionId,
-                                                 [format,PQCExtensionMethods.getSuffixesForFormat(format)])
+        var targetFile = PQCExtensionMethods.getSaveFileName("Save file as",
+                                                             PQCExtensionProperties.currentFile,
+                                                             format + " (*." + PQCExtensionMethods.getSuffixesForFormat(format).join(" *.") + ");;All files (*.*)")
 
-        if(val === "")
+        if(targetFile === "")
             return
 
         cropbusy.showBusy()
 
         const sze = PQCExtensionMethods.getSizeOfImage(PQCExtensionProperties.currentFile)
 
-        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile, val,
-            Qt.rect(resizerect.startPos.x*sze.width,
-                    resizerect.startPos.y*sze.height,
-                    (resizerect.endPos.x-resizerect.startPos.x)*sze.width,
-                    (resizerect.endPos.y-resizerect.startPos.y)*sze.height), Qt.size(0,0))) {
+        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile,
+                                           targetFile,
+                                           Qt.rect(resizerect.startPos.x*sze.width,
+                                                   resizerect.startPos.y*sze.height,
+                                                   (resizerect.endPos.x-resizerect.startPos.x)*sze.width,
+                                                   (resizerect.endPos.y-resizerect.startPos.y)*sze.height),
+                                           Qt.size(0,0))) {
             cropbusy.hide()
             errorlabel.show()
             modalButton2Enabled = true
