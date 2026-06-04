@@ -203,7 +203,7 @@ PQTemplateExtension {
                         enabled: visible && (delegver.props[3] || PQCExtensionProperties.currentFileList.length>0)
                         tooltip: settings["ExtPopout"] ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
                         dragTarget: settings["ExtPopout"] ? undefined : element_top
-                        source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
+                        iconSource: visible ? PQCExtensionMethods.path2ImageProvider(quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
 
                         onClicked: {
                             if(delegver.props[2].startsWith("__"))
@@ -356,7 +356,7 @@ PQTemplateExtension {
                         enabled: visible && (deleghor.props[3] || PQCExtensionProperties.currentFileList.length>0)
                         tooltip: settings["ExtPopout"] ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
                         dragTarget: settings["ExtPopout"] ? undefined : element_top
-                        source: visible ? ("image://svg/" + quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
+                        iconSource: visible ? PQCExtensionMethods.path2ImageProvider(quickactions_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
 
                         onClicked: {
                             if(deleghor.props[2].startsWith("__"))

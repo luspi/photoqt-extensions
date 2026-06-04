@@ -165,7 +165,7 @@ PQTemplateExtension {
                 id: copy1
                 width: result_access.height
                 height: width
-                source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
                 onClicked: PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageURL])
             }
 
@@ -202,7 +202,7 @@ PQTemplateExtension {
                 id: copy2
                 width: result_delete.height
                 height: width
-                source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
                 onClicked: PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageDeleteHash])
             }
 
@@ -378,7 +378,7 @@ PQTemplateExtension {
                                         id: copy3
                                         width: acctxt.height
                                         height: width
-                                        source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
                                         onClicked:
                                             PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[2]])
                                     }
@@ -411,7 +411,7 @@ PQTemplateExtension {
                                         id: copy4
                                         width: deltxt.height
                                         height: width
-                                        source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
                                         onClicked:
                                         PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[3]])
                                     }
