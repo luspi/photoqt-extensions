@@ -245,7 +245,7 @@ PQTemplateExtension {
 
             var lst = []
             for(var i = 0; i < val.length; ++i) {
-                if(PQCExtensionMethods.getImageFormatId(val[i]) != -1)
+                if(PQCExtensionMethods.getFormatOfFile(val[i]) != "")
                     lst.push(val[i])
             }
 
@@ -320,7 +320,7 @@ PQTemplateExtension {
             rootfolder_name = ret[1]
         } else
             rootfolder_name = PQCExtensionMethods.callAction(extensionId, ["foldername", rootfolder])
-        modalButton2Enabled = false
+        modalButton2Enabled = true
         modalButton3Enabled = false
         processingPaused = false
         processingRunning = false
