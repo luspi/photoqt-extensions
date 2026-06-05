@@ -165,7 +165,7 @@ PQTemplateExtension {
                 id: copy1
                 width: result_access.height
                 height: width
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                iconSource: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/copy.svg")
                 onClicked: PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageURL])
             }
 
@@ -202,7 +202,7 @@ PQTemplateExtension {
                 id: copy2
                 width: result_delete.height
                 height: width
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                iconSource: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/copy.svg")
                 onClicked: PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", imgur_top.imageDeleteHash])
             }
 
@@ -305,7 +305,7 @@ PQTemplateExtension {
                         width: 26
                         height: 26
                         sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+                        source: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/close.svg")
                         opacity: 0.5
                         Behavior on opacity { NumberAnimation { duration: 200 } }
                         PQMouseArea {
@@ -378,7 +378,7 @@ PQTemplateExtension {
                                         id: copy3
                                         width: acctxt.height
                                         height: width
-                                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                                        iconSource: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/copy.svg")
                                         onClicked:
                                             PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[2]])
                                     }
@@ -411,7 +411,7 @@ PQTemplateExtension {
                                         id: copy4
                                         width: deltxt.height
                                         height: width
-                                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                                        iconSource: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/copy.svg")
                                         onClicked:
                                         PQCExtensionMethods.callAction(imgur_top.extensionId, ["copyTextToClipboard", deleg.curdata[3]])
                                     }

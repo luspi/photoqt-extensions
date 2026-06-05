@@ -61,7 +61,7 @@ PQTemplateExtension {
         Image {
             width: parent.width/(nav_top.isModernInterface ? 3 : 2)
             height: parent.height
-            source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/leftarrow.svg"
+            source: PQCExtensionMethods.path2ImageProvider(nav_top.baseDir + "/img/" + PQCLook.iconShade + "/leftarrow.svg")
             sourceSize: Qt.size(Math.min(width,height), Math.min(width,height))
             fillMode: Image.PreserveAspectFit
             enabled: PQCExtensionProperties.currentFileList.length>0
@@ -95,7 +95,7 @@ PQTemplateExtension {
             x: width
             width: parent.width/(nav_top.isModernInterface ? 3 : 2)
             height: parent.height
-            source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/rightarrow.svg"
+            source: PQCExtensionMethods.path2ImageProvider(nav_top.baseDir + "/img/" + PQCLook.iconShade + "/rightarrow.svg")
             sourceSize: Qt.size(Math.min(width,height), Math.min(width,height))
             fillMode: Image.PreserveAspectFit
             enabled: PQCExtensionProperties.currentFileList.length>0
@@ -130,7 +130,7 @@ PQTemplateExtension {
             visible: nav_top.isModernInterface
             width: parent.width/3
             height: parent.height
-            source: "image://svg/" + nav_top.baseDir + "/img/" + PQCLook.iconShade + "/menu.svg"
+            source: PQCExtensionMethods.path2ImageProvider(nav_top.baseDir + "/img/" + PQCLook.iconShade + "/menu.svg")
             sourceSize: Qt.size(Math.min(width,height), Math.min(width,height))
             fillMode: Image.PreserveAspectFit
             PQMouseArea {

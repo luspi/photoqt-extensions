@@ -208,7 +208,7 @@ PQTemplateExtension {
             PQMenuSeparator {}
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+                iconSource: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/close.svg")
                 text: qsTranslate("histogram", "Hide histogram")
                 onTriggered: {
                     histogram_top.hide()
