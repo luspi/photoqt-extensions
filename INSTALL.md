@@ -4,15 +4,17 @@ There are a few different ways you can install an extension, depending on the ex
 
 Once installed, PhotoQt will look for extensions in a few different places. On **Linux** these are:
 
-1. ~/.local/share/PhotoQt/extensions
-2. /usr/lib/PhotoQt/extensions
+1. /usr/lib/PhotoQt/extensions
+2. ~/.local/share/PhotoQt/extensions
+
+Note that the `/usr/lib/` prefix of the first location is not hardcoded but based on the system configuration (i.e., it could be `/usr/lib/x86-linux/` or something similar to that).
 
 On **Windows** the search paths are:
 
-1. C:/Users/\[username\]/AppData/Roaming/PhotoQt/extensions
-2. C:/Program Files/PhotoQt/extensions (or wherever else the photoqt.exe executable is located that you are running)
+1. C:/Program Files/PhotoQt/extensions (or wherever else the photoqt.exe executable is located that you are running)
+2. C:/Users/\[username\]/AppData/Roaming/PhotoQt/extensions
 
-The order of search paths is important, because if an extension with the same id exists in both search paths, then only the first one will be loaded and the second will be ignored. Thus it is possible to "override" an extension with an updated/modified version.
+The order of search paths is not important, as each extension will receive a unique id based on its name and location on the file system. Thus two extensions with the same name can be loaded (though why would one do that).
 
 ## Building all extensions
 
@@ -20,11 +22,14 @@ In order to install all the extensions, you can do so by following these steps:
 
 1. *mkdir build && cd build/*
 
-2. *cmake -DCMAKE\_INSTALL\_PREFIX=/usr/lib/PhotoQt/extensions ..*
+2. *cmake -DCMAKE\_INSTALL\_PREFIX=/usr ..*
+
+    \# By default, the extensions are put into the `lib/PhotoQt/extensions` subfolder (with `lib` being system dependent)
+    \# This can be controlled with the `-DINSTALL_INTO_LIB_SUBDIR=ON/OFF` cmake option.
 
     \# You can disable individual extensions by specifying `-DBUILD_<extension_id>=OFF`
 
-    \# On windows, replace the path above with `C:/Users/\[username\]/AppData/Roaming/PhotoQt/extensions`
+    \# On Windows, replace the path above with `C:/Users/\[username\]/AppData/Roaming/PhotoQt/extensions`
 
 3. *make*
 

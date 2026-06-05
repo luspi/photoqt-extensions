@@ -14,7 +14,13 @@ See the INSTALL.md file for instruction on how to install an extension.
 
 ## Distributing the extensions
 
-PhotoQt verifies any found extension and its files using a cryptographic signature. To that end, any extension needs to be signed with a private RSA key *after* the corresponding shared library has been created. The public key corresponding to that private key then needs to be added to PhotoQt during configuration using `-DEXTENSIONS_CUSTOM_PUBLIC_KEY=<public_key>`.
+PhotoQt verifies any extension to ensure that no random code is executed by PhotoQt. However, extensions that live in a system location cannot be written to or changed without privileged access already. Thus, if someone has the privilege to write to that location already, then there is no need to have any application execute code as it can be done directly. Thus, for distributing the extensions, **no particular signing and/or verification is necessary IF** the target location is the default system location (for example `/usr/lib/PhotoQt/extensions/` where the `/usr/lib/` prefix is not a hardcoded prefix but is based on the actual system.
+
+For any other location that is searched by PhotoQt (see `INSTALL.md` for more details), the extensions need to be *either* signed with a custom key that was added to PhotoQt at compile time (see below) *or* shared-library verification needs to be disabled for PhotoQt at compile time. Otherwise, the extension will show up as 'failed' extension, though it can still be explicitely trusted by the user and used.
+
+**If needed after all, this is the procedure for signing an extension:**
+
+The key needs to be a private RSA key, which has to be used to sign an extension *after* the corresponding shared library has been created. The public key corresponding to that private key then needs to be added to PhotoQt during configuration using `-DEXTENSIONS_CUSTOM_PUBLIC_KEY=<public_key>`.
 
 To help with signing the extensions, a Python script is provided that simplifies that process. It is called `generate_verification.py` and is located in the `scripts/` subfolder. It accepts the following command line arguments:
 

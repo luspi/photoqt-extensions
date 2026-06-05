@@ -7,8 +7,11 @@
 
  PhotoQt will look for extensions in a few different places. On LINUX these are:
 
- 1. ~/.local/share/PhotoQt/extensions
- 2. /usr/lib/PhotoQt/extensions
+ 1. /usr/lib/PhotoQt/extensions
+ 2. ~/.local/share/PhotoQt/extensions
+
+ Note that the /usr/lib/ prefix of the first location is not hardcoded but based on the
+ system configuration (i.e., it could be /usr/lib/x86-linux/ or similar).
 
  On WINDOWS the search paths are:
 
@@ -16,9 +19,9 @@
  2. C:/Program Files/PhotoQt/extensions (or wherever else the photoqt.exe executable is
  located that you are running)
 
- The order of search paths is important, because if an extension with the same id exists
- in both search paths, then only the first one will be loaded and the second will be ignored.
- Thus it is possible to "override" an extension with an updated/modified version.
+ The order of search paths is not important, as each extension will receive a unique id
+ based on its name and location on the file system. Thus two extensions with the same
+ name can be loaded (though why would one do that).
 
 
  BUILDING ALL EXTENSIONS
@@ -29,6 +32,10 @@
  1. mkdir build && cd build/
 
  2. cmake -DCMAKE_INSTALL_PREFIX=/usr/lib/PhotoQt/extensions ..
+
+     # By default, the extensions are put into the lib/PhotoQt/extensions subfolder
+     # (with `lib` being system dependent). This can be controlled with the
+     # -DINSTALL_INTO_LIB_SUBDIR=ON/OFF cmake option.
 
      # You can disable individual extensions by specifying -DBUILD_<extension_id>=OFF
 
