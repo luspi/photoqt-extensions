@@ -162,7 +162,7 @@ PQTemplateExtension {
                 width: 20
                 height: 20
                 sourceSize: Qt.size(width, height)
-                source: "image://svg/" + gen_top.baseDir + "/img/" + PQCLook.iconShade + "/gear.svg"
+                source: PQCExtensionMethods.path2ImageProvider(gen_top.baseDir + "/img/" + PQCLook.iconShade + "/gear.svg")
                 NumberAnimation on rotation {
                     running: gen_top.processingRunning
                     loops: Animation.Infinite
@@ -203,7 +203,7 @@ PQTemplateExtension {
             }
             Component.onCompleted: {
                 if(deleg.modelData < gen_top.allfiles.length)
-                    deleg.source = "image://thumb/" + gen_top.allfiles[deleg.modelData]
+                    deleg.source = PQCExtensionMethods.path2ImageProvider(gen_top.allfiles[deleg.modelData], true)
             }
             property string bakSource: ""
             Connections {
@@ -226,7 +226,7 @@ PQTemplateExtension {
         var nextIndex = threads.value + processedfiles-1
 
         if(nextIndex < allfiles.length)
-            generator.itemAt(index).source = "image://thumb/" + allfiles[nextIndex]
+            generator.itemAt(index).source = PQCExtensionMethods.path2ImageProvider(allfiles[nextIndex], true)
 
         if(processedfiles == totalfiles) {
             gen_top.customStatus = qsTranslate("thumbnailgenerator", "Successfully generated %1 thumbnails.").arg(processedfiles)

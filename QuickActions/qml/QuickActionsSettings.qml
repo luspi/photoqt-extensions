@@ -172,7 +172,7 @@ PQTemplateExtensionSettings {
                     height: visible ? 40 : 0
                     opacity: quick_show.checked ? 1 : 0.5
                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                    source: visible ? ("image://svg/" + set_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + avail.svgs[deleg.name] + ".svg") : ""
+                    source: visible ? PQCExtensionMethods.path2ImageProvider(set_top.baseDir + "/img/"  + PQCLook.iconShade + "/" + avail.svgs[deleg.name] + ".svg") : ""
                     sourceSize: Qt.size(width, height)
 
                 }

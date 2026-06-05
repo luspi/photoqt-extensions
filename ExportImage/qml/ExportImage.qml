@@ -185,7 +185,7 @@ PQTemplateExtension {
                                 height: 20
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.5
-                                source: "image://svg/:/" + PQCLook.iconShade + "/star.svg"
+                                source: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/star.svg")
                                 sourceSize: Qt.size(width, height)
                             }
 
@@ -324,7 +324,7 @@ PQTemplateExtension {
                         width: height
                         opacity: favmousearea.containsMouse ? 1 : 0.5
                         sourceSize: Qt.size(width, height)
-                        source: deleg.isFav ? ("image://svg/:/" + PQCLook.iconShade + "/star.svg") : ("image://svg/:/" + PQCLook.iconShade + "/star_empty.svg")
+                        source: deleg.isFav ? PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/star.svg") : PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/star_empty.svg")
                     }
 
                     PQMouseArea {

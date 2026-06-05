@@ -422,7 +422,7 @@ PQTemplateExtension {
 
             PQMenuItem {
                 text: qsTranslate("quickactions", "Reset position to default")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
+                iconSource: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/reset.svg")
                 onTriggered: {
                     PQCExtensionMethods.resetGeometry(quickactions_top.extensionId)
                 }
@@ -430,7 +430,7 @@ PQTemplateExtension {
 
             PQMenuItem {
                 text: qsTranslate("quickactions", "Manage in settings manager")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
+                iconSource: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/settings.svg")
                 onTriggered: {
                     PQCExtensionMethods.showSettingsFor(quickactions_top.extensionId)
                 }
@@ -439,7 +439,7 @@ PQTemplateExtension {
             PQMenuSeparator {}
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+                iconSource: PQCExtensionMethods.path2ImageProvider(":/" + PQCLook.iconShade + "/close.svg")
                 text: qsTranslate("quickactions", "Hide quick actions")
                 onTriggered: {
                     quickactions_top.hide()
