@@ -102,7 +102,7 @@ PQTemplateExtension {
         Item { width: 1; height: 10 }
 
         Row {
-            x: 10
+            x: (parent.width-width)/2
             spacing: 15
             PQText {
                 y: (threads.height-height)/2
