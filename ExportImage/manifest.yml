@@ -33,5 +33,5 @@ setup:
     rememberGeometry: true
     haveCPPActions: false
     settings:
-        - [Favorites, list, "JPEG: Joint Photographic Experts Group JFIF format:://::PNG: Portable Network Graphics:://::WEBP: Google web image format:://::TIFF: Tagged Image File Format"]
+        - [Favorites, list, "11485:://::46215:://::28282:://::44462"]
         - [LastUsed, string, '']
