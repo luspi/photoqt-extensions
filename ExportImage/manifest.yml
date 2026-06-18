@@ -33,5 +33,5 @@ setup:
     rememberGeometry: true
     haveCPPActions: false
     settings:
-        - [Favorites, list, '13245:://::46215:://::28282:://::44462']
+        - [Favorites, list, "11485:://::46215:://::28282:://::44462"]
         - [LastUsed, string, '']

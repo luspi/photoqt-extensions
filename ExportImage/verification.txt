@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 manifest.yml:877c7234021dca0b1c036fb87a9581c152c4c97b02a3cf7fe6f9537e756e283b
 qml/ExportImage.qml:0f48a4bcd2ae15f34e26a228498740c681b0d0f31cc5434cb6b7917dba4a7c59
+=======
+manifest.yml:e810d2dcfab15600cca6dc6b345419ebd4c06d0f2aadcd3cf47f9eec65cd6626
+qml/ExportImage.qml:32876d1ade299156cee6350a28a56fc2eb69b2d565403876cb68a1558637c16b
+>>>>>>> 290d072 ([ExportImage] revert default favorites to previous unique id based format)
