@@ -1,7 +1,16 @@
 Changelog PhotoQt Extensions - Copyright (C) 2011-2026, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
-Release 5.3
+Release 5.4 - 2026-06-23
+----------------------------
+- adapt to changes in extended extensions API
+- remove various no longer needed C++ methods
+- improve export image also reacts to return key
+- touch up thumbnail generator with minor visual improvements
+- requires PhotoQt v5.4+
+
+
+Release 5.3 - 2026-05-11
 ----------------------------
 - add: ThumbnailGenerator extension
 - improve: extend verification process to also include libraries (see README)
