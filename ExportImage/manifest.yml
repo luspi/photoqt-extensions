@@ -6,12 +6,12 @@ about:
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 3
-    name[de]: Bild exportieren
-    description[de]: Diese Erweiterung ermöglicht das Exportieren eines Bildes in ein anderes Format.
     name[es]: Exportar imagen
     description[es]: Esta extensión permite exportar una imagen a otro formato.
     name[lt]: Eksportuoti vaizdą
     description[lt]: Šis plėtinys leidžia eksportuoti vaizdą kitu formatu.
+    name[de]: Bild exportieren
+    description[de]: Diese Erweiterung ermöglicht das Exportieren eines Bildes in ein anderes Format.
     name[uk]: Експорт Зображення
     description[uk]: Це розширення дозволяє експортувати зображення в інший формат.
 setup:
@@ -33,5 +33,5 @@ setup:
     rememberGeometry: true
     haveCPPActions: false
     settings:
-        - [Favorites, list, "JPEG: Joint Photographic Experts Group JFIF format:://::PNG: Portable Network Graphics:://::WEBP: Google web image format:://::TIFF: Tagged Image File Format"]
+        - [Favorites, list, 'JPEG: Joint Photographic Experts Group JFIF format:://::PNG: Portable Network Graphics:://::WEBP: Google web image format:://::TIFF: Tagged Image File Format']
         - [LastUsed, string, '']
