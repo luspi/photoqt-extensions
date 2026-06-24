@@ -1,7 +1,3 @@
-<<<<<<< HEAD
 manifest.yml:027a6e4af5ee9952497b5106c4a3c88c9f47450df9c09fffa65557153673d7a6
-=======
-manifest.yml:e09cc82a74b22e4a6600e01a664434228916964d1eba86935ffbf1a6b8182c98
->>>>>>> master
 qml/Histogram.qml:4b003a6208a7a756f105856fa04cd5b56bc38471751096d9bce1707cead87514
 qml/HistogramSettings.qml:173e0a1cd21f7560ab791d7afe0f27851cfa001eb832c8f1bbfe6a4d13301f1b
