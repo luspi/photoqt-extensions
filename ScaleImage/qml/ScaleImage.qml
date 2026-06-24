@@ -287,11 +287,11 @@ PQTemplateExtension {
         id: scalebusy
     }
 
-    Timer {
-        id: hideAfterDelay
-        interval: 1000
-        onTriggered:
-        scale_top.hide()
+    Connections {
+        target: scalebusy
+        function onSuccessHidden() {
+            scale_top.hide()
+        }
     }
 
     Connections {
@@ -308,10 +308,12 @@ PQTemplateExtension {
         function onWriteImageSuccess(success : bool) {
             console.warn("onWriteImageSuccess", success)
             if(!success) {
+                console.log("Failed to scale image")
                 scalebusy.hide()
                 errorlabel.visible = true
                 modalButton2Enabled = true
             } else {
+                console.log("Success scaling image")
                 errorlabel.visible = false
                 scalebusy.showSuccess()
             }
