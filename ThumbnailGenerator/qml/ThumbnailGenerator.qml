@@ -219,6 +219,14 @@ PQTemplateExtension {
         }
     }
 
+    Timer {
+        id: resetCustomStatus
+        interval: 2000
+        onTriggered: {
+            gen_top.customStatus = ""
+        }
+    }
+
     function loadNextThumbnail(index) {
 
         processedfiles += 1
@@ -233,6 +241,7 @@ PQTemplateExtension {
             processingRunning = false
             processingPaused = false
             modalButton2Text = qsTranslate("thumbnailgenerator", "Start generating")
+            resetCustomStatus.restart()
         }
 
     }

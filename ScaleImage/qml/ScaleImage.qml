@@ -287,11 +287,11 @@ PQTemplateExtension {
         id: scalebusy
     }
 
-    Timer {
-        id: hideAfterDelay
-        interval: 1000
-        onTriggered:
-        scale_top.hide()
+    Connections {
+        target: scalebusy
+        function onSuccessHidden() {
+            scale_top.hide()
+        }
     }
 
     Connections {
@@ -302,6 +302,20 @@ PQTemplateExtension {
             if(!scale_top.visible || !scale_top.modalButton2Enabled) return
             if(combo === "Enter" || combo === "Return" || combo === "Keypad+Enter") {
                 scale_top.modalButton2Action()
+            }
+        }
+
+        function onWriteImageSuccess(success : bool) {
+            console.warn("onWriteImageSuccess", success)
+            if(!success) {
+                console.log("Failed to scale image")
+                scalebusy.hide()
+                errorlabel.visible = true
+                modalButton2Enabled = true
+            } else {
+                console.log("Success scaling image")
+                errorlabel.visible = false
+                scalebusy.showSuccess()
             }
         }
 
@@ -323,17 +337,12 @@ PQTemplateExtension {
 
         scalebusy.showBusy()
 
-        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile,
-                                           targetFile,
-                                           Qt.rect(0,0,0,0),
-                                           Qt.size(spin_w.value,spin_h.value))) {
-            scalebusy.hide()
-            errorlabel.visible = true
-            modalButton2Enabled = true
-        } else {
-            errorlabel.visible = false
-            scalebusy.showSuccess()
-        }
+        // done asynchronously with result captured above
+        PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile,
+                                       targetFile,
+                                       Qt.rect(0,0,0,0),
+                                       Qt.size(spin_w.value,spin_h.value),
+                                       true)
 
     }
 
@@ -342,7 +351,7 @@ PQTemplateExtension {
         if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(!PQCExtensionMethods.getWritableSuffixes().includes(PQCExtensionProperties.currentFile.split('.').pop().toLowerCase())) {
+        if(!PQCExtensionMethods.getWritableFormats().includes(PQCExtensionMethods.getFormatOfFile(PQCExtensionProperties.currentFile))) {
             PQCExtensionMethods.showNotification(qsTranslate("scaleimage", "Scaling not supported"),
                                                   qsTranslate("scaleimage", "Scaling of this image format is currently not supported."))
             return false

@@ -8,6 +8,8 @@ about:
     targetAPI: 3
     name[de]: Miniaturbilder-Generator
     description[de]: Erzeugt Miniaturbilder für einen Ordner und dessen Unterordner und speichert sie im Zwischenspeicher.
+    name[lt]: Miniatiūrų generatorius
+    description[lt]: Sugeneruoja aplanko ir jo poaplankių miniatiūras ir išsaugo jas laikinojoje atmintyje.
     name[uk]: Генератор Мініатюр
     description[uk]: Генерує мініатюри для папки та її підпапок і зберігає їх у кеші мініатюр.
 setup:

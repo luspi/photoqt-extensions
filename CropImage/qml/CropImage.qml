@@ -561,6 +561,17 @@ PQTemplateExtension {
                 }
         }
 
+        function onWriteImageSuccess(success : bool) {
+            if(!success) {
+                cropbusy.hide()
+                errorlabel.show()
+                modalButton2Enabled = true
+            } else {
+                errorlabel.hide()
+                cropbusy.showSuccess()
+            }
+        }
+
     }
 
     function modalButton2Action() {
@@ -581,20 +592,16 @@ PQTemplateExtension {
 
         const sze = PQCExtensionMethods.getSizeOfImage(PQCExtensionProperties.currentFile)
 
-        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile,
-                                           targetFile,
-                                           Qt.rect(resizerect.startPos.x*sze.width,
-                                                   resizerect.startPos.y*sze.height,
-                                                   (resizerect.endPos.x-resizerect.startPos.x)*sze.width,
-                                                   (resizerect.endPos.y-resizerect.startPos.y)*sze.height),
-                                           Qt.size(0,0))) {
-            cropbusy.hide()
-            errorlabel.show()
-            modalButton2Enabled = true
-        } else {
-            errorlabel.hide()
-            cropbusy.showSuccess()
-        }
+        // image is written asynchronously with the success captured above
+        PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile,
+                                       targetFile,
+                                       Qt.rect(resizerect.startPos.x*sze.width,
+                                               resizerect.startPos.y*sze.height,
+                                               (resizerect.endPos.x-resizerect.startPos.x)*sze.width,
+                                               (resizerect.endPos.y-resizerect.startPos.y)*sze.height),
+                                       Qt.size(0,0),
+                                       true)
+
     }
 
     function showing() {
@@ -602,7 +609,7 @@ PQTemplateExtension {
         if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(!PQCExtensionMethods.getWritableSuffixes().includes(PQCExtensionProperties.currentFile.split('.').pop().toLowerCase())) {
+        if(!PQCExtensionMethods.getWritableFormats().includes(PQCExtensionMethods.getFormatOfFile(PQCExtensionProperties.currentFile))) {
             PQCExtensionMethods.showNotification(qsTranslate("cropimage", "Cropping not supported"),
                                                  qsTranslate("cropimage", "Cropping of this image format is currently not supported."))
             return false

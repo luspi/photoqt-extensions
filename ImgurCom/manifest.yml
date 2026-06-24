@@ -9,12 +9,12 @@ about:
     targetAPI: 3
     longName[de]: Hochladen auf imgur.com
     description[de]: Diese Erweiterung ermöglicht das Hochladen eines Bildes auf imgur.com. Wenn kein Konto verbunden ist, wird das Bild anonym hochgeladen.
-    longName[es]: Subir a imgur.com
-    description[es]: Esta extensión permite subir imágenes a imgur.com. Si no hay cuenta conectada, la imagen se subirá anónimamente.
     longName[lt]: Įkelti į imgur.com
     description[lt]: Šis plėtinys leidžia įkelti vaizdą į imgur.com. Jei nėra prijungtos paskyros, vaizdas bus įkeltas anonimiškai.
     longName[uk]: Завантажити на imgur.com
     description[uk]: Це розширення дозволяє завантажувати зображення на imgur.com. Якщо обліковий запис не підключений, то зображення буде завантажено анонімно.
+    longName[es]: Subir a imgur.com
+    description[es]: Esta extensión permite subir imágenes a imgur.com. Si no hay cuenta conectada, la imagen se subirá anónimamente.
 setup:
     integrated:
         allow: true

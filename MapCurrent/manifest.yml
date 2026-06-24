@@ -13,12 +13,12 @@ about:
     name[es]: Mapa actual
     longName[es]: Mostrar ubicación en el mapa
     description[es]: Esta extensión muestra la ubicación de la imagen actual en un mini-mapa flotante.
-    name[lt]: Lokacija žemėlapyje
-    longName[lt]: Rodyti lokaciją žemėlapyje
-    description[lt]: Šis plėtinys žemėlapyje rodo vaizdo GPS lokaciją mažame, slankiojančiame langelyje.
     name[uk]: Поточна Мапа
     longName[uk]: Відобразити місцезнаходження на мапі
     description[uk]: Це розширення показує GPS-розташування поточного зображення на невеликій плаваючій карті.
+    name[lt]: Lokacija žemėlapyje
+    longName[lt]: Rodyti lokaciją žemėlapyje
+    description[lt]: Šis plėtinys žemėlapyje rodo vaizdo GPS lokaciją mažame, slankiojančiame langelyje.
 setup:
     integrated:
         allow: true

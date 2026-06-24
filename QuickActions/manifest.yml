@@ -7,6 +7,9 @@ about:
     contact: Lukas@photoqt.org
     website: https://gitlab.com/lspies/photoqt-extensions
     targetAPI: 3
+    name[lt]: Greitieji veiksmai
+    longName[lt]: Rodyti greitųjų veiksmų mygtukus
+    description[lt]: Šis plėtinys suteikia programai valdymo veiksmus, kuriuos galima pasiekti vienu spustelėjimu.
     name[de]: Schnellaktionen
     longName[de]: Zeige Knöpfe für verschiedene Aktionen
     description[de]: Diese Erweiterung bietet Knöpfe für verschiedene Aktionen, die mit einem einzigen Klick ausgeführt werden können.

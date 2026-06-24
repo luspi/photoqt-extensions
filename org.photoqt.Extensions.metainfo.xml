@@ -58,6 +58,20 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="5.4" date="2026-06-24">
+            <description>
+                <ul>
+                    <li>adapt to changes in extended extensions API</li>
+                    <li>remove various no longer needed C++ methods</li>
+                    <li>improve export image also reacts to return key</li>
+                    <li>touch up thumbnail generator with minor visual improvements</li>
+                    <li>requires PhotoQt v5.4+</li>
+                </ul>
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-5.4
+            </url>
+        </release>
         <release version="5.3" date="2026-05-11">
             <description>
                 <ul>
