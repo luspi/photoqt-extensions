@@ -305,6 +305,18 @@ PQTemplateExtension {
             }
         }
 
+        function onWriteImageSuccess(success : bool) {
+            console.warn("onWriteImageSuccess", success)
+            if(!success) {
+                scalebusy.hide()
+                errorlabel.visible = true
+                modalButton2Enabled = true
+            } else {
+                errorlabel.visible = false
+                scalebusy.showSuccess()
+            }
+        }
+
     }
 
     function modalButton2Action() {
@@ -323,17 +335,12 @@ PQTemplateExtension {
 
         scalebusy.showBusy()
 
-        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile,
-                                           targetFile,
-                                           Qt.rect(0,0,0,0),
-                                           Qt.size(spin_w.value,spin_h.value))) {
-            scalebusy.hide()
-            errorlabel.visible = true
-            modalButton2Enabled = true
-        } else {
-            errorlabel.visible = false
-            scalebusy.showSuccess()
-        }
+        // done asynchronously with result captured above
+        PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile,
+                                       targetFile,
+                                       Qt.rect(0,0,0,0),
+                                       Qt.size(spin_w.value,spin_h.value),
+                                       true)
 
     }
 
@@ -342,7 +349,7 @@ PQTemplateExtension {
         if(PQCExtensionProperties.currentFile === "")
             return false
 
-        if(!PQCExtensionMethods.getWritableSuffixes().includes(PQCExtensionProperties.currentFile.split('.').pop().toLowerCase())) {
+        if(!PQCExtensionMethods.getWritableFormats().includes(PQCExtensionMethods.getFormatOfFile(PQCExtensionProperties.currentFile))) {
             PQCExtensionMethods.showNotification(qsTranslate("scaleimage", "Scaling not supported"),
                                                   qsTranslate("scaleimage", "Scaling of this image format is currently not supported."))
             return false

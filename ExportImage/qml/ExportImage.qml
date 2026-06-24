@@ -169,7 +169,7 @@ PQTemplateExtension {
                                 y: 5
                                 spacing: 10
                                 PQText {
-                                    text: favdeleg.myFormat
+                                    text: PQCExtensionMethods.getDescriptionOfFormat(favdeleg.myFormat)
                                 }
                                 PQTextS {
                                     y: (parent.height-height)/2
@@ -307,7 +307,7 @@ PQTemplateExtension {
                         y: 5
                         spacing: 10
                         PQText {
-                            text: deleg.curFormat
+                            text: PQCExtensionMethods.getDescriptionOfFormat(deleg.curFormat)
                         }
                         PQTextS {
                             y: (parent.height-height)/2
@@ -414,6 +414,19 @@ PQTemplateExtension {
             }
         }
 
+        function onWriteImageSuccess(success : bool) {
+            if(!success) {
+                console.log("Failed to write image")
+                exportbusy.hide()
+                errormessage.visible = true
+                modalButton2Enabled = true
+            } else {
+                console.log("Success writing image")
+                errormessage.visible = false
+                exportbusy.showSuccess()
+            }
+        }
+
     }
 
     function modalButton2Action() {
@@ -436,14 +449,8 @@ PQTemplateExtension {
 
         exportbusy.showBusy()
 
-        if(!PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile, targetFile)) {
-            exportbusy.hide()
-            errormessage.visible = true
-            modalButton2Enabled = true
-        } else {
-            errormessage.visible = false
-            exportbusy.showSuccess()
-        }
+        // this is called async and the success is captured above
+        PQCExtensionMethods.writeImage(PQCExtensionProperties.currentFile, targetFile, true)
 
     }
 
