@@ -38,7 +38,7 @@ PQTemplateExtension {
 
     Plugin {
 
-        id: osmPlugin
+        id: mapPlugin
 
         name: "osm"
 
@@ -46,14 +46,24 @@ PQTemplateExtension {
             name: "osm.useragent"
             value: "PhotoQt Image Viewer"
         }
-
         PluginParameter {
-            name: "osm.mapping.providersrepository.address"
-            value: "https://osm.photoqt.org"
+            name: "osm.mapping.providersrepository.disabled"
+            value: true
         }
-
         PluginParameter {
-            name: "osm.mapping.highdpi_tiles";
+            name: "osm.mapping.custom.host"
+            value: "https://osm.photoqt.org/"
+        }
+        PluginParameter {
+            name: "osm.mapping.custom.mapcopyright"
+            value: ""
+        }
+        PluginParameter {
+            name: "osm.mapping.custom.datacopyright"
+            value: "OpenStreetMap contributors"
+        }
+        PluginParameter {
+            name: "osm.mapping.highdpi_tiles"
             value: true
         }
 
@@ -62,7 +72,7 @@ PQTemplateExtension {
     Map {
         id: map
         anchors.fill: parent
-        plugin: osmPlugin
+        plugin: mapPlugin
         center {
             latitude: mapcurrent_top.latitude
             longitude: mapcurrent_top.longitude
@@ -74,7 +84,14 @@ PQTemplateExtension {
         zoomLevel: 12
         Behavior on zoomLevel { NumberAnimation { duration: 100 } }
 
-        activeMapType: supportedMapTypes[supportedMapTypes.length > 5 ? 5 : (supportedMapTypes.length-1)]
+        onSupportedMapTypesChanged: {
+            for(let i = 0; i < supportedMapTypes.length; ++i) {
+                if(supportedMapTypes[i].style === MapType.CustomMap) {
+                    activeMapType = supportedMapTypes[i]
+                    break
+                }
+            }
+        }
 
         MapQuickItem {
 
