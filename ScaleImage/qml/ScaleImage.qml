@@ -100,8 +100,8 @@ PQTemplateExtension {
                 PQAdvancedSlider {
                     id: spin_w
                     enabled: scale_top.visible
-                    minval: 1
-                    maxval: 99999
+                    from: 1
+                    to: 99999
                     showSlider: false
                     property bool reactToValueChanged: true
                     onValueChanged: {
@@ -119,8 +119,8 @@ PQTemplateExtension {
                 PQAdvancedSlider {
                     id: spin_h
                     enabled: scale_top.visible
-                    minval: 1
-                    maxval: 99999
+                    from: 1
+                    to: 99999
                     showSlider: false
                     property bool reactToValueChanged: true
                     onValueChanged: {
