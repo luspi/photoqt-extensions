@@ -443,6 +443,7 @@ PQTemplateExtension {
                     text: qsTranslate("imgurcom", "Clear all")
                     onClicked: {
                         PQCExtensionMethods.callAction(imgur_top.extensionId, ["deletePastUploadEntry", "xxx"])
+                        pastview.dat = []
                     }
                 }
             }
